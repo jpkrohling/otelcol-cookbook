@@ -1,0 +1,26 @@
+receivers:
+  otlp:
+    protocols:
+      http:
+        include_metadata: true
+
+exporters:
+  logging:
+    loglevel: debug
+
+processors:
+  attributes:
+    actions:
+      - key: http.client_latitude3
+        from_context: metadata.X-CloudFront-Viewer-Latitude
+        action: upsert
+
+extensions:
+
+service:
+  extensions:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [attributes]
+      exporters: [logging]

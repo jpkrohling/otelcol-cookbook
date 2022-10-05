@@ -1,0 +1,26 @@
+receivers:
+  jaeger:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:14251
+      thrift_http:
+    remote_sampling:
+      endpoint: "localhost:14250"
+      host_endpoint: "0.0.0.0:5778"
+      tls:
+        insecure: true
+
+exporters:
+  logging:
+
+processors:
+
+extensions:
+
+service:
+  extensions:
+  pipelines:
+    traces:
+      receivers: [jaeger]
+      processors:
+      exporters: [logging]

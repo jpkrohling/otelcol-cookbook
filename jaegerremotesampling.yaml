@@ -1,0 +1,32 @@
+extensions:
+  jaegerremotesampling:
+    http:
+      endpoint: localhost:12340
+    source:
+      remote:
+        endpoint: localhost:14250
+        tls:
+          insecure: true
+  jaegerremotesampling/1:
+    http:
+      endpoint: localhost:12341
+    source:
+      reload_interval: 1s
+      file: local/strategies_example.json
+
+service:
+  extensions: [jaegerremotesampling, jaegerremotesampling/1]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: []
+      exporters: [logging]
+
+# Data pipeline is required to load the config.
+receivers:
+  otlp:
+    protocols:
+      grpc:
+processors:
+exporters:
+  logging:

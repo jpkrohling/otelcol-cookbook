@@ -1,0 +1,40 @@
+receivers:
+  otlp:
+    endpoint: localhost:4317
+
+  otlp/2:
+    endpoint: localhost:4417
+
+exporters:
+  otlp: 
+    endpoint: localhost:4417
+    headers:
+      TenanID: acme
+    header_source:
+      key: tenant
+      from_context: ...
+
+  otlp/grafanacloud: 
+    endpoint: http://loki.cloud.grafana.net:3100/loki/api/v1/push
+    auth:
+      authenticator: multitenancy
+        key: X-Scope-ID
+        from_context: TenantID
+
+extensions:
+
+service:
+  extensions:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: []
+      exporters: [otlp]
+
+    traces/with-tenant:
+      receivers: [otlp/2]
+      processors: []
+      exporters: [otlp/grafanacloud]
+
+
+## tracegen -otlp-endpoint localhost:4317 -otlp-insecure
