@@ -5,10 +5,12 @@ receivers:
 exporters:
   logging:
     loglevel: debug
-  otlp:
-    endpoint: http://localhost:8000
+  otlphttp:
+    endpoint: http://localhost:8000/otlp
     tls:
       insecure: true
+    headers:
+      "X-Scope-OrgID": 1
 
 processors:
   attributes:
@@ -38,12 +40,10 @@ processors:
       key: pod_name
       value: guarana-pod-01
 
-extensions:
-
 service:
-  extensions:
+  extensions: []
   pipelines:
     logs:
       receivers: [journald]
       processors: [resource, attributes]
-      exporters: [logging, otlp]
+      exporters: [logging, otlphttp]
