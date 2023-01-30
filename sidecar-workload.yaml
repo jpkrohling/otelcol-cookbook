@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-microservice
+  annotations:
+    sidecar.opentelemetry.io/inject: "true"
+spec:
+  containers:
+  - name: my-microservice
+    image: my-org/my-microservice:v0.0.0
+    ports:
+      - containerPort: 8080
+        protocol: TCP

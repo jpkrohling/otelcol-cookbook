@@ -1,0 +1,45 @@
+extensions:
+  basicauth/traces:
+    client_auth:
+      username: "${TRACES_USER_ID}"
+      password: "${TOKEN}"
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: localhost:4317
+  otlp/2:
+    protocols:
+      grpc:
+        endpoint: localhost:5317
+
+processors:
+  batch:
+    send_batch_size: 256
+    send_batch_max_size: 256
+
+exporters:
+  otlp/2:
+    endpoint: localhost:5317
+    tls:
+      insecure: true
+  otlp/tempo:
+    endpoint: tempo-us-central1.grafana.net:443
+    auth:
+      authenticator: basicauth/traces
+
+service:
+  extensions: [ basicauth/traces ]
+  pipelines:
+    traces:
+      receivers:  [ otlp ]
+      processors: [  ]
+      exporters:  [ otlp/2 ]
+    traces/2:
+      receivers:  [ otlp/2 ]
+      processors: [ batch ]
+      exporters:  [ otlp/tempo ]
+  telemetry:
+    metrics:
+      level: detailed

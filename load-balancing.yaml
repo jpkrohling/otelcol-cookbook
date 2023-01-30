@@ -1,0 +1,23 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+
+processors:
+
+exporters:
+  loadbalancing:
+    protocol:
+      otlp:
+    resolver:
+      dns:
+        hostname: otelcol.observability.svc.cluster.local
+
+service:
+  pipelines:
+    traces:
+      receivers:
+        - otlp
+      processors: []
+      exporters:
+        - loadbalancing

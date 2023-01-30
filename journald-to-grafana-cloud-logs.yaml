@@ -1,49 +1,23 @@
+extensions:
+  basicauth/logs:
+    client_auth:
+      username: "${LOGS_USER_ID}"
+      password: "${TOKEN}"   
+
 receivers:
   journald:
-    directory: /var/log/journal/a04e3a44cdd740f88d6a7ae3bb8c70cf
+    directory: /var/log/journal
 
 exporters:
-  logging:
-    loglevel: debug
-  otlphttp:
-    endpoint: http://localhost:8000/otlp
-    tls:
-      insecure: true
-    headers:
-      "X-Scope-OrgID": 1
-
-processors:
-  attributes:
-    actions:
-    - action: insert
-      key: loki.attribute.labels
-      value: http_status_code
-
-    # the following attributes are added manually here in the example, but would
-    # probably be added by other processors or straight from the source
-    - action: insert
-      key: http_status_code
-      value: 500
-
-  resource:
-    attributes:
-    - action: insert
-      key: loki.resource.labels
-      value: host_name, pod_name
-
-    # the following attributes are added manually here in the example, but would
-    # probably be added by other processors or straight from the source
-    - action: insert
-      key: host_name
-      value: guarana
-    - action: insert
-      key: pod_name
-      value: guarana-pod-01
+  loki:
+    endpoint: "${LOGS_URL}"
+    auth:
+      authenticator: basicauth/logs
 
 service:
-  extensions: []
+  extensions: [ basicauth/logs ]
   pipelines:
     logs:
-      receivers: [journald]
-      processors: [resource, attributes]
-      exporters: [logging, otlphttp]
+      receivers:  [ journald ]
+      processors: [ ]
+      exporters:  [ loki ]

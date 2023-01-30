@@ -1,0 +1,38 @@
+extensions:
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: localhost:4317
+  otlp/2:
+    protocols:
+      grpc:
+        endpoint: localhost:5317
+
+processors:
+  batch:
+    send_batch_size: 256
+    send_batch_max_size: 256
+
+exporters:
+  otlp/2:
+    endpoint: localhost:5317
+    tls:
+      insecure: true
+  logging:
+
+service:
+  extensions: [  ]
+  pipelines:
+    traces:
+      receivers:  [ otlp ]
+      processors: [  ]
+      exporters:  [ otlp/2 ]
+    traces/2:
+      receivers:  [ otlp/2 ]
+      processors: [ batch ]
+      exporters:  [ logging ]
+  telemetry:
+    metrics:
+      level: detailed

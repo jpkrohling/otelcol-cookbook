@@ -1,0 +1,14 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+
+exporters: ${file:otlp-exporter.yaml}
+
+service:
+  extensions: [ ]
+  pipelines:
+    traces:
+      receivers:  [ otlp ]
+      processors: [  ]
+      exporters:  [ otlp ]
