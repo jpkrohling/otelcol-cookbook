@@ -1,26 +1,42 @@
+extensions:
+  basicauth/otlp:
+    client_auth:
+      username: 239237
+      password: eyJrIjoiMGJmOTNlZDc2ZDZlM2I3NjYzYWQ2ODY2ZTNiY2U3M2MwM2I5ZTVhYiIsIm4iOiJsb2NhbC1jb2xsZWN0b3Itc2VsZi1zY3JhcGluZyIsImlkIjo1MjkzNzF9
+
 receivers:
   otlp:
     protocols:
       grpc:
+  prometheus/self:
+    config:
+      scrape_configs:
+        - job_name: otel-collector-otlp
+          scrape_interval: 5s
+          static_configs:
+            - targets: [localhost:8888]
 
 exporters:
-  logging:
+  logging/traces:
+  logging/metrics:
+    verbosity: detailed
+
+  otlphttp:
+    auth:
+      authenticator: basicauth/otlp
+    endpoint: https://otlp-gateway-prod-us-central-0.grafana.net/otlp
 
 processors:
 
-extensions:
-
 service:
-  extensions:
+  extensions: [basicauth/otlp]
   pipelines:
     traces:
       receivers: [otlp]
       processors:
-      exporters: [logging]
-  telemetry:
-    logs:
-      level: debug
-      initial_fields:
-        service: my-instance
+      exporters: [logging/traces]
+
     metrics:
-      level: detailed
+      receivers: [prometheus/self]
+      processors:
+      exporters: [logging/metrics, otlphttp]

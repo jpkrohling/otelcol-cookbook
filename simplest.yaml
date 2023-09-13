@@ -1,0 +1,14 @@
+receivers:
+    otlp:
+      protocols:
+        http:
+
+exporters:
+  logging:
+    verbosity: detailed
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [logging]

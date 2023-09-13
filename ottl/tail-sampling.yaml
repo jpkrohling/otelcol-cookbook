@@ -1,0 +1,40 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+
+processors:
+  tail_sampling:
+    decision_wait: 1s
+    num_traces: 50_000
+    expected_new_traces_per_sec: 10_000
+    policies:
+      [
+          {
+            name: com-ottl,
+              type: ottl_condition,
+              ottl_condition: {
+                   error_mode: ignore,
+                   span: [
+                        'IsMatch(resource.attributes["cluster"], "prod-*")',
+                        'IsMatch(resource.attributes["tenant"], "customer1)',
+                        'IsMatch(resource.attributes["aaa"], "bbb")',
+                        'IsMatch(resource.attributes["cluster"], "prod-*")',
+                   ]
+              },
+          },
+      ]
+
+exporters:
+  logging:
+    verbosity: detailed
+
+service:
+  pipelines:
+    traces:
+      receivers:
+        - otlp
+      processors:
+        - tail_sampling
+      exporters:
+        - logging

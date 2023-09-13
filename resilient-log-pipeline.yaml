@@ -1,0 +1,31 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+
+processors:
+  batch:
+    send_batch_size: 20_000
+
+exporters:
+  loki:
+    endpoint: http://localhost:3100/loki/api/v1/push
+    sending_queue:
+      storage: file_storage
+      queue_size: 600_000 # 1000 logs/sec, 60_000 for 10m
+    retry_on_failure:
+      max_elapsed_time: 10m
+    tls:
+      insecure: true
+
+extensions:
+  file_storage:
+    directory: /tmp/otc
+
+service:
+  extensions: [file_storage]
+  pipelines:
+    logs: 
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [loki]

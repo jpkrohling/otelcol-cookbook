@@ -1,0 +1,52 @@
+exporters:
+  logging/traces:
+  logging/metrics:
+    verbosity: detailed
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+
+processors:
+  tail_sampling:
+    decision_wait: 1s
+    num_traces: 50_000
+    expected_new_traces_per_sec: 10_000
+    policies:
+      [
+          {
+            name: only-10-percent,
+            type: probabilistic,
+            probabilistic: {sampling_percentage: 10}
+          },
+      ]
+
+connectors:
+  spanmetrics:
+  forward:
+
+service:
+  pipelines:    
+    traces:
+      receivers:
+        - otlp
+      exporters:
+        - forward
+        - spanmetrics
+
+    traces/export:
+      receivers:
+        - forward
+      processors:
+        - tail_sampling
+      exporters:
+        - logging/traces
+    
+    metrics:
+      receivers:
+        - spanmetrics
+      processors:
+      exporters:
+        - logging/metrics
+        

@@ -1,0 +1,28 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+
+processors:
+  transform:
+    error_mode: ignore
+    log_statements:
+    - context: log
+      statements:
+      - set(attributes["tenant"], "my-tenant")
+      - set(attributes["loki.tenant"], "tenant")
+      - set(resource.attributes["restenant"], "my-restenant")
+      - set(resource.attributes["loki.tenant"], "restenant")
+
+exporters:
+  logging:
+    verbosity: detailed
+  loki:
+    endpoint: http://localhost:3100/loki/api/v1/push
+
+service:
+  pipelines:
+    logs:
+      receivers: [otlp]
+      processors: [transform]
+      exporters: [logging, loki]

@@ -1,0 +1,29 @@
+extensions:
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: localhost:4317
+
+processors:
+  transform:
+    log_statements:
+      - context: log
+        statements:
+          - replace_pattern(body, "\"CPF\":\"([^\"]*)\"", "\"CPF\":\"<redacted>\",")
+
+exporters:
+  logging:
+    verbosity: detailed
+
+service:
+  extensions: [  ]
+  pipelines:
+    logs/redacted:
+      receivers:  [ otlp ]
+      processors: [ transform ]
+      exporters:  [ logging ]
+  telemetry:
+    metrics:
+      level: detailed

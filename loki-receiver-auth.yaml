@@ -1,0 +1,25 @@
+extensions:
+  basicauth:
+    htpasswd: 
+      inline: "admin: $apr1$so2zr16x$jWvnqhK3fg24qjBB4iN6x/"
+
+receivers:
+  loki:
+    protocols:
+      http:
+        auth:
+          authenticator: basicauth
+      grpc:
+        auth:
+          authenticator: basicauth
+
+exporters:
+  logging:
+
+service:
+  extensions: [basicauth]
+  pipelines:
+    logs:
+      receivers: [loki]
+      processors:
+      exporters: [logging]

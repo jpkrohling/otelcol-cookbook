@@ -1,0 +1,26 @@
+receivers:
+    otlp:
+      protocols:
+        grpc:
+
+exporters:
+  logging:
+  logging/acme:
+  logging/ecorp:
+
+processors:
+  routing:
+    default_pipelines: [traces/logging]
+    error_mode: ignore
+    table:
+      - statement: route() where attributes["X-Tenant"] == "acme"
+        pipelines: [traces/logging-acme]
+      - statement: delete_key(attributes, "X-Tenant") where IsMatch(attributes["X-Tenant"], ".*corp")
+        pipelines: [traces/logging-ecorp]
+
+service:
+  pipelines:
+    traces/in:
+      receivers: [otlp]
+      processors: [routing]
+      exporters: [logging]
