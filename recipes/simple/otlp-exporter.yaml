@@ -1,3 +1,0 @@
-
-otlp:
-  endpoint: otelcol.observability.svc.cluster.local:443

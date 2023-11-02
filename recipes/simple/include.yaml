@@ -3,7 +3,7 @@ receivers:
     protocols:
       grpc:
 
-exporters: ${file:otlp-exporter.yaml}
+exporters: ${file:include-debug-exporter.yaml}
 
 service:
   extensions: [ ]
@@ -11,4 +11,4 @@ service:
     traces:
       receivers:  [ otlp ]
       processors: [  ]
-      exporters:  [ otlp ]
+      exporters:  [ debug ]
