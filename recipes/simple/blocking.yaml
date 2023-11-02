@@ -4,23 +4,15 @@ receivers:
       grpc:
 
 exporters:
-  logging:
   otlp:
     endpoint: example.com:4317
+    sending_queue:
+      enabled: false
 
 processors:
 
-extensions:
-
 service:
-  extensions:
   pipelines:
-    traces/1:
+    traces:
       receivers: [otlp]
-      processors:
       exporters: [otlp]
-
-    traces/2:
-      receivers: [otlp]
-      processors:
-      exporters: [logging]

@@ -26,3 +26,7 @@ This shows how to split the Collector configuration in multiple files. Things to
 - however, the path to `include-debug-exporter.yaml` is relative to working directory that started the command. Try running this example from both the root of this repository and from _this_ repository to see the difference.
 
 You can test this configuration in the exact same way as the [Simplest](#simplest) recipe.
+
+## Blocking
+
+This shows how to disable the default asynchronous behavior of the Collector. We are disabling the sending queue, meaning that the Collector will block until the data is sent to the configured exporters. The retry mechanism is still enabled, so if the exporter fails to send the data, the Collector will retry until it succeeds, or until the timeout is reached.
