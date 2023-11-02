@@ -1,0 +1,26 @@
+extensions:
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+
+processors:
+  routing:
+    default_exporters: [logging/route-outros]
+    error_mode: ignore
+    table:
+      - statement: route() where resource.attributes["tenant"] == "acme"
+        exporters: [ logging/route-acme ]
+
+exporters:
+  logging/route-acme:
+  logging/route-outros:
+
+service:
+  extensions:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [routing]
+      exporters: [logging/route-acme, logging/route-outros]

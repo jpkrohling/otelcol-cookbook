@@ -1,0 +1,27 @@
+extensions:
+  basicauth:
+    client_auth:
+      username: "${env:GRAFANA_CLOUD_USER}"
+      password: "${env:GRAFANA_CLOUD_TOKEN}"
+
+processors:
+  batch:
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+
+exporters:
+  otlphttp:
+    endpoint: https://otlp-gateway-prod-us-central-0.grafana.net/otlp
+    auth:
+      authenticator: basicauth
+
+service:
+  extensions: [ basicauth ]
+  pipelines:
+    traces:
+      receivers:  [ otlp ]
+      processors: [  ]
+      exporters:  [ otlphttp ]

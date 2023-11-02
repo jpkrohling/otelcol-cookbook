@@ -13,3 +13,6 @@ service:
     traces:
       receivers: [otlp]
       exporters: [logging]
+    metrics:
+      receivers: [otlp]
+      exporters: [logging]

@@ -1,0 +1,41 @@
+extensions:
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+
+connectors:
+  routing:
+    default_pipelines: [traces/outros]
+    error_mode: ignore
+    table:
+      - statement: route() where attributes["tenant"] == "acme"
+        pipelines: [ traces/acme ]
+      - statement: route() where attributes["tenant"] == "ecorp"
+        pipelines: [ traces/ecorp ]
+
+exporters:
+  logging/route-acme:
+  logging/route-outros:
+  logging/route-ecorp:
+
+service:
+  extensions:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: []
+      exporters: [routing]
+    traces/acme:
+      receivers: [routing]
+      processors: []
+      exporters: [logging/route-acme]
+    traces/ecorp:
+      receivers: [routing]
+      processors: []
+      exporters: [logging/route-ecorp]
+    traces/outros:
+      receivers: [routing]
+      processors: []
+      exporters: [logging/route-outros]

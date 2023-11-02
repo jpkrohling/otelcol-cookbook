@@ -1,0 +1,52 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+
+processors:
+  tail_sampling:
+    decision_wait: 5s
+    num_traces: 50_000
+    expected_new_traces_per_sec: 10_000
+    policies:
+      [
+        {
+          name: only-10-percent,
+          type: probabilistic,
+          probabilistic: { sampling_percentage: 10 },
+        },
+      ]
+  probabilistic_sampler:
+    sampling_percentage: 10
+
+exporters:
+  logging/metrics:
+    verbosity: detailed
+  logging/traces:
+
+connectors:
+  count:
+  forward:
+
+service:
+  pipelines:
+    traces:
+      receivers:
+        - otlp
+      processors: []
+      exporters:
+        - count
+        - forward
+    traces/sampling:
+      receivers:
+        - forward
+      processors:
+        - tail_sampling
+      exporters:
+        - logging/traces
+    metrics:
+      receivers:
+        - count
+      processors: []
+      exporters:
+        - logging/metrics

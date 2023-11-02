@@ -7,9 +7,16 @@ receivers:
 exporters:
   logging:
     verbosity: detailed
+  otlp/jaeger:
+    endpoint: localhost:5317
+    tls:
+      insecure: true
 
 service:
   pipelines:
     traces:
+      receivers: [otlp]
+      exporters: [logging, otlp/jaeger]
+    metrics:
       receivers: [otlp]
       exporters: [logging]

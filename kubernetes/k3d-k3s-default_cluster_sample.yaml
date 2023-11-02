@@ -1,8 +1,0 @@
-apiVersion: zora.undistro.io/v1alpha1
-kind: Cluster
-metadata:
-  name: k3d-k3s-default
-  namespace: zora-system
-spec:
-  kubeconfigRef:
-    name: k3d-k3s-default-kubeconfig

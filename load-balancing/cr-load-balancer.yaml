@@ -42,7 +42,7 @@ metadata:
   name: loadbalancer
   namespace: observability
 spec:
-  image: docker.io/jpkroehling/otelcol-with-k8sresolver:latest
+  image: docker.io/jpkroehling/otelcol-with-k8sresolver:latest # the latest collector should work already
   serviceAccount: loadbalancer
   config: |
     receivers:

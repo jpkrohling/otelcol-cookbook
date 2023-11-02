@@ -1,0 +1,78 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+
+processors:
+  tail_sampling:
+    decision_wait: 1s
+    num_traces: 50_000
+    expected_new_traces_per_sec: 10_000
+    policies:
+      [
+        {
+          name: only-2-percent-successful-specific-endpoint,
+          type: and,
+          and:
+            {
+              and_sub_policy:
+                [
+                  {
+                    name: specific-endpoint,
+                    type: string_attribute,
+                    string_attribute:
+                      { key: "http.route", values: ["/some-endpoint"] },
+                  },
+                  {
+                    name: successful,
+                    type: string_attribute,
+                    string_attribute:
+                      { key: "http.response.status_code", values: [200, 204] },
+                  },
+                  {
+                    name: only-2-percent,
+                    type: probabilistic,
+                    probabilistic: { sampling_percentage: 100 },
+                  },
+                ],
+            },
+        },
+        {
+          name: everything-else,
+          type: and,
+          and:
+            {
+              and_sub_policy:
+                [
+                  {
+                    name: specific-endpoint,
+                    type: string_attribute,
+                    string_attribute:
+                      { key: "http.route", values: ["/some-endpoint"], invert_match: true },
+                  },
+                  {
+                    name: successful,
+                    type: string_attribute,
+                    string_attribute:
+                      { key: "http.response.status_code", values: [200, 204], invert_match: true },
+                  },
+                  { name: always-on, type: always_sample },
+                ],
+            },
+        },
+      ]
+
+exporters:
+  logging:
+
+connectors:
+
+service:
+  pipelines:
+    traces:
+      receivers:
+        - otlp
+      processors:
+        - tail_sampling
+      exporters:
+        - logging
