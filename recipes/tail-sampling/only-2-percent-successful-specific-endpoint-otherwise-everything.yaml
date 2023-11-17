@@ -18,52 +18,46 @@ processors:
               and_sub_policy:
                 [
                   {
-                    name: specific-endpoint,
-                    type: string_attribute,
-                    string_attribute:
-                      { key: "http.route", values: ["/some-endpoint"] },
-                  },
-                  {
-                    name: successful,
-                    type: string_attribute,
-                    string_attribute:
-                      { key: "http.response.status_code", values: [200, 204] },
+                    name: successful-specific-endpoint,
+                    type: ottl_condition,
+                    ottl_condition:
+                      {
+                        span:
+                          [
+                            'resource.attributes["http.response.status_code"] == "200" and resource.attributes["http.route"] == "/some-endpoint"',
+                          ],
+                      },
                   },
                   {
                     name: only-2-percent,
                     type: probabilistic,
-                    probabilistic: { sampling_percentage: 100 },
+                    probabilistic: { sampling_percentage: 2 },
                   },
                 ],
             },
         },
         {
-          name: everything-else,
-          type: and,
-          and:
+          name: specific-endpoint-not-successful,
+          type: ottl_condition,
+          ottl_condition:
             {
-              and_sub_policy:
+              error_mode: ignore,
+              span:
                 [
-                  {
-                    name: specific-endpoint,
-                    type: string_attribute,
-                    string_attribute:
-                      { key: "http.route", values: ["/some-endpoint"], invert_match: true },
-                  },
-                  {
-                    name: successful,
-                    type: string_attribute,
-                    string_attribute:
-                      { key: "http.response.status_code", values: [200, 204], invert_match: true },
-                  },
-                  { name: always-on, type: always_sample },
+                  'resource.attributes["http.response.status_code"] != "200" and resource.attributes["http.route"] == "/some-endpoint"',
                 ],
             },
+        },
+        {
+          name: other-endpoints,
+          type: ottl_condition,
+          ottl_condition:
+            { span: ['resource.attributes["http.route"] != "/some-endpoint"'] },
         },
       ]
 
 exporters:
-  logging:
+  debug:
 
 connectors:
 
@@ -75,4 +69,4 @@ service:
       processors:
         - tail_sampling
       exporters:
-        - logging
+        - debug

@@ -1,0 +1,45 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+
+processors:
+  tail_sampling:
+    decision_wait: 1s
+    num_traces: 50_000
+    expected_new_traces_per_sec: 10_000
+    policies:
+      [
+        {
+          type: and,
+          and:
+            {
+              and_sub_policy:
+                [
+                  {
+                    name: only-10-percent,
+                    type: probabilistic,
+                    probabilistic: { sampling_percentage: 10 },
+                  },
+                  {
+                    name: vip,
+                    type: string_attribute,
+                    string_attribute: { key: vip, values: ["true"] },
+                  },
+                ],
+            },
+        },
+      ]
+
+exporters:
+  debug:
+
+service:
+  pipelines:
+    traces:
+      receivers:
+        - otlp
+      processors:
+        - tail_sampling
+      exporters:
+        - debug

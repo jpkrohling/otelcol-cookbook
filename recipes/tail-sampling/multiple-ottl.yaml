@@ -1,0 +1,42 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+
+processors:
+  tail_sampling:
+    decision_wait: 1s
+    num_traces: 50_000
+    expected_new_traces_per_sec: 10_000
+    policies:
+      [
+        {
+          name: successful-specific-endpoint,
+          type: ottl_condition,
+          ottl_condition:
+            {
+              span:
+                [
+                  'resource.attributes["http.response.status_code"] != "200" or resource.attributes["http.route"] == "/some-endpoint"',
+                ],
+            },
+        },
+        {
+          name: only-10-percent,
+          type: probabilistic,
+          probabilistic: { sampling_percentage: 10 },
+        },
+      ]
+
+exporters:
+  debug:
+
+service:
+  pipelines:
+    traces:
+      receivers:
+        - otlp
+      processors:
+        - tail_sampling
+      exporters:
+        - debug
