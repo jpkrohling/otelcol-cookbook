@@ -30,3 +30,16 @@ You can test this configuration in the exact same way as the [Simplest](#simples
 ## Blocking
 
 This shows how to disable the default asynchronous behavior of the Collector. We are disabling the sending queue, meaning that the Collector will block until the data is sent to the configured exporters. The retry mechanism is still enabled, so if the exporter fails to send the data, the Collector will retry until it succeeds, or until the timeout is reached.
+
+## Resilient log pipeline
+
+This example shows how to configure a log pipeline that will use a WAL to buffer the telemetry data before sending it out to an external OTLP endpoint. Should this external OTLP endpoint go offline for a reason, data will still be retried once it comes back.
+
+To test this, we'll our resilient Collectors with the `resilient-log-pipeline.yaml` configuration. You can start a second Collector locally similar to the `simplest.yaml` with a few changes, so that ports won't clash.
+
+```commandline
+mkdir /tmp/otc
+otelcol-contrib --config recipes/simple/resilient-log-pipeline.yaml
+```
+
+We now send some telemetry data to our Collector, to make sure everything works as expected:

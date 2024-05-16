@@ -1,0 +1,197 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: observability
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: prometheus
+  namespace: observability
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: prometheus
+  namespace: observability
+rules:
+- apiGroups: [""]
+  resources:
+  - services
+  - endpoints
+  - pods
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources:
+  - configmaps
+  verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: prometheus
+  namespace: observability
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: prometheus
+subjects:
+- kind: ServiceAccount
+  name: prometheus
+  namespace: observability
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: loadbalancer-role
+  namespace: observability
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - endpoints
+  verbs: ["get", "list", "watch"]
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: loadbalancer
+  namespace: observability
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: loadbalancer-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: loadbalancer-role
+subjects:
+- kind: ServiceAccount
+  name: loadbalancer
+  namespace: observability
+---
+apiVersion: opentelemetry.io/v1alpha1
+kind: OpenTelemetryCollector
+metadata:
+  name: loadbalancer
+  namespace: observability
+spec:
+  image: otel/opentelemetry-collector-contrib:0.100.0
+  serviceAccount: loadbalancer
+  config: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+
+    processors:
+
+    exporters:
+      loadbalancing:
+        protocol:
+          otlp:
+            tls:
+              insecure: true
+        resolver:
+          k8s:
+            service: backends-collector-headless.observability
+
+    service:
+      pipelines:
+        traces:
+          receivers:
+            - otlp
+          processors: []
+          exporters:
+            - loadbalancing
+---
+apiVersion: opentelemetry.io/v1alpha1
+kind: OpenTelemetryCollector
+metadata:
+  name: backends
+  namespace: observability
+spec:
+  replicas: 10
+  config: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+
+    processors:
+
+    exporters:
+      logging:
+
+    service:
+      pipelines:
+        traces:
+          receivers:
+            - otlp
+          processors: []
+          exporters:
+            - logging
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: backends-monitor
+  namespace: observability
+  labels:
+    scrape: "yes"
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: backends-collector-monitoring
+  endpoints:
+  - port: monitoring
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: loadbalancer-monitor
+  namespace: observability
+  labels:
+    scrape: "yes"
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: loadbalancer-collector-monitoring
+  endpoints:
+  - port: monitoring
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: prometheus
+  namespace: observability
+spec:
+  serviceAccountName: prometheus
+  serviceMonitorSelector:
+    matchLabels:
+      scrape: "yes"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: grafana
+  name: grafana
+  namespace: observability
+spec:
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+        - name: grafana
+          image: grafana/grafana:latest
+          ports:
+            - containerPort: 3000
+              name: http-grafana
+              protocol: TCP

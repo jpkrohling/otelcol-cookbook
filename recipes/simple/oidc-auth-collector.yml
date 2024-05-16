@@ -1,0 +1,33 @@
+extensions:
+  oidc/server:
+    issuer_url: http://0.0.0.0:8080/realms/opentelemetry
+    audience: collector
+    attribute: authorization
+
+receivers:
+  otlp/secure:
+    protocols:
+      http:
+        auth:
+          authenticator: oidc/server
+        tls:
+          ca_file: ca.pem
+          cert_file: server.pem
+          key_file: server-key.pem
+      grpc:
+        auth:
+          authenticator: oidc/server
+        tls:
+          ca_file: ca.pem
+          cert_file: server.pem
+          key_file: server-key.pem
+
+exporters:
+  debug:
+
+service:
+  extensions: [oidc/server]
+  pipelines:
+    traces:
+      receivers: [otlp/secure]
+      exporters: [debug]

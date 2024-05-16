@@ -8,8 +8,8 @@ processors:
     send_batch_size: 20_000
 
 exporters:
-  loki:
-    endpoint: http://localhost:3100/loki/api/v1/push
+  otlp:
+    endpoint: http://localhost:5317
     sending_queue:
       storage: file_storage
       queue_size: 600_000 # 1000 logs/sec, 60_000 for 10m
@@ -28,4 +28,4 @@ service:
     logs: 
       receivers: [otlp]
       processors: [batch]
-      exporters: [loki]
+      exporters: [otlp]

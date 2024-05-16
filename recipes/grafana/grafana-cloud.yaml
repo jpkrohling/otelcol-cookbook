@@ -1,13 +1,8 @@
 extensions:
   basicauth/traces:
     client_auth:
-      username: "${TRACES_USER_ID}"
-      password: "${TOKEN}"
-
-  basicauth/logs:
-    client_auth:
-      username: "${LOGS_USER_ID}"
-      password: "${TOKEN}"   
+      username: "239237"
+      password: "..."
 
 processors:
   batch:
@@ -18,23 +13,21 @@ receivers:
       grpc:
 
 exporters:
-  otlp/gct:
-    endpoint: tempo-us-central1.grafana.net:443
+  debug:
+    verbosity: detailed
+  otlphttp:
+    endpoint: https://otlp-gateway-prod-us-central-0.grafana.net/otlp
     auth:
       authenticator: basicauth/traces
-  loki/gcl:
-    endpoint: "${LOGS_URL}"
-    auth:
-      authenticator: basicauth/logs
 
 service:
-  extensions: [ basicauth/traces, basicauth/logs ]
+  extensions: [ basicauth/traces ]
   pipelines:
     traces:
       receivers:  [ otlp ]
       processors: [  ]
-      exporters:  [ otlp/gct ]
-    logs:
+      exporters:  [ otlphttp ]
+    metrics:
       receivers:  [ otlp ]
-      processors: [ ]
-      exporters:  [ loki/gcl ]
+      processors: [  ]
+      exporters:  [ debug, otlphttp ]

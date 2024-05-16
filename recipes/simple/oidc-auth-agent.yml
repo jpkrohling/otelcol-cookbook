@@ -1,0 +1,32 @@
+extensions:
+  oauth2client/client:
+    client_id: agent 
+    client_secret: ESlCjBlChcsaaavzXu7QYvH9IWvgzK2aKtc
+    token_url: http://0.0.0.0:8080/realms/opentelemetry/protocol/openid-connect/token
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: localhost:5317
+
+exporters:
+  debug:
+  otlp/secure:
+    endpoint: localhost:4317
+    tls:
+      ca_file: ca.pem
+      cert_file: client.pem
+      key_file: client-key.pem
+    auth:
+      authenticator: oauth2client/client
+
+service:
+  extensions: [oauth2client/client]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [otlp/secure, debug]
+  telemetry:
+    metrics:
+      address: :8988

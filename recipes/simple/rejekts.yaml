@@ -1,0 +1,65 @@
+extensions:
+  basicauth/traces:
+    client_auth:
+      username: "239237"
+      password: "..."
+  file_storage:
+    directory: /tmp/otc
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+
+processors:
+  batch:
+
+exporters:
+  otlphttp:
+    endpoint: https://otlp-gateway-prod-us-central-0.grafana.net/otlp
+    auth:
+      authenticator: basicauth/traces
+    sending_queue:
+      storage: file_storage
+      queue_size: 600_000 # 1000 logs/sec, 600_000 for 10m
+    retry_on_failure:
+      max_elapsed_time: 10m
+
+service:
+  extensions: [ basicauth/traces, file_storage ]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlphttp]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlphttp]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlphttp]
+
+  telemetry:
+    traces:
+      processors:
+        batch:
+          exporter:
+            otlp:
+              endpoint: https://otlp-gateway-prod-us-central-0.grafana.net/otlp/v1/traces
+              protocol: http/protobuf
+              headers:
+                Authorization: "Basic ..."
+
+    metrics:
+      readers:
+        periodic: 
+          interval: 1000
+          timeout: 5000
+          exporter:
+            otlp:
+              endpoint: https://otlp-gateway-prod-us-central-0.grafana.net/otlp/v1/metrics
+              protocol: http/protobuf
+              headers:
+                Authorization: "Basic ..."

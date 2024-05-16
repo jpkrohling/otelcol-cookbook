@@ -1,0 +1,51 @@
+extensions:
+  basicauth/client:
+    client_auth: 
+      username: mycollector
+      password: some-api-key
+
+  basicauth/server:
+    htpasswd:
+      inline: |
+        jdoe:correct horse battery staple
+
+receivers:
+  otlp/secure:
+    protocols:
+      http:
+        auth:
+          authenticator: basicauth/server
+        tls:
+          ca_file: ca.pem
+          cert_file: server.pem
+          key_file: server-key.pem
+      grpc:
+        auth:
+          authenticator: basicauth/server
+        tls:
+          ca_file: ca.pem
+          cert_file: server.pem
+          key_file: server-key.pem
+
+exporters:
+  otlp/secure:
+    endpoint: otlp.example.com:4317
+    tls:
+      ca_file: ca.pem
+      cert_file: client.pem
+      key_file: client-key.pem
+    auth:
+      authenticator: basicauth/client
+
+service:
+  extensions: [basicauth/server, basicauth/client]
+  pipelines:
+    traces/secure-exporter:
+      receivers: [otlp/secure]
+      exporters: [otlp/secure]
+    metrics/secure-exporter:
+      receivers: [otlp/secure]
+      exporters: [otlp/secure]
+    logs/secure-exporter:
+      receivers: [otlp/secure]
+      exporters: [otlp/secure]

@@ -1,0 +1,68 @@
+extensions:
+  basicauth/client:
+    client_auth: 
+      username: jdoe
+      password: correct horse battery staple
+
+  basicauth/server:
+    htpasswd:
+      inline: |
+        jdoe:correct horse battery staple
+        jpkroehling:POqmW7^s73L2
+
+receivers:
+  otlp/insecure:
+    protocols:
+      grpc:
+        endpoint: localhost:5317
+
+  otlp/secure:
+    protocols:
+      http:
+        auth:
+          authenticator: basicauth/server
+        tls:
+          ca_file: ca.pem
+          cert_file: server.pem
+          key_file: server-key.pem
+      grpc:
+        auth:
+          authenticator: basicauth/server
+        tls:
+          ca_file: ca.pem
+          cert_file: server.pem
+          key_file: server-key.pem
+
+exporters:
+  debug:
+  otlp/secure:
+    endpoint: localhost:4317
+    tls:
+      ca_file: ca.pem
+      cert_file: client.pem
+      key_file: client-key.pem
+    auth:
+      authenticator: basicauth/client
+
+service:
+  extensions: [basicauth/server, basicauth/client]
+  pipelines:
+    traces/secure-exporter:
+      receivers: [otlp/insecure]
+      exporters: [otlp/secure]
+    metrics/secure-exporter:
+      receivers: [otlp/insecure]
+      exporters: [otlp/secure]
+    logs/secure-exporter:
+      receivers: [otlp/insecure]
+      exporters: [otlp/secure]
+
+    traces/secure-receiver:
+      receivers: [otlp/secure]
+      exporters: [debug]
+    metrics/secure-receiver:
+      receivers: [otlp/secure]
+      exporters: [debug]
+    logs/secure-receiver:
+      receivers: [otlp/secure]
+      exporters: [debug]
