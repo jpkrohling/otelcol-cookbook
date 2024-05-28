@@ -5,12 +5,6 @@ This recipe shows how to use Pyroscope to profile the OpenTelemetry Collector ru
 - ["grafana-cloud"](../grafana-cloud/)
 - ["grafana-cloud-from-kubernetes"](../grafana-cloud-from-kubernetes/)
 
-**Pre-requisite:** your cluster must have a Linux kernel >= 4.9. Run this command to verify it:
-
-```terminal
-kubectl get nodes -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.status.nodeInfo.kernelVersion}{"\n"}{end}'
-```
-
 ## 🧄 Ingredients
 
 - OpenTelemetry Operator, see the main [`README.md`](../README.md) for instructions
