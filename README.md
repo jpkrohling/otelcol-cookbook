@@ -1,34 +1,38 @@
-# OpenTelemetry Collector Recipes by jpkrohling
+# 🧑🏼‍🍳🍲 OpenTelemetry Collector Cookbook
 
 This repository has a personal collection of OpenTelemetry Collector recipes curated by [@jpkrohling](https://github.com/jpkrohling).
 
-**Note** that only the recipes referenced in the README files were tested. The others are provided as-is, and may not work.
+## 📔 Recipes
 
-## Recipes
+Each directory in this repository is a recipe and has an appropriate readme file with instructions.
 
-The recipes are organized in the following categories:
+This repository grew organically based on tests that I needed to perform in order to verify a bug report, create an example configuration for a Grafana Labs customer, or prepare for a presentation. As such, quite a few recipes lack good descriptions and running instructions. Those recipes are found under ["ratatouille"](./ratatouille/).
 
-* [Simple](recipes/simple/README.md#simple-recipes): simple recipes that can be used as a starting point for more complex scenarios
-* [Grafana](recipes/grafana/): recipes to use with Grafana products and projects, including Loki, Tempo, Mimir, and Grafana Cloud
-* [Kubernetes](recipes/kubernetes/): recipes to use on Kubernetes, including the Operator
-* [Load balancing](recipes/load-balancing/): recipes to use with the load balancing exporter
-* [OTTL](recipes/ottl/): recipes that use components featuring OpenTelemetry Transformation Language (OTTL)
-* [Routing](recipes/routing/): recipes to use with the routing processor
-* [Tail-sampling](recipes/tail-sampling/): recipes to use with the tail-sampling processor
+# 🥢 Tools used
 
-# Pre-requisites
+- [`telemetrygen`](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/cmd/telemetrygen#installing) is used a lot in this repository to send telemetry data to our Collector instance
+- [`otelcol-contrib`](https://github.com/open-telemetry/opentelemetry-collector-releases/releases) is used as well, both in binary format for local examples, and as container image in examples using Kubernetes
+- [`k3d`](https://k3d.io) is used in the Kubernetes recipes, in order to create a local Kubernetes cluster
+- [OpenTelemetry Operator](https://github.com/open-telemetry/opentelemetry-operator) is used in most Kubernetes recipes. See the setup instructions below
+- `kubens` from the [`kubectx`](https://github.com/ahmetb/kubectx) project
 
-Most of the recipes send data to the Collector using the [`telemetrygen`](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/cmd/telemetrygen#installing) command-line tool.
+## 🍴 OpenTelemetry Operator
 
-Unless otherwise specified, the recipes will work with the contrib distribution of the collector, which can be started like this:
+To get a working instance of the OpenTelemetry Operator, [follow the official instructions](https://github.com/open-telemetry/opentelemetry-operator?tab=readme-ov-file#getting-started) from the project, but here's a quick summary of what's needed for our purposes:
 
-```commandline
-otelcol-contrib --config recipes/simple/simplest.yaml
+```terminal
+k3d cluster create
+
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
+kubectl wait --for=condition=Available deployments/cert-manager -n cert-manager
+
+kubectl apply -f https://github.com/open-telemetry/opentelemetry-operator/releases/latest/download/opentelemetry-operator.yaml
+kubectl wait --for=condition=Available deployments/opentelemetry-operator-controller-manager -n opentelemetry-operator-system
 ```
 
-# Bugs
+# 🪳 Bugs
 
-Did you find a bug? Is a recipe confusing, or not working at all? Please [open an issue](https://github.com/jpkrohling/otelcol-configs/issues/new). Make sure to include:
+Did you find a bug? Is a recipe confusing, or not working at all? Please [open an issue](https://github.com/jpkrohling/otelcol-cookbook/issues/new). Make sure to include:
 
 - the recipe name
 - the command you used to run the recipe

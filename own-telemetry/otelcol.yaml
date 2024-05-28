@@ -1,0 +1,41 @@
+receivers:
+  otlp:
+    protocols:
+      http:
+      grpc:
+
+exporters:
+  debug:
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [debug]
+    metrics:
+      receivers: [otlp]
+      exporters: [debug]
+    logs:
+      receivers: [otlp]
+      exporters: [debug]
+  telemetry:
+    traces:
+      processors:
+        - batch:
+            schedule_delay: 1000
+            exporter:
+              otlp:
+                endpoint: https://otlp-gateway-prod-eu-west-2.grafana.net/otlp/v1/traces
+                protocol: http/protobuf
+                headers:
+                  Authorization: "Basic OTQyNzM4OmdsY19leUp2SWpvaU5USTVNemN4SWl3aWJpSTZJbk4wWVdOckxUazBNamN6T0MxdmRHeHdMWGR5YVhSbExXOTBiSEF0TWpBeU5DMHdOUzB5TnlJc0ltc2lPaUl6YldReGJEVTFOMDgzT0RCWVRXUTFkSGxGYldwRFdUZ2lMQ0p0SWpwN0luSWlPaUp3Y205a0xXVjFMWGRsYzNRdE1pSjlmUT09"
+    metrics:
+      level: detailed
+      readers:
+        - periodic:
+            exporter:
+              otlp:
+                endpoint: https://otlp-gateway-prod-eu-west-2.grafana.net/otlp/v1/metrics
+                protocol: http/protobuf
+                headers:
+                  Authorization: "Basic OTQyNzM4OmdsY19leUp2SWpvaU5USTVNemN4SWl3aWJpSTZJbk4wWVdOckxUazBNamN6T0MxdmRHeHdMWGR5YVhSbExXOTBiSEF0TWpBeU5DMHdOUzB5TnlJc0ltc2lPaUl6YldReGJEVTFOMDgzT0RCWVRXUTFkSGxGYldwRFdUZ2lMQ0p0SWpwN0luSWlPaUp3Y205a0xXVjFMWGRsYzNRdE1pSjlmUT09"

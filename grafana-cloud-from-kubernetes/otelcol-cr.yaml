@@ -1,0 +1,42 @@
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: grafana-cloud-from-kubernetes
+spec:
+  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.101.0
+  envFrom:
+  - secretRef: 
+      name: grafana-cloud-credentials
+  config:
+    extensions:
+      basicauth:
+        client_auth:
+          username: "${env:GRAFANA_CLOUD_USER}"
+          password: "${env:GRAFANA_CLOUD_TOKEN}"
+
+    receivers:
+      otlp:
+        protocols:
+          grpc: {}
+
+    exporters:
+      otlphttp:
+        endpoint: https://otlp-gateway-prod-eu-west-2.grafana.net/otlp
+        auth:
+          authenticator: basicauth
+
+    service:
+      extensions: [ basicauth ]
+      pipelines:
+        traces:
+          receivers:  [ otlp ]
+          processors: [  ]
+          exporters:  [ otlphttp ]
+        logs:
+          receivers:  [ otlp ]
+          processors: [  ]
+          exporters:  [ otlphttp ]
+        metrics:
+          receivers:  [ otlp ]
+          processors: [  ]
+          exporters:  [ otlphttp ]

@@ -1,0 +1,34 @@
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: otelcol-pub
+spec:
+  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.101.0
+  config:
+    receivers:
+      otlp:
+        protocols:
+          http: {}
+          grpc: {}
+
+    processors:
+      transform:
+        error_mode: ignore
+        trace_statements:
+          - context: span
+            statements:
+              - set(attributes["published_at"], UnixMilli(Now()))
+
+    exporters:
+      kafka:
+        protocol_version: 2.0.0
+        brokers: kafka-for-otelcol-kafka-brokers.kafka.svc.cluster.local:9092
+        topic: otlp-spans
+
+    service:
+      pipelines:
+        traces:
+          receivers:  [ otlp ]
+          processors: [ transform ]
+          exporters:  [ kafka ]
+

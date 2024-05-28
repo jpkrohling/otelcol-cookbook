@@ -1,0 +1,44 @@
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: otelcol-sub
+spec:
+  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.101.0
+  envFrom:
+  - secretRef: 
+      name: grafana-cloud-credentials
+  config:
+    extensions:
+      basicauth:
+        client_auth:
+          username: "${env:GRAFANA_CLOUD_USER}"
+          password: "${env:GRAFANA_CLOUD_TOKEN}"
+
+    receivers:
+      kafka:
+        protocol_version: 2.0.0
+        brokers: kafka-for-otelcol-kafka-brokers.kafka.svc.cluster.local:9092
+        topic: otlp-spans
+  
+    processors:
+      transform:
+        error_mode: ignore
+        trace_statements:
+          - context: span
+            statements:
+              - set(attributes["consumed_at"], UnixMilli(Now()))
+
+    exporters:
+      otlphttp:
+        endpoint: https://otlp-gateway-prod-eu-west-2.grafana.net/otlp
+        auth:
+          authenticator: basicauth
+
+    service:
+      extensions: [ basicauth ]
+      pipelines:
+        traces:
+          receivers:  [ kafka ]
+          processors: [ transform ]
+          exporters:  [ otlphttp ]
+
