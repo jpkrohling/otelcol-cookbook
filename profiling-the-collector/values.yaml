@@ -1,0 +1,40 @@
+agent:
+  mode: 'flow'
+  configMap:
+    create: true
+    content: |
+      pyroscope.scrape "scrape_otelcol" {
+        targets    = [{"__address__" = "profiling-the-collector-collector-pprof.profiling-the-collector.svc.cluster.local:1777", "service_name" = "profiling-the-collector"}]
+        forward_to = [pyroscope.write.endpoint.receiver]
+
+        profiling_config {
+          profile.process_cpu {
+            enabled = true
+          }
+
+          profile.memory {
+            enabled = true
+          }
+
+          profile.mutex {
+            enabled = true
+          }
+
+          profile.block {
+            enabled = true
+          }
+
+          profile.goroutine {
+            enabled = true
+          }
+        }
+      }
+      pyroscope.write "endpoint" {
+        endpoint {
+          basic_auth {
+            username = "{{ .Values.username }}"
+            password = "{{ .Values.password }}"
+          }
+          url = "https://profiles-prod-002.grafana.net"
+        }
+      }

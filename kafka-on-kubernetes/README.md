@@ -39,7 +39,7 @@ Note that we've used the `transform` processor to add the current timestamp to a
 
 4. Create a secret with the credentials: 
    ```terminal
-    kubectl create secret generic grafana-cloud-credentials --from-literal=GRAFANA_CLOUD_USER="..." --from-literal=GRAFANA_CLOUD_TOKEN="..."
+    kubectl create secret generic grafana-cloud-credentials --from-literal=GRAFANA_CLOUD_USER="$GRAFANA_CLOUD_USER" --from-literal=GRAFANA_CLOUD_TOKEN="$GRAFANA_CLOUD_TOKEN"
    ```
 
 5. Create the OTel Collector custom resources that publishes to and consumes from the Kafka topic

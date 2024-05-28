@@ -23,7 +23,7 @@ One interesting aspect of this recipe is that it keeps the credentials on a secr
 
 2. Create a secret with the credentials: 
    ```terminal
-    kubectl create secret generic grafana-cloud-credentials --from-literal=GRAFANA_CLOUD_USER="..." --from-literal=GRAFANA_CLOUD_TOKEN="..."
+    kubectl create secret generic grafana-cloud-credentials --from-literal=GRAFANA_CLOUD_USER="$GRAFANA_CLOUD_USER" --from-literal=GRAFANA_CLOUD_TOKEN="$GRAFANA_CLOUD_TOKEN"
    ```
 
 3. Change the `endpoint` parameter for the `otlphttp` exporter to point to your stack's endpoint
