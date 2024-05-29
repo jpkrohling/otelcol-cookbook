@@ -38,7 +38,7 @@ service:
               endpoint: https://otlp-gateway-prod-us-central-0.grafana.net/otlp/v1/traces
               protocol: http/protobuf
               headers:
-                Authorization: "Basic MjM5MjM3OmdsY19leUp2SWpvaU5USTVNemN4SWl3aWJpSTZJbk4wWVdOckxUSXpPVEl6TnkxdmRHeHdMWGR5YVhSbExYUnZhMlZ1TFRJd01qUXRNREl0TVRraUxDSnJJam9pTjJFMU5qVXhXVEF4ZWxBM1ZUQjJRelJUU21ocVZXTk9JaXdpYlNJNmV5SnlJam9pZFhNaWZYMD0="
+                Authorization: "Basic ..."
 
     metrics:
       readers:
@@ -50,4 +50,4 @@ service:
               endpoint: https://otlp-gateway-prod-us-central-0.grafana.net/otlp/v1/metrics
               protocol: http/protobuf
               headers:
-                Authorization: "Basic MjM5MjM3OmdsY19leUp2SWpvaU5USTVNemN4SWl3aWJpSTZJbk4wWVdOckxUSXpPVEl6TnkxdmRHeHdMWGR5YVhSbExYUnZhMlZ1TFRJd01qUXRNREl0TVRraUxDSnJJam9pTjJFMU5qVXhXVEF4ZWxBM1ZUQjJRelJUU21ocVZXTk9JaXdpYlNJNmV5SnlJam9pZFhNaWZYMD0="
+                Authorization: "Basic ..."

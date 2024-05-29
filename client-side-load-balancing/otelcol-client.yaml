@@ -1,0 +1,33 @@
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: otelcol-client
+spec:
+  config:
+    receivers:
+      otlp:
+        protocols:
+          grpc: {}
+
+    exporters:
+      otlp:
+        endpoint: dns:///otelcol-server-collector-headless:4317
+        balancer_name: round_robin
+        tls:
+          insecure: true
+
+    service:
+      extensions: [ ]
+      pipelines:
+        traces:
+          receivers:  [ otlp ]
+          processors: [  ]
+          exporters:  [ otlp ]
+        logs:
+          receivers:  [ otlp ]
+          processors: [  ]
+          exporters:  [ otlp ]
+        metrics:
+          receivers:  [ otlp ]
+          processors: [  ]
+          exporters:  [ otlp ]
