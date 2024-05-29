@@ -96,8 +96,8 @@ spec:
     extensions:
       basicauth/metrics:
         client_auth:
-          username: "1120482"
-          password: "glc_eyJvIjoiMSIsIm4iOiJzdGFjay03MDYzMDUtaG0tanBrcm9laGxpbmctb3RlbGNvbCIsImsiOiJnNnI4ajQ5WEJES2w0Nng4eTRsMHNrSjMiLCJtIjp7InIiOiJwcm9kLXVzLWVhc3QtMCJ9fQ=="
+          username: "..."
+          password: "...
 
     receivers:
       k8s_cluster:
