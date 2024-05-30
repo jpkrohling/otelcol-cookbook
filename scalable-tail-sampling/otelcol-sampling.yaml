@@ -1,0 +1,72 @@
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: otelcol-sampling
+spec:
+  image: ghcr.io/jpkrohling/otelcol-distributions/otelcol-sampling:0.101.7
+  replicas: 10
+  config:
+    receivers:
+      otlp:
+        protocols:
+          grpc: {}
+
+    processors:
+      tail_sampling:
+        decision_wait: 1s
+        num_traces: 50_000
+        expected_new_traces_per_sec: 500
+        policies:
+          [
+            {
+              type: and,
+              and:
+                {
+                  and_sub_policy:
+                    [
+                      {
+                        name: only-10-percent,
+                        type: probabilistic,
+                        probabilistic: { sampling_percentage: 10 },
+                      },
+                      {
+                        name: vip,
+                        type: string_attribute,
+                        string_attribute: { key: vip, values: ["true"] },
+                      },
+                    ],
+                },
+            },
+          ]
+
+    exporters:
+      nop: {}
+
+    service:
+      extensions: [ ]
+      pipelines:
+        traces:
+          receivers:  [ otlp ]
+          processors: [  ]
+          exporters:  [ nop ]
+        logs:
+          receivers:  [ otlp ]
+          processors: [  ]
+          exporters:  [ nop ]
+        metrics:
+          receivers:  [ otlp ]
+          processors: [  ]
+          exporters:  [ nop ]
+      telemetry:
+        metrics:
+          level: detailed
+          readers:
+            - periodic:
+                exporter:
+                  otlp:
+                    endpoint: https://otlp-gateway-prod-eu-west-2.grafana.net/otlp/v1/metrics
+                    protocol: http/protobuf
+                    headers:
+                      Authorization: "Basic ..."
+        resource:
+          "service.name": "otelcol-sampling"

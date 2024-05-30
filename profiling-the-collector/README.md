@@ -13,8 +13,6 @@ We are discarding the telemetry data that we are generating, as we are only inte
 - Pyroscope Agent configured using Grafana Alloy
 - The `telemetrygen` tool, or any other application that is able to send OTLP data to our collector
 - The `otelcol-cr.yaml` file from this directory
-- A `GRAFANA_CLOUD_USER` environment variable, also known as Grafana Cloud instance ID, found under the instructions for "OpenTelemetry" on your Grafana Cloud stack.
-- A `GRAFANA_CLOUD_TOKEN` environment variable, which can be generated under the instructions for "OpenTelemetry" on your Grafana Cloud stack.
 - A `GRAFANA_CLOUD_PROFILES_USER` environment variable, found under the instructions for "Pyroscope" on your Grafana Cloud stack.
 - A `GRAFANA_CLOUD_PROFILES_TOKEN` environment variable, which can be generated under the instructions for "Pyroscope" on your Grafana Cloud stack.
 - The endpoint for your stack
