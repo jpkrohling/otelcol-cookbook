@@ -3,7 +3,7 @@ kind: OpenTelemetryCollector
 metadata:
   name: grafana-cloud-from-kubernetes
 spec:
-  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.101.0
+  image: ghcr.io/jpkrohling/otelcol-distributions/otelcol-otlp:0.101.5
   envFrom:
   - secretRef: 
       name: grafana-cloud-credentials

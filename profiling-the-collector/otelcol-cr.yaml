@@ -3,18 +3,11 @@ kind: OpenTelemetryCollector
 metadata:
   name: profiling-the-collector
 spec:
-  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.101.0
-  envFrom:
-  - secretRef: 
-      name: grafana-cloud-credentials
+  image: ghcr.io/jpkrohling/otelcol-distributions/otelcol-otlp:0.101.5
   config:
     extensions:
       pprof:
         endpoint: 0.0.0.0:1777
-      basicauth:
-        client_auth:
-          username: "${env:GRAFANA_CLOUD_USER}"
-          password: "${env:GRAFANA_CLOUD_TOKEN}"
 
     receivers:
       otlp:
@@ -22,23 +15,20 @@ spec:
           grpc: {}
 
     exporters:
-      otlphttp:
-        endpoint: https://otlp-gateway-prod-eu-west-2.grafana.net/otlp
-        auth:
-          authenticator: basicauth
+      nop: {}
 
     service:
-      extensions: [ pprof, basicauth ]
+      extensions: [ pprof ]
       pipelines:
         traces:
           receivers:  [ otlp ]
           processors: [  ]
-          exporters:  [ otlphttp ]
+          exporters:  [ nop ]
         logs:
           receivers:  [ otlp ]
           processors: [  ]
-          exporters:  [ otlphttp ]
+          exporters:  [ nop ]
         metrics:
           receivers:  [ otlp ]
           processors: [  ]
-          exporters:  [ otlphttp ]
+          exporters:  [ nop ]

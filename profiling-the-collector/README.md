@@ -5,6 +5,8 @@ This recipe shows how to use Pyroscope to profile the OpenTelemetry Collector ru
 - ["grafana-cloud"](../grafana-cloud/)
 - ["grafana-cloud-from-kubernetes"](../grafana-cloud-from-kubernetes/)
 
+We are discarding the telemetry data that we are generating, as we are only interested in assessing this behavior by observing the Collector's profiles.
+
 ## 🧄 Ingredients
 
 - OpenTelemetry Operator, see the main [`README.md`](../README.md) for instructions
@@ -25,47 +27,40 @@ This recipe shows how to use Pyroscope to profile the OpenTelemetry Collector ru
     kubens profiling-the-collector
    ```
 
-2. Create a secret with the credentials:
-   ```terminal
-    kubectl create secret generic grafana-cloud-credentials --from-literal=GRAFANA_CLOUD_USER="$GRAFANA_CLOUD_USER" --from-literal=GRAFANA_CLOUD_TOKEN="$GRAFANA_CLOUD_TOKEN"
-   ```
-
-3. Change the `endpoint` parameter for the `otlphttp` exporter to point to your stack's endpoint
-
-4. Install the OTel Collector custom resource
+2. Install the OTel Collector custom resource
    ```terminal
    kubectl apply -f otelcol-cr.yaml
    ```
 
-5. Open a port-forward to the Collector
+3. Open a port-forward to the Collector
    ```terminal
    kubectl port-forward svc/profiling-the-collector-collector 4317
    ```
 
-6. Send 10 traces per second for 30 minutes to our Collector
+4. Send 500 traces per second for 30 minutes to our Collector
    ```terminal
-   telemetrygen traces --duration 30m --rate 10 --otlp-insecure --otlp-attributes='recipe="profiling-the-collector"'
+   telemetrygen traces --duration 30m --rate 500 --otlp-insecure --otlp-attributes='recipe="profiling-the-collector"'
    ```
 
-7. Install a custom service exposing the `pprof` port
+5. Install a custom service exposing the `pprof` port
    ```terminal
    kubectl apply -f otelcol-pprof-svc.yaml
    ```
 
-8. Add the Grafana Helm repository
+6. Add the Grafana Helm repository
    ```terminal
    helm repo add grafana https://grafana.github.io/helm-charts
    helm repo update
    ```
 
-9.  Replace the user, token, and URL on the values.yaml to reflect the values from your environment variables
+7.  Replace the URL on the values.yaml to reflect your Pyroscope connection details
 
-10. Install Grafana Agent with the Pyroscope eBPF Profiler
+8.  Install Grafana Agent with the Pyroscope eBPF Profiler
    ```terminal
    helm install pyroscope-ebpf grafana/grafana-agent -f values.yaml --set username=$GRAFANA_CLOUD_PROFILES_USER --set password=$GRAFANA_CLOUD_PROFILES_TOKEN
    ```
 
-11. Open your Grafana instance, go to Explore, and select the profiles datasource.
+9.  Open your Grafana instance, go to Explore, and select the profiles datasource.
 
 
 ## 😋 Executed last time with these versions

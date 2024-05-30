@@ -2,6 +2,8 @@
 
 This recipe shows how to configure a Collector to load balance its exporter requests to another layer of Collectors. While the solution itself is very simple, comprising of two lines of configuration, verifying that it works is trickier: we want to start with a fixed number of server instances, likely higher than 1, and scale up. If it works, we'll see that all instances will have equivalent load over time, with the rate of requests going down as more server collectors are available. 
 
+For a successful load-balancing, we need clients that are able to retrieve a list of available endpoints, and we need the server to force connections to be closed at a specific amount of time. While the client configuration can be reused as is, the server configuration in this example requires some attention before being used in production: make sure to adjust the max connection age to a value that makes sense to you.
+
 We are discarding the telemetry data that we are generating, as we are only interested in assessing this behavior by observing the Collector's own metrics.
 
 ## 🧄 Ingredients
@@ -51,9 +53,9 @@ We are discarding the telemetry data that we are generating, as we are only inte
    telemetrygen traces --rate 100 --duration 10m --otlp-insecure --otlp-attributes='recipe="client-side-load-balancing"'
    ```
 
-9. After a few minutes, update the `otelcol-server.yaml` to have 10 replicas instead of the original 5. 
+9. After a few minutes, update the `otelcol-server.yaml` to have 10 replicas instead of the original 5.
 
-10. Open your Grafana instance, go to Explore, and select the metrics datasource ("...-prom") and a run a query like: `rate(receiver_accepted_spans_total[$__rate_interval])`
+10. Open your Grafana instance, go to Explore, and select the metrics datasource ("...-prom") and a run a query like: `rate(receiver_accepted_spans_total[$__rate_interval])`. You can also remove the `rate` function to see the totals, which should show the first collectors having similar numbers among themselves, while the newer collectors would have lower numbers, but still equivalent among each other.
 
 ## 😋 Executed last time with these versions
 

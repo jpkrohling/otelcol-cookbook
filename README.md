@@ -10,6 +10,7 @@ This repository grew organically based on tests that I needed to perform in orde
 
 # 🥢 Tools used
 
+- Custom Collector images from [my collection of distributions](https://github.com/jpkrohling/otelcol-distributions). Anywhere a custom image is being used, you can use contrib if you prefer.
 - [`telemetrygen`](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/cmd/telemetrygen#installing) is used a lot in this repository to send telemetry data to our Collector instance
 - [`otelcol-contrib`](https://github.com/open-telemetry/opentelemetry-collector-releases/releases) is used as well, both in binary format for local examples, and as container image in examples using Kubernetes
 - [`k3d`](https://k3d.io) is used in the Kubernetes recipes, in order to create a local Kubernetes cluster
