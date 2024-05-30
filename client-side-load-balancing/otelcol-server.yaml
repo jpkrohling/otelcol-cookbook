@@ -43,3 +43,5 @@ spec:
                     protocol: http/protobuf
                     headers:
                       Authorization: "Basic ..."
+        resource:
+          "service.name": "otelcol-server"
