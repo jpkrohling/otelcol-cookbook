@@ -28,7 +28,7 @@ service:
                 endpoint: https://otlp-gateway-prod-eu-west-2.grafana.net/otlp/v1/traces
                 protocol: http/protobuf
                 headers:
-                  Authorization: "Basic OTQyNzM4OmdsY19leUp2SWpvaU5USTVNemN4SWl3aWJpSTZJbk4wWVdOckxUazBNamN6T0MxdmRHeHdMWGR5YVhSbExYUnZhMlZ1TFRJd01qUXRNVEV0TURjaUxDSnJJam9pT0cwNFJWbzBTbkkwV2tKMk1USTNTall5T1hKamMwSjVJaXdpYlNJNmV5SnlJam9pY0hKdlpDMWxkUzEzWlhOMExUSWlmWDA9"
+                  Authorization: "Basic ..."
     metrics:
       level: detailed
       readers:
@@ -38,6 +38,6 @@ service:
                 endpoint: https://otlp-gateway-prod-eu-west-2.grafana.net/otlp/v1/metrics
                 protocol: http/protobuf
                 headers:
-                  Authorization: "Basic OTQyNzM4OmdsY19leUp2SWpvaU5USTVNemN4SWl3aWJpSTZJbk4wWVdOckxUazBNamN6T0MxdmRHeHdMWGR5YVhSbExYUnZhMlZ1TFRJd01qUXRNVEV0TURjaUxDSnJJam9pT0cwNFJWbzBTbkkwV2tKMk1USTNTall5T1hKamMwSjVJaXdpYlNJNmV5SnlJam9pY0hKdlpDMWxkUzEzWlhOMExUSWlmWDA9"
+                  Authorization: "Basic ..."
     resource:
       "service.name": "otelcol-own-telemetry"
