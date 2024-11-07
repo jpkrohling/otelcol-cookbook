@@ -68,7 +68,7 @@ rules:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: otelcol
+  name: otelcol-k8s
   namespace: observability
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -81,39 +81,43 @@ roleRef:
   name: otelcol
 subjects:
 - kind: ServiceAccount
-  name: otelcol
+  name: otelcol-k8s
   namespace: observability
 ---
-apiVersion: opentelemetry.io/v1alpha1
+apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
-  name: otelcol
+  name: otelcol-k8s
   namespace: observability
 spec:
-  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.81.0
-  serviceAccount: otelcol
-  config: |
+  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.113.0
+  serviceAccount: otelcol-k8s
+  envFrom:
+    - secretRef:
+        name: grafana-cloud-credentials
+  config:
     extensions:
-      basicauth/metrics:
+      basicauth:
         client_auth:
-          username: "..."
-          password: "...
-
+          username: "${env:GRAFANA_CLOUD_USER}"
+          password: "${env:GRAFANA_CLOUD_TOKEN}"
     receivers:
+      k8s_events: {}
       k8s_cluster:
-        collection_interval: 10s
+        collection_interval: 15s
     exporters:
-      prometheusremotewrite:
-        endpoint: https://prometheus-prod-13-prod-us-east-0.grafana.net/api/prom/push
+      otlphttp:
+        endpoint: https://otlp-gateway-prod-eu-west-2.grafana.net/otlp
         auth:
-          authenticator: basicauth/metrics
-      logging:
-        verbosity: detailed
+          authenticator: basicauth
 
     service:
-      extensions: [basicauth/metrics]
+      extensions: [ basicauth ]
       pipelines:
         metrics:
-          receivers: [k8s_cluster]
-          exporters: [prometheusremotewrite]
+          receivers: [ k8s_cluster ]
+          exporters: [ otlphttp    ]
+        logs:
+          receivers: [ k8s_events ]
+          exporters: [ otlphttp   ]
 ---

@@ -1,0 +1,51 @@
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: otelcol-podslogs
+  namespace: observability
+spec:
+  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.113.0
+  mode: daemonset
+  envFrom:
+    - secretRef:
+        name: grafana-cloud-credentials
+  volumes:
+    - name: varlogpods
+      hostPath:
+        path: /var/log/pods
+  volumeMounts:
+    - name: varlogpods
+      mountPath: /var/log/pods
+      readOnly: true
+  config:
+    extensions:
+      basicauth:
+        client_auth:
+          username: "${env:GRAFANA_CLOUD_USER}"
+          password: "${env:GRAFANA_CLOUD_TOKEN}"
+    receivers:
+      filelog:
+        exclude: []
+        include:
+          - /var/log/pods/*/*/*.log
+        include_file_name: false
+        include_file_path: true
+        operators:
+          - id: container-parser
+            max_log_size: 102400
+            type: container
+        retry_on_failure:
+          enabled: true
+        start_at: end
+    exporters:
+      otlphttp:
+        endpoint: https://otlp-gateway-prod-eu-west-2.grafana.net/otlp
+        auth:
+          authenticator: basicauth
+
+    service:
+      extensions: [ basicauth ]
+      pipelines:
+        logs:
+          receivers: [ filelog  ]
+          exporters: [ otlphttp ]

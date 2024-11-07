@@ -1,0 +1,56 @@
+---
+apiVersion: opentelemetry.io/v1alpha1
+kind: Instrumentation
+metadata:
+  name: java
+spec:
+  env:
+    - name: OTEL_TRACES_EXPORTER
+      value: otlp
+    - name: OTEL_EXPORTER_OTLP_ENDPOINT
+      value: http://auto-instrumentation-collector-headless.auto-instrumentation.svc.cluster.local:4317
+  exporter:
+    endpoint: http://auto-instrumentation-collector-headless.auto-instrumentation.svc.cluster.local:4317
+---
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: auto-instrumentation
+spec:
+  image: ghcr.io/jpkrohling/otelcol-distributions/otelcol-otlp:0.101.5
+  envFrom:
+  - secretRef: 
+      name: grafana-cloud-credentials
+  config:
+    extensions:
+      basicauth:
+        client_auth:
+          username: "${env:GRAFANA_CLOUD_USER}"
+          password: "${env:GRAFANA_CLOUD_TOKEN}"
+
+    receivers:
+      otlp:
+        protocols:
+          grpc: {}
+
+    exporters:
+      otlphttp:
+        endpoint: https://otlp-gateway-prod-eu-west-2.grafana.net/otlp
+        auth:
+          authenticator: basicauth
+
+    service:
+      extensions: [ basicauth ]
+      pipelines:
+        traces:
+          receivers:  [ otlp ]
+          processors: [  ]
+          exporters:  [ otlphttp ]
+        logs:
+          receivers:  [ otlp ]
+          processors: [  ]
+          exporters:  [ otlphttp ]
+        metrics:
+          receivers:  [ otlp ]
+          processors: [  ]
+          exporters:  [ otlphttp ]

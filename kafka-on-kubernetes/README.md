@@ -9,7 +9,8 @@ Note that we've used the `transform` processor to add the current timestamp to a
 - OpenTelemetry Operator, see the main [`README.md`](../README.md) for instructions
 - A Kafka Cluster and one topic for each telemetry data type (metric, logs, traces)
 - The `telemetrygen` tool, or any other application that is able to send OTLP data to our collector 
-- The `otelcol-cr.yaml` file from this directory
+- The `otelcol-pub.yaml` file from this directory
+- The `otelcol-sub.yaml` file from this directory
 - A `GRAFANA_CLOUD_USER` environment variable, also known as Grafana Cloud instance ID, found under the instructions for "OpenTelemetry" on your Grafana Cloud stack.
 - A `GRAFANA_CLOUD_TOKEN` environment variable, which can be generated under the instructions for "OpenTelemetry" on your Grafana Cloud stack.
 - The endpoint for your stack

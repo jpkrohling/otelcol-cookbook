@@ -3,7 +3,7 @@ kind: OpenTelemetryCollector
 metadata:
   name: profiling-the-collector
 spec:
-  image: ghcr.io/jpkrohling/otelcol-distributions/otelcol-otlp:0.101.5
+  image: ghcr.io/jpkrohling/otelcol-distributions/opentelemetry-collector-otlp:0.108.1
   config:
     extensions:
       pprof:
@@ -13,6 +13,7 @@ spec:
       otlp:
         protocols:
           grpc: {}
+          http: {}
 
     exporters:
       nop: {}
