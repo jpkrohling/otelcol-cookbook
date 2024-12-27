@@ -1,0 +1,15 @@
+receivers:
+  filelog:
+    start_at: beginning
+    include: [./in/dnf.log.1]
+
+exporters:
+  debug:
+  file:
+    path: ./out/output-01.json
+
+service:
+  pipelines:
+    logs:
+      receivers: [filelog]
+      exporters: [debug, file]

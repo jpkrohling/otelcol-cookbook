@@ -1,0 +1,54 @@
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: otelcol-loadbalancer
+spec:
+  image: ghcr.io/jpkrohling/otelcol-distributions/otelcol-loadbalancer:0.101.7
+  config:
+    extensions:
+      pprof:
+        endpoint: 0.0.0.0:1777
+
+    receivers:
+      otlp:
+        protocols:
+          grpc: {}
+
+    exporters:
+      loadbalancing:
+        protocol:
+          otlp:
+            tls:
+              insecure: true
+        resolver:
+          dns:
+            hostname: otelcol-sampling-collector-headless
+
+    service:
+      extensions: [ pprof ]
+      pipelines:
+        traces:
+          receivers:  [ otlp ]
+          processors: [  ]
+          exporters:  [ loadbalancing ]
+        logs:
+          receivers:  [ otlp ]
+          processors: [  ]
+          exporters:  [ loadbalancing ]
+        metrics:
+          receivers:  [ otlp ]
+          processors: [  ]
+          exporters:  [ loadbalancing ]
+      telemetry:
+        metrics:
+          level: detailed
+          readers:
+            - periodic:
+                exporter:
+                  otlp:
+                    endpoint: https://otlp-gateway-prod-eu-west-2.grafana.net/otlp/v1/metrics
+                    protocol: http/protobuf
+                    headers:
+                      Authorization: "Basic ..."
+        resource:
+          "service.name": "otelcol-loadbalancer"

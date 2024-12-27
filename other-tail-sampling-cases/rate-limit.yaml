@@ -1,0 +1,44 @@
+receivers:
+  otlp:
+    protocols:
+      grpc: {}
+
+processors:
+  tail_sampling:
+    decision_wait: 1s
+    num_traces: 50_000
+    expected_new_traces_per_sec: 500
+    policies: # this acts as an "or": if at least one policy has a SAMPLE decision, we sample
+      [
+        {
+          name: rate-limited-tenant,
+          type: and,
+          and:
+            {
+              and_sub_policy:
+                [
+                  {
+                    name: tenant-noisy,
+                    type: string_attribute,
+                    string_attribute: { key: tenant, values: ["noisy"] },
+                  },
+                  {
+                    name: rate-limit-noisy,
+                    type: rate_limiting,
+                    rate_limiting: { spans_per_second: 100 },
+                  },
+                ],
+            },
+        },
+      ]
+
+exporters:
+  debug: {}
+
+service:
+  extensions: []
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [tail_sampling]
+      exporters: [debug]

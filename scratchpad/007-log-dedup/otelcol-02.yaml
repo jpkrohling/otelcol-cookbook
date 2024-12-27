@@ -1,0 +1,21 @@
+receivers:
+  filelog:
+    start_at: beginning
+    include: [./in/dnf.log.1]
+
+processors:
+  logdedup:
+      interval: 60s
+      log_count_attribute: dedup_count
+
+exporters:
+  debug:
+  file:
+    path: ./out/output-02.json
+
+service:
+  pipelines:
+    logs:
+      receivers: [filelog]
+      processors: [logdedup]
+      exporters: [debug, file]

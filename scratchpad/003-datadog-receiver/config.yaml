@@ -1,0 +1,31 @@
+extensions:
+  basicauth:
+    client_auth:
+      username: "${env:GRAFANA_CLOUD_USER}"
+      password: "${env:GRAFANA_CLOUD_TOKEN}"
+
+receivers:
+  datadog:
+    endpoint: localhost:4444
+
+processors:
+  batch: {}
+  deltafill:
+    interval: 60s
+  deltatocumulative:
+    max_stale: 5m
+    max_streams: 10000
+  shape: {}
+
+exporters:
+  otlphttp:
+    endpoint: https://otlp-gateway-prod-eu-west-2.grafana.net/otlp
+    auth:
+      authenticator: basicauth
+
+service:
+  pipelines:
+    metrics:
+      receivers: [ datadog ]
+      processors: [ shape, batch, deltafill, deltatocumulative ]
+      exporters: [ otlphttp ]

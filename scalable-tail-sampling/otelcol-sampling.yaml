@@ -19,23 +19,14 @@ spec:
         policies:
           [
             {
-              type: and,
-              and:
-                {
-                  and_sub_policy:
-                    [
-                      {
-                        name: only-10-percent,
-                        type: probabilistic,
-                        probabilistic: { sampling_percentage: 10 },
-                      },
-                      {
-                        name: vip,
-                        type: string_attribute,
-                        string_attribute: { key: vip, values: ["true"] },
-                      },
-                    ],
-                },
+              name: only-10-percent,
+              type: probabilistic,
+              probabilistic: { sampling_percentage: 10 },
+            },
+            {
+              name: vip,
+              type: string_attribute,
+              string_attribute: { key: vip, values: ["true"] },
             },
           ]
 
@@ -43,20 +34,12 @@ spec:
       nop: {}
 
     service:
-      extensions: [ ]
+      extensions: []
       pipelines:
         traces:
-          receivers:  [ otlp ]
-          processors: [  ]
-          exporters:  [ nop ]
-        logs:
-          receivers:  [ otlp ]
-          processors: [  ]
-          exporters:  [ nop ]
-        metrics:
-          receivers:  [ otlp ]
-          processors: [  ]
-          exporters:  [ nop ]
+          receivers: [otlp]
+          processors: [tail_sampling]
+          exporters: [nop]
       telemetry:
         metrics:
           level: detailed

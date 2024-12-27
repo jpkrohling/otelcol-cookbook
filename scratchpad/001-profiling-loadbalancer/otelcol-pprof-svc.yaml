@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: otelcol-loadbalancer-collector-pprof
+spec:
+  ports:
+  - name: pprof
+    port: 1777
+    protocol: TCP
+    targetPort: 1777
+  selector:
+    app.kubernetes.io/component: opentelemetry-collector
+    app.kubernetes.io/instance: scratchpad.otelcol-loadbalancer

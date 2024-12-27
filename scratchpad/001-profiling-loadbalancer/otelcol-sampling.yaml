@@ -1,0 +1,26 @@
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: otelcol-sampling
+spec:
+  image: ghcr.io/jpkrohling/otelcol-distributions/otelcol-otlp:0.101.7
+  replicas: 1
+  config:
+    extensions:
+      pprof:
+        endpoint: 0.0.0.0:1777
+    receivers:
+      otlp:
+        protocols:
+          grpc: {}
+
+    exporters:
+      nop: {}
+
+    service:
+      extensions: [ pprof ]
+      pipelines:
+        traces:
+          receivers:  [ otlp ]
+          processors: [  ]
+          exporters:  [ nop ]

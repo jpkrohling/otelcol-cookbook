@@ -1,0 +1,1 @@
+2024-05-17T09:29:45.145553464Z stderr F ts=2024-05-17T09:29:45.145Z caller=node_exporter.go:193 level=info msg="Starting node_exporter" version="(version=1.8.0, branch=HEAD, revision=cadb1d1190ad95c66b951758f01ff4c94e55e6ce)"

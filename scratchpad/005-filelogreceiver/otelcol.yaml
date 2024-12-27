@@ -1,0 +1,22 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+  filelog:
+    start_at: beginning
+    include: [/home/jpkroehling/Projects/src/github.com/jpkroehling/otelcol-cookbook/scratchpad/005-filelogreceiver/input.log]
+    operators:
+    - id: container-parser
+      type: container
+
+exporters:
+  debug:
+    verbosity: detailed
+
+processors:
+
+service:
+  pipelines:
+    logs:
+      receivers: [otlp, filelog]
+      exporters: [debug]
