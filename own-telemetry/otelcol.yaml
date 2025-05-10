@@ -18,26 +18,24 @@ service:
     logs:
       receivers: [otlp]
       exporters: [debug]
+
   telemetry:
     traces:
       processors:
         - batch:
-            schedule_delay: 1000
             exporter:
               otlp:
-                endpoint: https://otlp-gateway-prod-eu-west-2.grafana.net/otlp/v1/traces
                 protocol: http/protobuf
-                headers:
-                  Authorization: "Basic ..."
+                endpoint: http://localhost:5318
+
     metrics:
-      level: detailed
       readers:
         - periodic:
+            interval: 1000
             exporter:
               otlp:
-                endpoint: https://otlp-gateway-prod-eu-west-2.grafana.net/otlp/v1/metrics
                 protocol: http/protobuf
-                headers:
-                  Authorization: "Basic ..."
+                endpoint: http://localhost:5318
+
     resource:
       "service.name": "otelcol-own-telemetry"

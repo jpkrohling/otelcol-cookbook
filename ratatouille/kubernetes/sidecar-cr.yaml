@@ -4,19 +4,19 @@ metadata:
   name: sidecar-for-my-workload
 spec:
   mode: sidecar
-  config: |
+  config:
     receivers:
       otlp:
         protocols:
-          grpc:
+          grpc: {}
     processors:
 
     exporters:
-      logging:
+      debug:
 
     service:
       pipelines:
         traces:
           receivers: [otlp]
           processors: []
-          exporters: [logging]
+          exporters: [debug]

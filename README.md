@@ -31,6 +31,27 @@ kubectl apply -f https://github.com/open-telemetry/opentelemetry-operator/releas
 kubectl wait --for=condition=Available deployments/opentelemetry-operator-controller-manager -n opentelemetry-operator-system
 ```
 
+## 🍣 LGTM
+
+For some recipes, we are using Grafana's LGTM stack to visualize data. You can just start the container with the LGTM stack, or install the stack in your Kubernetes cluster. It's not recommended to use this container image in production: either install a proper LGTM stack following the official instructions, or use an observability vendor to manage the backend for you.
+
+### Container
+
+In this example, we are opening only the Grafana and OTel Collector's HTTP port, which is sufficient for our tests.
+
+```terminal
+docker run -p 3000:3000 -p 4318:4318 --rm -d grafana/otel-lgtm
+```
+
+### Kubernetes
+
+```terminal
+kubectl create ns lgtm
+kubens lgtm
+kubectl apply -f lgtm/lgtm.yaml
+kubectl wait --for=condition=Available deployments/lgtm -n lgtm
+```
+
 # 🪳 Bugs
 
 Did you find a bug? Is a recipe confusing, or not working at all? Please [open an issue](https://github.com/jpkrohling/otelcol-cookbook/issues/new). Make sure to include:

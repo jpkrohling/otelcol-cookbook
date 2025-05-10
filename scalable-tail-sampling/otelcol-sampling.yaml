@@ -67,6 +67,6 @@ spec:
                     endpoint: https://otlp-gateway-prod-eu-west-2.grafana.net/otlp/v1/metrics
                     protocol: http/protobuf
                     headers:
-                      Authorization: "Basic ..."
+                      Authorization: "Basic MTE3OTkzNTpnbGNfZXlKdklqb2lNVE0xTnpRMU1pSXNJbTRpT2lKemRHRmpheTB4TVRjNU9UTTFMVzkwYkhBdGQzSnBkR1V0YjNSc2NDSXNJbXNpT2lKMk16WnFNRFl6ZDFJeVNVZ3hZVFV6YkZwSWREUm5TbTRpTENKdElqcDdJbklpT2lKd2NtOWtMV1YxTFhkbGMzUXRNaUo5ZlE9PQ=="
         resource:
           "service.name": "otelcol-sampling"

@@ -1,32 +1,18 @@
----
-apiVersion: opentelemetry.io/v1alpha1
-kind: Instrumentation
-metadata:
-  name: my-java
-spec:
-  env:
-    - name: OTEL_TRACES_EXPORTER
-      value: otlp
-    - name: OTEL_EXPORTER_OTLP_ENDPOINT
-      value: http://auto-instrumentation-collector-headless.auto-instrumentation.svc.cluster.local:4317
-  exporter:
-    endpoint: http://auto-instrumentation-collector-headless.auto-instrumentation.svc.cluster.local:4317
----
 apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
-  name: auto-instrumentation
+  name: otelcol-to-lgtm
 spec:
   image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.124.1
+  mode: sidecar
   config:
     receivers:
       otlp:
         protocols:
           grpc: {}
-
     exporters:
       otlphttp:
-        endpoint: http://lgtm.lgtm.svc.cluster.local:4318
+        endpoint: http://lgtm.otelcol-to-lgtm.svc.cluster.local:4318
 
     service:
       pipelines:

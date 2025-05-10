@@ -1,0 +1,31 @@
+extensions:
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+
+exporters:
+  nop:
+
+processors:
+
+connectors:
+  count:
+
+service:
+  extensions: [ ]
+  pipelines:
+    traces:
+      receivers:  [ otlp ]
+      processors: [  ]
+      exporters:  [ nop ]
+    logs:
+      receivers:  [ otlp ]
+      processors: [  ]
+      exporters:  [ nop ]
+    metrics:
+      receivers:  [ otlp ]
+      processors: [  ]
+      exporters:  [ nop ]

@@ -1,0 +1,26 @@
+receivers:
+  kafka:
+    initial_offset: earliest
+    brokers: localhost:9092
+    topic: otlp-spans
+
+exporters:
+  otlp:
+    endpoint: localhost:5317
+    sending_queue:
+      storage: file_storage
+      queue_size: 2_000
+    tls:
+      insecure: true
+
+extensions:
+  file_storage:
+    directory: /tmp/otelcol
+
+service:
+  extensions: [ file_storage ]
+  pipelines:
+    traces:
+      receivers:  [ kafka  ]
+      processors: [ batch ]
+      exporters:  [ otlp  ]

@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: my-microservice
   annotations:
-    sidecar.opentelemetry.io/inject: "true"
+    sidecar.opentelemetry.io/inject: "otelcol-to-lgtm"
 spec:
   containers:
   - name: my-microservice
