@@ -1,0 +1,23 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+
+processors:
+  transform:
+    log_statements:
+      - context: log
+        statements:
+          - replace_pattern(log.body, "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}", "<redacted>")
+          - replace_all_patterns(log.attributes, "value", "\\(\\d{2}\\)\\s+\\d{5}-\\d{4}", "<redacted>")
+
+exporters:
+  debug:
+    verbosity: detailed
+
+service:
+  pipelines:
+    logs/redacted:
+      receivers:  [ otlp ]
+      processors: [ transform ]
+      exporters:  [ debug ]

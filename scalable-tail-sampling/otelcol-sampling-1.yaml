@@ -3,7 +3,7 @@ kind: OpenTelemetryCollector
 metadata:
   name: otelcol-sampling
 spec:
-  image: ghcr.io/jpkrohling/otelcol-distributions/otelcol-sampling:0.101.7
+  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.126.0
   replicas: 10
   config:
     receivers:
@@ -19,6 +19,7 @@ spec:
         policies:
           [
             {
+              name: only-10-percent-and-vip,
               type: and,
               and:
                 {
@@ -40,23 +41,17 @@ spec:
           ]
 
     exporters:
-      nop: {}
+      otlp:
+        endpoint: lgtm.lgtm.svc.cluster.local:4317
+        tls:
+          insecure: true
 
     service:
-      extensions: [ ]
       pipelines:
         traces:
-          receivers:  [ otlp ]
-          processors: [  ]
-          exporters:  [ nop ]
-        logs:
-          receivers:  [ otlp ]
-          processors: [  ]
-          exporters:  [ nop ]
-        metrics:
-          receivers:  [ otlp ]
-          processors: [  ]
-          exporters:  [ nop ]
+          receivers:  [ otlp          ]
+          processors: [ tail_sampling ]
+          exporters:  [ otlp          ]
       telemetry:
         metrics:
           level: detailed
@@ -64,9 +59,7 @@ spec:
             - periodic:
                 exporter:
                   otlp:
-                    endpoint: https://otlp-gateway-prod-eu-west-2.grafana.net/otlp/v1/metrics
+                    endpoint: http://lgtm.lgtm.svc.cluster.local:4318/v1/metrics
                     protocol: http/protobuf
-                    headers:
-                      Authorization: "Basic MTE3OTkzNTpnbGNfZXlKdklqb2lNVE0xTnpRMU1pSXNJbTRpT2lKemRHRmpheTB4TVRjNU9UTTFMVzkwYkhBdGQzSnBkR1V0YjNSc2NDSXNJbXNpT2lKMk16WnFNRFl6ZDFJeVNVZ3hZVFV6YkZwSWREUm5TbTRpTENKdElqcDdJbklpT2lKd2NtOWtMV1YxTFhkbGMzUXRNaUo5ZlE9PQ=="
         resource:
           "service.name": "otelcol-sampling"

@@ -22,7 +22,8 @@ This repository grew organically based on tests that I needed to perform in orde
 To get a working instance of the OpenTelemetry Operator, [follow the official instructions](https://github.com/open-telemetry/opentelemetry-operator?tab=readme-ov-file#getting-started) from the project, but here's a quick summary of what's needed for our purposes:
 
 ```terminal
-k3d cluster create
+k3d registry create dosedetelemetria
+k3d cluster create --registry-use k3d-dosedetelemetria:40503 dosedetelemetria
 
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 kubectl wait --for=condition=Available deployments/cert-manager -n cert-manager
@@ -31,9 +32,9 @@ kubectl apply -f https://github.com/open-telemetry/opentelemetry-operator/releas
 kubectl wait --for=condition=Available deployments/opentelemetry-operator-controller-manager -n opentelemetry-operator-system
 ```
 
-## 🍣 LGTM
+## 🧰 LGTM
 
-For some recipes, we are using Grafana's LGTM stack to visualize data. You can just start the container with the LGTM stack, or install the stack in your Kubernetes cluster. It's not recommended to use this container image in production: either install a proper LGTM stack following the official instructions, or use an observability vendor to manage the backend for you.
+For some recipes, we are using Grafana's LGTM stack to visualize data. You can just start the container with the LGTM stack, or install the stack in your Kubernetes cluster. It's not recommended to use this container image in production.
 
 ### Container
 
@@ -48,7 +49,7 @@ docker run -p 3000:3000 -p 4318:4318 --rm -d grafana/otel-lgtm
 ```terminal
 kubectl create ns lgtm
 kubens lgtm
-kubectl apply -f lgtm/lgtm.yaml
+kubectl apply -f _drawer/lgtm/lgtm.yaml
 kubectl wait --for=condition=Available deployments/lgtm -n lgtm
 ```
 

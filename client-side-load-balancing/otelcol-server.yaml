@@ -3,7 +3,6 @@ kind: OpenTelemetryCollector
 metadata:
   name: otelcol-server
 spec:
-  image: ghcr.io/jpkrohling/otelcol-distributions/otelcol-otlp:0.101.5
   replicas: 5
   config:
     receivers:
@@ -39,9 +38,7 @@ spec:
             - periodic:
                 exporter:
                   otlp:
-                    endpoint: https://otlp-gateway-prod-eu-west-2.grafana.net/otlp/v1/metrics
+                    endpoint: http://lgtm.lgtm.svc.cluster.local:4318/v1/metrics
                     protocol: http/protobuf
-                    headers:
-                      Authorization: "Basic ..."
         resource:
           "service.name": "otelcol-server"

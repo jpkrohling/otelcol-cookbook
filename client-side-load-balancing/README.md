@@ -9,12 +9,10 @@ We are discarding the telemetry data that we are generating, as we are only inte
 ## 🧄 Ingredients
 
 - OpenTelemetry Operator, see the main [`README.md`](../README.md) for instructions
+- The LGTM stack running in the `lgtm` namespace. See [the LGTM directory](../_drawer/lgtm) for more details.
 - The `telemetrygen` tool, or any other application that is able to send OTLP data to our collector 
 - The `otelcol-client.yaml` file from this directory
 - The `otelcol-server.yaml` file from this directory
-- A `GRAFANA_CLOUD_USER` environment variable, also known as Grafana Cloud instance ID, found under the instructions for "OpenTelemetry" on your Grafana Cloud stack.
-- A `GRAFANA_CLOUD_TOKEN` environment variable, which can be generated under the instructions for "OpenTelemetry" on your Grafana Cloud stack.
-- The endpoint for your stack
 
 ## 🥣 Preparation
 
@@ -24,43 +22,36 @@ We are discarding the telemetry data that we are generating, as we are only inte
     kubens client-side-load-balancing
    ```
 
-2. Generate a basic auth HTTP header
+2. Install the OTel Collector server custom resource
    ```terminal
-   echo -n "$GRAFANA_CLOUD_USER:$GRAFANA_CLOUD_TOKEN" | base64 -w0
+   kubectl apply -f client-side-load-balancing/otelcol-server.yaml
    ```
 
-3. Use the output from the command above as the value for the basic auth header on `otelcol-server.yaml`
-
-4. Change the `endpoint` parameter for the `otlp` exporter within the `telemetry` node on `otelcol-server.yaml` to point to your stack's endpoint, plus the path `/v1/traces`
-
-5. Install the OTel Collector server custom resource
+3. Install the OTel Collector client custom resource
    ```terminal
-   kubectl apply -f otelcol-server.yaml
+   kubectl apply -f client-side-load-balancing/otelcol-client.yaml
    ```
 
-6. Install the OTel Collector client custom resource
-   ```terminal
-   kubectl apply -f otelcol-client.yaml
-   ```
-
-7. Open a port-forward to the client Collector: 
+4. Open a port-forward to the client Collector: 
    ```terminal
    kubectl port-forward svc/otelcol-client-collector 4317
    ```
 
-8. Send 100 traces per second to the client collector for 10 minutes, so that we can see the effects of our changes 
+5. Send 100 traces per second to the client collector for 10 minutes, so that we can see the effects of our changes 
    ```terminal
    telemetrygen traces --rate 100 --duration 10m --otlp-insecure --otlp-attributes='recipe="client-side-load-balancing"'
    ```
 
-9. After a few minutes, update the `otelcol-server.yaml` to have 10 replicas instead of the original 5.
+6. After a few minutes, update the `otelcol-server.yaml` to have 10 replicas instead of the original 5 and update the Collector CR
+   ```terminal
+   kubectl apply -f client-side-load-balancing/otelcol-server.yaml
+   ```
 
-10. Open your Grafana instance, go to Explore, and select the metrics datasource ("...-prom") and a run a query like: `rate(receiver_accepted_spans_total[$__rate_interval])`. You can also remove the `rate` function to see the totals, which should show the first collectors having similar numbers among themselves, while the newer collectors would have lower numbers, but still equivalent among each other.
+7. Open the Grafana instance, go to Explore, and select the appropriate datasource, such as "Prometheus", and enter a query like the following: `rate(otelcol_receiver_accepted_spans_total[$__rate_interval])`. You can also remove the `rate` function to see the totals, which should show the first collectors having similar numbers among themselves, while the newer collectors would have lower numbers, but still equivalent among each other.
 
 ## 😋 Executed last time with these versions
 
 The most recent execution of this recipe was done with these versions:
 
-- OpenTelemetry Operator v0.100.1
-- OpenTelemetry Collector Contrib v0.101.0
-- `telemetrygen` v0.101.0
+- OpenTelemetry Operator v0.125.0
+- `telemetrygen` v0.126.0

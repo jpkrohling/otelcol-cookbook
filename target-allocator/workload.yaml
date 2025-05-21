@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-workload
+  labels:
+    app: my-workload
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: my-workload
+  template:
+    metadata:
+      labels:
+        app: my-workload
+    spec:
+      containers:
+      - name: my-workload
+        image: k3d-dosedetelemetria:46079/target-allocator/workload:0.0.1
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi
+        ports:
+        - containerPort: 2112
+          name: metrics

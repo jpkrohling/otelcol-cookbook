@@ -1,0 +1,55 @@
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: otelcol-sampling
+spec:
+  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.126.0
+  replicas: 10
+  config:
+    receivers:
+      otlp:
+        protocols:
+          grpc: {}
+
+    processors:
+      tail_sampling:
+        decision_wait: 1s
+        num_traces: 50_000
+        expected_new_traces_per_sec: 500
+        policies:
+          [
+            {
+              name: only-10-percent,
+              type: probabilistic,
+              probabilistic: { sampling_percentage: 10 },
+            },
+            {
+              name: vip,
+              type: string_attribute,
+              string_attribute: { key: vip, values: ["true"] },
+            },
+          ]
+
+    exporters:
+      otlp:
+        endpoint: lgtm.lgtm.svc.cluster.local:4317
+        tls:
+          insecure: true
+
+    service:
+      pipelines:
+        traces:
+          receivers:  [ otlp          ]
+          processors: [ tail_sampling ]
+          exporters:  [ otlp          ]
+      telemetry:
+        metrics:
+          level: detailed
+          readers:
+            - periodic:
+                exporter:
+                  otlp:
+                    endpoint: http://lgtm.lgtm.svc.cluster.local:4318/v1/metrics
+                    protocol: http/protobuf
+        resource:
+          "service.name": "otelcol-sampling"

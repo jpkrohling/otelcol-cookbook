@@ -13,13 +13,13 @@ This recipe shows how to send telemetry data to a LGTM stack with the OpenTeleme
 
 1. Create and switch to a namespace for our recipe
    ```terminal
-    kubectl create ns otelcol-to-lgtm
-    kubens otelcol-to-lgtm
+    kubectl create ns lgtm
+    kubens lgtm
    ```
 
 2. Install the OTel Collector custom resource
    ```terminal
-   kubectl apply -f lgtm/lgtm.yaml
+   kubectl apply -f _drawer/lgtm/lgtm.yaml
    kubectl apply -f lgtm/otelcol-cr.yaml
    ```
 

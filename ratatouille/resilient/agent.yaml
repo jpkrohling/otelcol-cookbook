@@ -5,7 +5,7 @@ receivers:
 
 exporters:
   kafka:
-    brokers: localhost:9092
+    brokers: kafka.buffer-o11y.svc:9092
     topic: otlp-spans
 
 service:
@@ -13,12 +13,3 @@ service:
     traces:
       receivers:  [ otlp ]
       exporters:  [ kafka ]
-
-  telemetry:
-    metrics:
-      readers:
-        - pull:
-            exporter:
-              prometheus:
-                host: '0.0.0.0'
-                port: 8888

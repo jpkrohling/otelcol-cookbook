@@ -5,10 +5,9 @@ This recipe demonstrates how to automatically instrument applications using the 
 ## 🧄 Ingredients
 
 - OpenTelemetry Operator, see the main [`README.md`](../README.md) for instructions
+- The LGTM stack running in the `lgtm` namespace. See [the LGTM directory](../_drawer/lgtm) for more details.
 - A non-instrumented application written in a language that has auto-instrumentation support, such as Keycloak (Java)
 - The `otelcol-cr.yaml` file from this directory
-- The LGTM stack running in the `lgtm` namespace
-- The endpoint for your stack
 
 ## 🥣 Preparation
 
@@ -26,6 +25,7 @@ This recipe demonstrates how to automatically instrument applications using the 
 3. Install the application to be instrumented, like Keycloak
    ```terminal
    kubectl apply -f auto-instrumentation/keycloak.yaml
+   kubectl wait --for=condition=Available deployments/keycloak
    ```
 
 4. Play with the application, so that it generates telemetry
@@ -33,11 +33,15 @@ This recipe demonstrates how to automatically instrument applications using the 
    kubectl port-forward svc/keycloak 8080
    ```
 
-5. Open your Grafana instance, go to Explore, and select the appropriate datasource, such as "...-traces". If used the command above, click "Search" and you should see two traces listed, each with two spans.
+5. Open the Grafana instance, go to Explore, and select the appropriate datasource, such as "Tempo".
+   ```terminal
+   kubectl port-forward -n lgtm svc/lgtm 3000
+   ```
 
 ## 😋 Executed last time with these versions
 
 The most recent execution of this recipe was done with these versions:
 
-- OpenTelemetry Operator v0.123.0
-- OpenTelemetry Collector Contrib v0.124.1
+- OpenTelemetry Operator v0.125.0
+- OpenTelemetry Collector v0.125.0
+- Keycloak 26.2

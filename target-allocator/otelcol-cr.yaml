@@ -1,0 +1,29 @@
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: collector-with-ta
+spec:
+  mode: statefulset
+  replicas: 3
+  targetAllocator:
+    enabled: true
+    prometheusCR:
+      enabled: true
+      podMonitorSelector: {}
+      serviceMonitorSelector: {}
+  config:
+    receivers:
+      prometheus:
+        config:
+          scrape_configs: []
+
+    exporters:
+      otlphttp:
+        endpoint: http://lgtm.lgtm.svc.cluster.local:4318
+
+    service:
+      pipelines:
+        metrics:
+          receivers: [prometheus]
+          processors: []
+          exporters: [otlphttp]

@@ -17,7 +17,6 @@ kind: OpenTelemetryCollector
 metadata:
   name: auto-instrumentation
 spec:
-  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.124.1
   config:
     receivers:
       otlp:

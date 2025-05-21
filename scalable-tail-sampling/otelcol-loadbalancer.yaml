@@ -3,7 +3,7 @@ kind: OpenTelemetryCollector
 metadata:
   name: otelcol-loadbalancer
 spec:
-  image: ghcr.io/jpkrohling/otelcol-distributions/otelcol-loadbalancer:0.101.7
+  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.126.0
   replicas: 3
   config:
     receivers:
@@ -43,9 +43,7 @@ spec:
             - periodic:
                 exporter:
                   otlp:
-                    endpoint: https://otlp-gateway-prod-eu-west-2.grafana.net/otlp/v1/metrics
+                    endpoint: http://lgtm.lgtm.svc.cluster.local:4318/v1/metrics
                     protocol: http/protobuf
-                    headers:
-                      Authorization: "Basic MTE3OTkzNTpnbGNfZXlKdklqb2lNVE0xTnpRMU1pSXNJbTRpT2lKemRHRmpheTB4TVRjNU9UTTFMVzkwYkhBdGQzSnBkR1V0YjNSc2NDSXNJbXNpT2lKMk16WnFNRFl6ZDFJeVNVZ3hZVFV6YkZwSWREUm5TbTRpTENKdElqcDdJbklpT2lKd2NtOWtMV1YxTFhkbGMzUXRNaUo5ZlE9PQ=="
         resource:
           "service.name": "otelcol-loadbalancer"

@@ -1,11 +1,15 @@
 receivers:
   kafka:
     initial_offset: earliest
-    brokers: localhost:9092
+    brokers: kafka.buffer-o11y.svc:9092
     topic: otlp-spans
 
 exporters:
-  nop:
+  otlp:
+    endpoint: backend:5317
+    sending_queue:
+      storage: file_storage
+      queue_size: 200_000
 
 extensions:
 
@@ -13,13 +17,5 @@ service:
   pipelines:
     traces:
       receivers:  [ kafka  ]
-      exporters:  [ nop  ]
+      exporters:  [ otlp  ]
 
-  telemetry:
-    metrics:
-      readers:
-        - pull:
-            exporter:
-              prometheus:
-                host: '0.0.0.0'
-                port: 8889
