@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: my-workload
-        image: k3d-dosedetelemetria:46079/target-allocator/workload:0.0.1
+        image: k3d-dosedetelemetria:40503/prometheus-instrumented-application:latest
         resources:
           requests:
             cpu: 100m

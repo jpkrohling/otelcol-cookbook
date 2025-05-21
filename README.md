@@ -22,8 +22,8 @@ This repository grew organically based on tests that I needed to perform in orde
 To get a working instance of the OpenTelemetry Operator, [follow the official instructions](https://github.com/open-telemetry/opentelemetry-operator?tab=readme-ov-file#getting-started) from the project, but here's a quick summary of what's needed for our purposes:
 
 ```terminal
-k3d registry create dosedetelemetria
-k3d cluster create --registry-use k3d-dosedetelemetria:40503 dosedetelemetria
+k3d registry create dosedetelemetria ## note down the port, and add `k3d-dosedetelemetria` to your /etc/hosts
+k3d cluster create --registry-use k3d-dosedetelemetria:40503 dosedetelemetria ## use the same port as the command above
 
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 kubectl wait --for=condition=Available deployments/cert-manager -n cert-manager
