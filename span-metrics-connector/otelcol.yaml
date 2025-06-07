@@ -1,0 +1,24 @@
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: localhost:5318
+
+exporters:
+  debug:
+  otlphttp/lgtm:
+    endpoint: http://localhost:4318
+    tls:
+      insecure: true
+
+connectors:
+  spanmetrics: {}
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [spanmetrics]
+    metrics:
+      receivers: [spanmetrics]
+      exporters: [otlphttp/lgtm]
