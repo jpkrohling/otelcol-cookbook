@@ -28,14 +28,14 @@ service:
                 protocol: http/protobuf
                 endpoint: http://localhost:5318
 
-    metrics:
-      readers:
-        - periodic:
-            interval: 1000
-            exporter:
-              otlp:
-                protocol: http/protobuf
-                endpoint: http://localhost:5318
+    # metrics:
+    #   readers:
+    #     - periodic:
+    #         interval: 1000
+    #         exporter:
+    #           otlp:
+    #             protocol: http/protobuf
+    #             endpoint: http://localhost:5318
 
     resource:
       "service.name": "otelcol-own-telemetry"

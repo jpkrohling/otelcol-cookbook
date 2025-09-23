@@ -1,0 +1,30 @@
+receivers:
+  otlp:
+    protocols:
+      http:
+
+processors:
+  transform:
+    trace_statements:
+      - context: span
+        statements:
+          - set(span.cache["user.phone.number.parts"], Split(span.attributes["user.phone.number"], " "))
+          - set(span.attributes["user.phone.number.intl_code"], span.cache["user.phone.number.parts"][0])
+          - set(span.attributes["user.phone.number.area_code"], span.cache["user.phone.number.parts"][1])
+          - delete_key(span.attributes, "user.phone.number")
+          - delete_matching_keys(span.attributes, "password.*")
+          - set(span.attributes["http.request.method"], ToUpperCase(span.attributes["http.request.method"]))
+
+exporters:
+  debug:
+    verbosity: detailed
+
+service:
+  pipelines:
+    traces:
+      receivers:  [ otlp ]
+      processors: [ transform ]
+      exporters:  [ debug ]
+    logs:
+      receivers:  [ otlp ]
+      exporters:  [ debug ]
