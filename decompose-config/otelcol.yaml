@@ -1,0 +1,34 @@
+receivers:
+  otlp:
+    protocols:
+      http:
+
+processors:
+  tail_sampling:
+    decision_wait: 2s
+    num_traces: 10000
+    expected_new_traces_per_sec: 100
+    policies: ${file:policies-all.yaml}
+
+exporters:
+  otlp:
+    endpoint: "localhost:4317"
+    tls:
+      insecure: true
+  file:
+    path: ./after-sampling.jsonl
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [tail_sampling]
+      exporters: [file]
+    metrics:
+      receivers: [otlp]
+      processors: []
+      exporters: [otlp]
+    logs:
+      receivers: [otlp]
+      processors: []
+      exporters: [otlp]
