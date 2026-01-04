@@ -39,6 +39,13 @@ This recipe demonstrates basic usage of the OpenTelemetry Transformation Languag
      -d @ottl/example-01/logs.json
    ```
 
+4. Send the log data containing a bloated resource attributes:
+   ```terminal
+   curl -X POST http://localhost:4318/v1/metrics \
+     -H "Content-Type: application/json" \
+     -d @ottl/example-01/metrics.json
+   ```
+
 ## 🔍 What to Observe
 
 ### For Traces

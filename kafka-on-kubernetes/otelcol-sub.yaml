@@ -3,17 +3,8 @@ kind: OpenTelemetryCollector
 metadata:
   name: otelcol-sub
 spec:
-  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.113.0
-  envFrom:
-  - secretRef: 
-      name: grafana-cloud-credentials
+  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.137.0
   config:
-    extensions:
-      basicauth:
-        client_auth:
-          username: "${env:GRAFANA_CLOUD_USER}"
-          password: "${env:GRAFANA_CLOUD_TOKEN}"
-
     receivers:
       kafka:
         protocol_version: 2.0.0
@@ -30,12 +21,9 @@ spec:
 
     exporters:
       otlphttp:
-        endpoint: https://otlp-gateway-prod-eu-west-2.grafana.net/otlp
-        auth:
-          authenticator: basicauth
+        endpoint: http://lgtm.lgtm.svc.cluster.local:4318/
 
     service:
-      extensions: [ basicauth ]
       pipelines:
         traces:
           receivers:  [ kafka ]

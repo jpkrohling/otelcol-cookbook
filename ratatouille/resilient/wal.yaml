@@ -1,11 +1,14 @@
 receivers:
   otlp:
     protocols:
-      grpc:
+      grpc: {}
+      http: {}
 
 exporters:
   otlp:
     endpoint: localhost:5317
+    tls:
+      insecure: true
     sending_queue:
       storage: file_storage
       queue_size: 200_000

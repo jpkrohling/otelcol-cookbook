@@ -5,7 +5,9 @@ receivers:
 
 exporters:
   otlp:
-    endpoint: dep-collector:5317
+    endpoint: localhost:5317
+    tls:
+      insecure: true
     sending_queue:
       queue_size: 200_000
 
