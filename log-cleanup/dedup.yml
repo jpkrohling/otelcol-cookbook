@@ -1,0 +1,34 @@
+# Main Collector configuration
+# Child files are referenced using ${file:path} syntax
+receivers:
+  otlp:
+    protocols:
+      grpc:
+
+processors:
+  logdedup:
+    interval: 5s
+    conditions:
+      - severity_number >= SEVERITY_NUMBER_ERROR
+      - attributes["log.type"] == "connection"
+    exclude_fields:
+      - attributes.request_id
+      - attributes.timestamp
+
+  transform:
+    log_statements:
+      - context: log
+        statements:
+          - replace_pattern(body, "\\d{4}-\\d{4}-\\d{4}-\\d{4}", "****-****-****-****")
+
+
+exporters:
+  debug:
+    verbosity: detailed
+
+service:
+  pipelines:
+    logs:
+      receivers: [otlp]
+      processors: [transform, logdedup]
+      exporters: [debug]
