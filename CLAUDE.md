@@ -8,13 +8,17 @@ This is a collection of OpenTelemetry Collector recipes for various use cases. E
 
 ## Repository Structure
 
-- **Recipe directories**: Each top-level directory (except `sides/` and `ratatouille/`) contains a self-contained recipe
-- **`sides/`**: Contains shared resources like LGTM stack configurations
-- **`ratatouille/`**: Contains experimental or incomplete recipes lacking documentation
-- **Recipe structure**: Each recipe typically contains:
-  - `README.md` with 🍜 emoji header following a consistent format
-  - `otelcol.yaml` or `otelcol-*.yaml` configuration files
-  - Supporting files (JSON configs, policy files, etc.)
+Recipes are organized as a menu, by depth of effort (see `MIGRATION.md` for refactoring
+status and `docs/superpowers/specs/2026-06-12-cookbook-refactoring-design.md` for the design):
+
+- **`starters/`**: quick, local, single-concept recipes
+- **`mains/`**: substantial, often Kubernetes, real-world recipes
+- **`desserts/`**: advanced showcases & niceties
+- **`sides/`**: shared building blocks reused by other recipes (LGTM stack, sample apps)
+- **`ratatouille/`**: legacy experimental fragments being dissolved into the courses above
+- **Recipe structure**: each recipe folder is kebab-case and contains a `README.md`, its
+  config (`otelcol.yaml` for local recipes, `otelcol-cr.yaml` for Kubernetes), and any
+  supporting files. Config files are always `.yaml` (never `.yml`).
 
 ## Common Commands
 
@@ -73,13 +77,20 @@ cfssl gencert -ca ca.pem -ca-key ca-key.pem server-csr.json | cfssljson -bare se
 
 ## Recipe README Structure
 
-Each recipe README should follow this pattern:
+Each recipe README follows this contract:
 1. **Title**: `# 🍜 Recipe: <Name>`
-2. **Description**: Brief explanation of what the recipe demonstrates
-3. **🧄 Ingredients**: Required tools and files
-4. **🥣 Preparation**: Step-by-step instructions
-5. **🎯 Key Configuration Details** (optional): Important configuration explanations
-6. **😋 Executed last time with these versions**: Version information
+2. **Description**: one or two sentences on what the recipe demonstrates
+3. **Metadata table**: a three-row table with `**Signals**` (traces/metrics/logs),
+   `**Runs on**` (local binary / Kubernetes), and `**Key components**`
+4. **🧄 Ingredients**: required tools and files
+5. **🥣 Preparation**: numbered step-by-step instructions (show the native
+   `otelcol-contrib`/`telemetrygen` commands a user runs)
+6. **🎯 Key details** (optional — the *only* sanctioned optional section): config explanations
+7. **😋 Tested with**: pinned versions as a plain bullet list (no preamble line)
+
+Each recovered recipe must pass a runtime smoke test (local recipes via the collector Docker
+image + `telemetrygen`; Kubernetes recipes via a real k3d + Operator deploy) before it is
+considered done.
 
 ## Configuration Patterns
 
@@ -112,7 +123,8 @@ processors:
 - **Port forwarding**: Use `kubectl port-forward svc/<service-name> 4317` for local access
 
 ## Version Compatibility
-Most recipes tested with:
-- OpenTelemetry Collector Contrib v0.123.0+
-- telemetrygen v0.123.0+
-- OpenTelemetry Operator v0.125.0+
+Recovered recipes are validated against the latest released versions at recovery time, pinned
+in each recipe's `😋 Tested with` section. Current pins:
+- OpenTelemetry Collector Contrib v0.154.0
+- telemetrygen v0.154.0
+- OpenTelemetry Operator v0.153.0
