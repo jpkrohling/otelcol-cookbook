@@ -38,7 +38,7 @@ resources. Quality and structure are inconsistent:
 
 Top-level folders are culinary courses, sorted by **depth/effort**:
 
-```
+```text
 starters/      quick, local, single-concept recipes (run in ~2 min)
 mains/         substantial / Kubernetes / multi-file, real-world recipes
 desserts/      advanced showcases & niceties
@@ -66,7 +66,7 @@ docs/          design + planning docs (this file lives here)
 
 ### Folder layout
 
-```
+```text
 <course>/<kebab-name>/
   README.md
   otelcol.yaml         # local-binary recipes
@@ -140,6 +140,9 @@ Per recipe:
 4. **Write the README** to the contract above.
 5. **Finalize** — set status to `recovered` in `MIGRATION.md`, delete the original file(s),
    add/update the row in the root README index table.
+6. **Commit** — each recipe migration is its own commit (the recovered recipe, the deleted
+   original, the `MIGRATION.md` status change, and the index update together), so history
+   reads one-recipe-per-commit and any single migration can be reviewed or reverted in isolation.
 
 `MIGRATION.md` tracks every legacy recipe and ratatouille fragment with a status:
 `pending` / `recovered` / `merged` / `dropped` (with a one-line note for merged/dropped).
