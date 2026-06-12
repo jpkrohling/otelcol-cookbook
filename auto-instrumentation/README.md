@@ -5,7 +5,7 @@ This recipe demonstrates how to automatically instrument applications using the 
 ## 🧄 Ingredients
 
 - OpenTelemetry Operator, see the main [`README.md`](../README.md) for instructions
-- The LGTM stack running in the `lgtm` namespace. See [the LGTM directory](../_drawer/lgtm) for more details.
+- The LGTM stack running in the `lgtm` namespace. See [the LGTM directory](../sides/lgtm) for more details.
 - A non-instrumented application written in a language that has auto-instrumentation support, such as Keycloak (Java)
 - The `otelcol-cr.yaml` file from this directory
 

@@ -9,7 +9,7 @@ We are discarding the telemetry data that we are generating, as we are only inte
 ## 🧄 Ingredients
 
 - OpenTelemetry Operator, see the main [`README.md`](../README.md) for instructions
-- The LGTM stack running in the `lgtm` namespace. See [the LGTM directory](../_drawer/lgtm) for more details.
+- The LGTM stack running in the `lgtm` namespace. See [the LGTM directory](../sides/lgtm) for more details.
 - The `telemetrygen` tool, or any other application that is able to send OTLP data to our collector
 - The `otelcol-load-balancer.yaml` file from this directory
 - The `otelcol-sampling.yaml` file from this directory

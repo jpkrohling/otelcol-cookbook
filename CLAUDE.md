@@ -8,8 +8,8 @@ This is a collection of OpenTelemetry Collector recipes for various use cases. E
 
 ## Repository Structure
 
-- **Recipe directories**: Each top-level directory (except `_drawer/` and `ratatouille/`) contains a self-contained recipe
-- **`_drawer/`**: Contains shared resources like LGTM stack configurations
+- **Recipe directories**: Each top-level directory (except `sides/` and `ratatouille/`) contains a self-contained recipe
+- **`sides/`**: Contains shared resources like LGTM stack configurations
 - **`ratatouille/`**: Contains experimental or incomplete recipes lacking documentation
 - **Recipe structure**: Each recipe typically contains:
   - `README.md` with 🍜 emoji header following a consistent format
@@ -61,7 +61,7 @@ docker run -p 3000:3000 -p 4318:4318 --rm -d grafana/otel-lgtm
 
 # Kubernetes
 kubectl create ns lgtm
-kubectl apply -f _drawer/lgtm/lgtm.yaml
+kubectl apply -f sides/lgtm/lgtm.yaml
 ```
 
 ### TLS Certificate Generation (for TLS recipes)

@@ -19,7 +19,7 @@ This recipe shows how to send telemetry data to a LGTM stack with the OpenTeleme
 
 2. Install the OTel Collector custom resource
    ```terminal
-   kubectl apply -f _drawer/lgtm/lgtm.yaml
+   kubectl apply -f sides/lgtm/lgtm.yaml
    kubectl apply -f lgtm/otelcol-cr.yaml
    ```
 

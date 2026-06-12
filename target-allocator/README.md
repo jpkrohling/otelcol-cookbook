@@ -5,7 +5,7 @@ This recipe demonstrates how to use the OpenTelemetry Operator's Target Allocato
 ## 🧄 Ingredients
 
 - OpenTelemetry Operator, see the main [`README.md`](../README.md) for instructions
-- A [Prometheus-instrumented application](../_drawer/prometheus-instrumented-application/) image available in your Kubernetes cluster as `prometheus-instrumented-application:latest`
+- A [Prometheus-instrumented application](../sides/prometheus-instrumented-application/) image available in your Kubernetes cluster as `prometheus-instrumented-application:latest`
 - The following files from this directory:
   - `role.yaml`: RBAC configuration for the collector
   - `svc.yaml`: Service definition for the workload
