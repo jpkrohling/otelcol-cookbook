@@ -41,7 +41,7 @@ culinary-course structure. See `docs/superpowers/specs/2026-06-12-cookbook-refac
 
 | Source | Status | Destination / Note |
 |---|---|---|
-| `ratatouille/simple/blocking.yaml` | pending | → `starters/blocking-exporter/` |
+| `ratatouille/simple/blocking.yaml` | recovered | → `starters/blocking-exporter/` |
 | `ratatouille/simple/*` (other) | pending | triage individually |
 | `ratatouille/tail-sampling/*` | pending | triage individually |
 | `ratatouille/routing/*` | pending | triage individually |

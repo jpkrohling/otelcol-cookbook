@@ -2,14 +2,13 @@ receivers:
   otlp:
     protocols:
       grpc:
+        endpoint: 0.0.0.0:4317
 
 exporters:
   otlp:
     endpoint: example.com:4317
     sending_queue:
       enabled: false
-
-processors:
 
 service:
   pipelines:
