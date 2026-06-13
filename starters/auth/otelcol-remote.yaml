@@ -1,0 +1,27 @@
+extensions:
+  # validates incoming bearer tokens against Keycloak
+  oidc:
+    issuer_url: http://localhost:8080/realms/opentelemetry
+    audience: collector
+
+receivers:
+  otlp/secure:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:5317
+        auth:
+          authenticator: oidc
+        tls:
+          cert_file: server.pem
+          key_file: server-key.pem
+
+exporters:
+  debug:
+    verbosity: detailed
+
+service:
+  extensions: [oidc]
+  pipelines:
+    traces:
+      receivers: [otlp/secure]
+      exporters: [debug]

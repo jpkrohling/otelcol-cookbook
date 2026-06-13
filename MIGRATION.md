@@ -9,7 +9,7 @@ culinary-course structure. See `docs/superpowers/specs/2026-06-12-cookbook-refac
 
 | Source | Status | Destination / Note |
 |---|---|---|
-| `auth/` | pending | |
+| `auth/` | recovered | → `starters/auth/` |
 | `auto-instrumentation/` | pending | |
 | `client-side-load-balancing/` | pending | |
 | `decompose-config/` | recovered | → `starters/decompose-config/` |

@@ -28,6 +28,7 @@ Recipes are organized as a menu, by depth of effort:
 | [log-deduplication](starters/log-deduplication/) | starters | logs | local | logdedupprocessor |
 | [logs-to-metrics](starters/logs-to-metrics/) | starters | logs → logs + metrics | local | countconnector, filterprocessor |
 | [tls](starters/tls/) | starters | traces | local | otlpreceiver (TLS), otlpexporter (TLS) |
+| [auth](starters/auth/) | starters | traces | local | oidcauthextension, oauth2clientauthextension |
 | [target-allocator](mains/target-allocator/) | mains | metrics | Kubernetes | targetallocator, prometheusreceiver |
 
 # 🥢 Tools used

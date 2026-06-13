@@ -1,0 +1,29 @@
+extensions:
+  # fetches a token from Keycloak using the client-credentials grant and
+  # attaches it to every outgoing request
+  oauth2client:
+    client_id: agent
+    client_secret: t3UArH3Tg9LuzaMZ0BjtLvxnrE6MRvPt
+    token_url: http://localhost:8080/realms/opentelemetry/protocol/openid-connect/token
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+
+exporters:
+  debug:
+  otlp/secure:
+    endpoint: localhost:5317
+    tls:
+      ca_file: ca.pem
+    auth:
+      authenticator: oauth2client
+
+service:
+  extensions: [oauth2client]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [otlp/secure, debug]
