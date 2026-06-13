@@ -1,0 +1,25 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+
+connectors:
+  spanmetrics:
+    # emit the generated metrics every 15s (default is 60s)
+    metrics_flush_interval: 15s
+
+exporters:
+  debug:
+    verbosity: detailed
+
+service:
+  pipelines:
+    # incoming traces feed the spanmetrics connector
+    traces:
+      receivers: [otlp]
+      exporters: [spanmetrics]
+    # the connector emits RED metrics, which this pipeline prints
+    metrics:
+      receivers: [spanmetrics]
+      exporters: [debug]

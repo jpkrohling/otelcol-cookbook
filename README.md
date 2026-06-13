@@ -22,6 +22,7 @@ Recipes are organized as a menu, by depth of effort:
 | [ottl-transformations](starters/ottl-transformations/) | starters | traces, logs | local | transformprocessor |
 | [remove-health-checks](starters/remove-health-checks/) | starters | traces | local | tailsamplingprocessor |
 | [tail-sampling-basics](starters/tail-sampling-basics/) | starters | traces | local | tailsamplingprocessor |
+| [span-metrics-connector](starters/span-metrics-connector/) | starters | traces → metrics | local | spanmetricsconnector |
 | [decompose-config](starters/decompose-config/) | starters | traces | local | tailsamplingprocessor, `${file:}` |
 | [probabilistic-sampler-logs](starters/probabilistic-sampler-logs/) | starters | logs | local | probabilisticsamplerprocessor, filelogreceiver |
 | [log-deduplication](starters/log-deduplication/) | starters | logs | local | logdedupprocessor |
