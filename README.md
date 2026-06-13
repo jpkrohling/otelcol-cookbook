@@ -19,6 +19,7 @@ Recipes are organized as a menu, by depth of effort:
 | [blocking-exporter](starters/blocking-exporter/) | starters | traces | local | otlpexporter |
 | [own-telemetry](starters/own-telemetry/) | starters | traces, metrics | local | service::telemetry |
 | [redact-pii](starters/redact-pii/) | starters | traces | local | transformprocessor |
+| [remove-health-checks](starters/remove-health-checks/) | starters | traces | local | tailsamplingprocessor |
 | [target-allocator](mains/target-allocator/) | mains | metrics | Kubernetes | targetallocator, prometheusreceiver |
 
 # 🥢 Tools used
