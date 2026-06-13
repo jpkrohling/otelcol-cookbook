@@ -4,9 +4,20 @@ This repository has a personal collection of OpenTelemetry Collector recipes cur
 
 ## 📔 Recipes
 
-Each directory in this repository is a recipe and has an appropriate readme file with instructions.
+Recipes are organized as a menu, by depth of effort:
 
-This repository grew organically based on tests that I needed to perform in order to verify a bug report, create an example configuration for a Grafana Labs customer, or prepare for a presentation. As such, quite a few recipes lack good descriptions and running instructions. Those recipes are found under ["ratatouille"](./ratatouille/).
+- **`starters/`** — quick, local, single-concept recipes
+- **`mains/`** — substantial, often Kubernetes, real-world recipes
+- **`desserts/`** — advanced showcases & niceties
+- **`sides/`** — shared building blocks reused by other recipes
+
+### Index
+
+| Recipe | Course | Signals | Runs on | Key components |
+|---|---|---|---|---|
+| [log-redaction](starters/log-redaction/) | starters | logs | local | transformprocessor |
+| [blocking-exporter](starters/blocking-exporter/) | starters | traces | local | otlpexporter |
+| [target-allocator](mains/target-allocator/) | mains | metrics | Kubernetes | targetallocator, prometheusreceiver |
 
 # 🥢 Tools used
 
@@ -49,7 +60,7 @@ docker run -p 3000:3000 -p 4318:4318 --rm -d grafana/otel-lgtm
 ```terminal
 kubectl create ns lgtm
 kubens lgtm
-kubectl apply -f _drawer/lgtm/lgtm.yaml
+kubectl apply -f sides/lgtm/lgtm.yaml
 kubectl wait --for=condition=Available deployments/lgtm -n lgtm
 ```
 

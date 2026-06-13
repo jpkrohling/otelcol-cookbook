@@ -2,13 +2,23 @@
 
 This recipe demonstrates how to use the OpenTelemetry Operator's Target Allocator to dynamically discover and scrape Prometheus metrics from Kubernetes pods. The Target Allocator works in conjunction with Prometheus Operator's ServiceMonitor and PodMonitor custom resources to automatically manage scrape configurations for your Prometheus-instrumented applications.
 
+| | |
+|---|---|
+| **Signals** | metrics |
+| **Runs on** | Kubernetes |
+| **Key components** | targetallocator, prometheusreceiver |
+
 ## 🧄 Ingredients
 
-- OpenTelemetry Operator, see the main [`README.md`](../README.md) for instructions
-- A [Prometheus-instrumented application](../_drawer/prometheus-instrumented-application/) image available in your Kubernetes cluster as `prometheus-instrumented-application:latest`
+- OpenTelemetry Operator, see the main [`README.md`](../../README.md) for instructions
+- A [Prometheus-instrumented application](../../sides/prometheus-instrumented-application/) image available in your Kubernetes cluster as `prometheus-instrumented-application:latest`. Build it and load it into your cluster (example for k3d):
+  ```terminal
+  docker build -t prometheus-instrumented-application:latest sides/prometheus-instrumented-application
+  k3d image import prometheus-instrumented-application:latest -c <your-cluster>
+  ```
 - The following files from this directory:
   - `role.yaml`: RBAC configuration for the collector
-  - `svc.yaml`: Service definition for the workload
+  - `svc.yaml`: `Service` and `ServiceMonitor` for the workload
   - `otelcol-cr.yaml`: OpenTelemetry Collector configuration
   - `workload.yaml`: Sample application exposing Prometheus metrics
 
@@ -28,18 +38,18 @@ This recipe demonstrates how to use the OpenTelemetry Operator's Target Allocato
 
 3. Install the required role and the OTel Collector custom resource
    ```terminal
-   kubectl apply -f target-allocator/role.yaml
-   kubectl apply -f target-allocator/otelcol-cr.yaml
+   kubectl apply -f mains/target-allocator/role.yaml
+   kubectl apply -f mains/target-allocator/otelcol-cr.yaml
    ```
 
 4. Create a sample application that exposes Prometheus metrics
    ```terminal
-   kubectl apply -f target-allocator/workload.yaml
+   kubectl apply -f mains/target-allocator/workload.yaml
    ```
 
 5. Install a custom service for our workload and service monitor, telling Target Allocator which pods have Prometheus targets
    ```terminal
-   kubectl apply -f target-allocator/svc.yaml
+   kubectl apply -f mains/target-allocator/svc.yaml
    ```
 
 6. Open your Grafana instance, go to Explore, and select the metrics data source to view the collected metrics
@@ -51,8 +61,7 @@ This recipe demonstrates how to use the OpenTelemetry Operator's Target Allocato
 
 8. Visit the [Target Allocator 'targets' endpoint](http://localhost:8080/jobs/serviceMonitor%2Ftarget-allocator-recipe%2Ftarget-allocator-recipe-metrics%2F0/targets) to explore the discovered targets and their Collector assignments
 
-## 😋 Versions
+## 😋 Tested with
 
-The most recent execution of this recipe was done with these versions:
-
-- OpenTelemetry Operator: v0.125.0
+- OpenTelemetry Operator v0.153.0
+- OpenTelemetry Collector Contrib v0.154.0

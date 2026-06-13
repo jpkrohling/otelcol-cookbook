@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
       - name: my-workload
-        image: k3d-dosedetelemetria:40503/prometheus-instrumented-application:latest
+        image: prometheus-instrumented-application:latest
+        imagePullPolicy: IfNotPresent
         resources:
           requests:
             cpu: 100m
