@@ -10,7 +10,7 @@ culinary-course structure. See `docs/superpowers/specs/2026-06-12-cookbook-refac
 | Source | Status | Destination / Note |
 |---|---|---|
 | `auth/` | recovered | → `starters/auth/` |
-| `auto-instrumentation/` | pending | |
+| `auto-instrumentation/` | recovered | → `mains/auto-instrumentation/` |
 | `client-side-load-balancing/` | recovered | → `mains/client-side-load-balancing/` |
 | `decompose-config/` | recovered | → `starters/decompose-config/` |
 | `grafana-cloud/` | pending | |

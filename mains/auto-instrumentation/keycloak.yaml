@@ -29,6 +29,7 @@ spec:
       labels:
         app: keycloak
       annotations:
+        # this single annotation tells the Operator to inject the Java agent
         instrumentation.opentelemetry.io/inject-java: "true"
     spec:
       containers:
@@ -36,9 +37,9 @@ spec:
           image: quay.io/keycloak/keycloak:26.2
           args: ["start-dev"]
           env:
-            - name: KEYCLOAK_ADMIN
+            - name: KC_BOOTSTRAP_ADMIN_USERNAME
               value: "admin"
-            - name: KEYCLOAK_ADMIN_PASSWORD
+            - name: KC_BOOTSTRAP_ADMIN_PASSWORD
               value: "admin"
             - name: KC_PROXY
               value: "edge"

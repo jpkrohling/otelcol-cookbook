@@ -7,6 +7,10 @@ spec:
   env:
     - name: OTEL_TRACES_EXPORTER
       value: otlp
+    # the Java agent defaults to OTLP http/protobuf; we send to the gRPC port,
+    # so pin the protocol to grpc to match the collector's :4317 receiver
+    - name: OTEL_EXPORTER_OTLP_PROTOCOL
+      value: grpc
     - name: OTEL_EXPORTER_OTLP_ENDPOINT
       value: http://auto-instrumentation-collector-headless.auto-instrumentation.svc.cluster.local:4317
   exporter:
@@ -21,23 +25,21 @@ spec:
     receivers:
       otlp:
         protocols:
-          grpc: {}
+          grpc:
+            endpoint: 0.0.0.0:4317
 
     exporters:
-      otlphttp:
-        endpoint: http://lgtm.lgtm.svc.cluster.local:4318
+      debug:
+        verbosity: detailed
 
     service:
       pipelines:
         traces:
-          receivers:  [ otlp ]
-          processors: [  ]
-          exporters:  [ otlphttp ]
+          receivers: [otlp]
+          exporters: [debug]
         logs:
-          receivers:  [ otlp ]
-          processors: [  ]
-          exporters:  [ otlphttp ]
+          receivers: [otlp]
+          exporters: [debug]
         metrics:
-          receivers:  [ otlp ]
-          processors: [  ]
-          exporters:  [ otlphttp ]
+          receivers: [otlp]
+          exporters: [debug]
