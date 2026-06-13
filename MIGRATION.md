@@ -14,7 +14,7 @@ culinary-course structure. See `docs/superpowers/specs/2026-06-12-cookbook-refac
 | `client-side-load-balancing/` | recovered | → `mains/client-side-load-balancing/` |
 | `decompose-config/` | recovered | → `starters/decompose-config/` |
 | `grafana-cloud/` | recovered | → `starters/grafana-cloud/` (validated locally vs a basicauth receiver; concept = basicauth + `${env:}`) |
-| `grafana-cloud-from-kubernetes/` | pending | |
+| `grafana-cloud-from-kubernetes/` | recovered | → `mains/grafana-cloud-from-kubernetes/` (secret handling; validated vs in-cluster basicauth backend) |
 | `kafka-on-kubernetes/` | recovered | → `mains/kafka-on-kubernetes/` |
 | `log-cleanup/` (redaction) | recovered | → `starters/log-redaction/` |
 | `log-cleanup/dedup.yml` (orphan logdedup) | recovered | → `starters/log-deduplication/` |

@@ -35,6 +35,7 @@ Recipes are organized as a menu, by depth of effort:
 | [auto-instrumentation](mains/auto-instrumentation/) | mains | traces | Kubernetes | Operator Instrumentation CR |
 | [kafka-on-kubernetes](mains/kafka-on-kubernetes/) | mains | traces | Kubernetes | kafkaexporter, kafkareceiver |
 | [scalable-tail-sampling](mains/scalable-tail-sampling/) | mains | traces | Kubernetes | loadbalancingexporter, tailsamplingprocessor |
+| [grafana-cloud-from-kubernetes](mains/grafana-cloud-from-kubernetes/) | mains | traces, logs, metrics | Kubernetes | Secret + envFrom, basicauthextension |
 
 # 🥢 Tools used
 
