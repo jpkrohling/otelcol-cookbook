@@ -8,18 +8,13 @@ processors:
   transform:
     error_mode: ignore
     trace_statements:
-      - context: span
-        statements:
-          - 'set(attributes["user.email"], "REDACTED") where attributes["user.email"] != nil'
+      - set(span.attributes["user.email"], "REDACTED") where span.attributes["user.email"] != nil
 
 exporters:
   debug:
     verbosity: detailed
 
 service:
-  telemetry:
-    logs:
-      level: debug
   pipelines:
     traces:
       receivers: [otlp]

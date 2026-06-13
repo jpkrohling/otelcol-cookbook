@@ -19,7 +19,7 @@ culinary-course structure. See `docs/superpowers/specs/2026-06-12-cookbook-refac
 | `log-cleanup/` (redaction) | recovered | → `starters/log-redaction/` |
 | `log-cleanup/dedup.yml` (orphan logdedup) | pending | own recipe, e.g. `starters/log-deduplication/` |
 | `ottl/example-01/` | pending | |
-| `ottl/redact-pii/` | pending | |
+| `ottl/redact-pii/` | recovered | → `starters/redact-pii/` |
 | `ottl/tail-sampling-basics/` | pending | |
 | `own-telemetry/` | recovered | → `starters/own-telemetry/` |
 | `probabilistic-sampler-logs/` | pending | |
