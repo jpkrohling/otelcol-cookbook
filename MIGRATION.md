@@ -21,7 +21,7 @@ culinary-course structure. See `docs/superpowers/specs/2026-06-12-cookbook-refac
 | `ottl/example-01/` | pending | |
 | `ottl/redact-pii/` | pending | |
 | `ottl/tail-sampling-basics/` | pending | |
-| `own-telemetry/` | pending | |
+| `own-telemetry/` | recovered | → `starters/own-telemetry/` |
 | `probabilistic-sampler-logs/` | pending | |
 | `profiling-the-collector/` | pending | |
 | `remove-health-checks/` | pending | |
