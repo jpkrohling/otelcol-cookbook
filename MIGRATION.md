@@ -23,7 +23,7 @@ culinary-course structure. See `docs/superpowers/specs/2026-06-12-cookbook-refac
 | `ottl/tail-sampling-basics/` | recovered | → `starters/tail-sampling-basics/` |
 | `own-telemetry/` | recovered | → `starters/own-telemetry/` |
 | `probabilistic-sampler-logs/` | recovered | → `starters/probabilistic-sampler-logs/` |
-| `profiling-the-collector/` | pending | |
+| `profiling-the-collector/` | recovered | → `mains/profiling-the-collector/` (pprof endpoint validated; dropped stale Pyroscope values.yaml) |
 | `remove-health-checks/` | recovered | → `starters/remove-health-checks/` |
 | `scalable-tail-sampling/` | recovered | → `mains/scalable-tail-sampling/` (dropped otelcol-simple.yaml: stray private-image file) |
 | `span-metrics-connector/` | recovered | → `starters/span-metrics-connector/` |

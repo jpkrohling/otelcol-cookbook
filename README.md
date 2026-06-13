@@ -36,6 +36,7 @@ Recipes are organized as a menu, by depth of effort:
 | [kafka-on-kubernetes](mains/kafka-on-kubernetes/) | mains | traces | Kubernetes | kafkaexporter, kafkareceiver |
 | [scalable-tail-sampling](mains/scalable-tail-sampling/) | mains | traces | Kubernetes | loadbalancingexporter, tailsamplingprocessor |
 | [grafana-cloud-from-kubernetes](mains/grafana-cloud-from-kubernetes/) | mains | traces, logs, metrics | Kubernetes | Secret + envFrom, basicauthextension |
+| [profiling-the-collector](mains/profiling-the-collector/) | mains | (collector profiles) | Kubernetes | pprofextension |
 
 # 🥢 Tools used
 
