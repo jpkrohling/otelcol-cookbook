@@ -1,0 +1,50 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+
+processors:
+  # drops the records it matches, so this keeps everything that is NOT a common event
+  filter/remove-common-events:
+    logs:
+      log_record:
+        - 'IsMatch(log.body, ".*http call made to route.*")'
+  # keeps only the common events (drops everything that does NOT match)
+  filter/retain-common-events:
+    logs:
+      log_record:
+        - 'not IsMatch(log.body, ".*http call made to route.*")'
+
+exporters:
+  debug/logs:
+  debug/metrics:
+    verbosity: detailed
+
+connectors:
+  count:
+  forward:
+
+service:
+  pipelines:
+    # the main logs pipeline fans the same records out to two pipelines
+    logs:
+      receivers: [otlp]
+      exporters: [forward]
+
+    # all non-common events are kept as logs
+    logs/everything-else:
+      receivers: [forward]
+      processors: [filter/remove-common-events]
+      exporters: [debug/logs]
+
+    # common, high-volume events are counted instead of stored
+    logs/common-events:
+      receivers: [forward]
+      processors: [filter/retain-common-events]
+      exporters: [count]
+
+    # the count connector turns those log records into a metric
+    metrics/count-common-events:
+      receivers: [count]
+      exporters: [debug/metrics]
