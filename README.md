@@ -30,6 +30,7 @@ Recipes are organized as a menu, by depth of effort:
 | [tls](starters/tls/) | starters | traces | local | otlpreceiver (TLS), otlpexporter (TLS) |
 | [auth](starters/auth/) | starters | traces | local | oidcauthextension, oauth2clientauthextension |
 | [target-allocator](mains/target-allocator/) | mains | metrics | Kubernetes | targetallocator, prometheusreceiver |
+| [client-side-load-balancing](mains/client-side-load-balancing/) | mains | traces, logs, metrics | Kubernetes | otlpexporter (round_robin) |
 
 # 🥢 Tools used
 

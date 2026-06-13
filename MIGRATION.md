@@ -11,7 +11,7 @@ culinary-course structure. See `docs/superpowers/specs/2026-06-12-cookbook-refac
 |---|---|---|
 | `auth/` | recovered | → `starters/auth/` |
 | `auto-instrumentation/` | pending | |
-| `client-side-load-balancing/` | pending | |
+| `client-side-load-balancing/` | recovered | → `mains/client-side-load-balancing/` |
 | `decompose-config/` | recovered | → `starters/decompose-config/` |
 | `grafana-cloud/` | pending | |
 | `grafana-cloud-from-kubernetes/` | pending | |
