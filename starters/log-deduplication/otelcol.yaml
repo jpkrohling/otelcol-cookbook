@@ -1,11 +1,14 @@
-# Main Collector configuration
-# Child files are referenced using ${file:path} syntax
 receivers:
   otlp:
     protocols:
       grpc:
+        endpoint: 0.0.0.0:4317
 
 processors:
+  # Collapse identical log records seen within each interval into a single
+  # record carrying a count of how many were merged. `conditions` scopes which
+  # records are eligible; `exclude_fields` lists fields ignored when comparing
+  # records for equality (so e.g. a per-request id doesn't defeat the dedup).
   logdedup:
     interval: 5s
     conditions:
@@ -13,14 +16,6 @@ processors:
       - attributes["log.type"] == "connection"
     exclude_fields:
       - attributes.request_id
-      - attributes.timestamp
-
-  transform:
-    log_statements:
-      - context: log
-        statements:
-          - replace_pattern(body, "\\d{4}-\\d{4}-\\d{4}-\\d{4}", "****-****-****-****")
-
 
 exporters:
   debug:
@@ -30,5 +25,5 @@ service:
   pipelines:
     logs:
       receivers: [otlp]
-      processors: [transform, logdedup]
+      processors: [logdedup]
       exporters: [debug]

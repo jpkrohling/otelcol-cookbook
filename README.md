@@ -22,6 +22,7 @@ Recipes are organized as a menu, by depth of effort:
 | [remove-health-checks](starters/remove-health-checks/) | starters | traces | local | tailsamplingprocessor |
 | [decompose-config](starters/decompose-config/) | starters | traces | local | tailsamplingprocessor, `${file:}` |
 | [probabilistic-sampler-logs](starters/probabilistic-sampler-logs/) | starters | logs | local | probabilisticsamplerprocessor, filelogreceiver |
+| [log-deduplication](starters/log-deduplication/) | starters | logs | local | logdedupprocessor |
 | [target-allocator](mains/target-allocator/) | mains | metrics | Kubernetes | targetallocator, prometheusreceiver |
 
 # 🥢 Tools used
