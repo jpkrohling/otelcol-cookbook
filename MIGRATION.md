@@ -12,7 +12,7 @@ culinary-course structure. See `docs/superpowers/specs/2026-06-12-cookbook-refac
 | `auth/` | pending | |
 | `auto-instrumentation/` | pending | |
 | `client-side-load-balancing/` | pending | |
-| `decompose-config/` | pending | |
+| `decompose-config/` | recovered | → `starters/decompose-config/` |
 | `grafana-cloud/` | pending | |
 | `grafana-cloud-from-kubernetes/` | pending | |
 | `kafka-on-kubernetes/` | pending | |

@@ -20,6 +20,7 @@ Recipes are organized as a menu, by depth of effort:
 | [own-telemetry](starters/own-telemetry/) | starters | traces, metrics | local | service::telemetry |
 | [redact-pii](starters/redact-pii/) | starters | traces | local | transformprocessor |
 | [remove-health-checks](starters/remove-health-checks/) | starters | traces | local | tailsamplingprocessor |
+| [decompose-config](starters/decompose-config/) | starters | traces | local | tailsamplingprocessor, `${file:}` |
 | [target-allocator](mains/target-allocator/) | mains | metrics | Kubernetes | targetallocator, prometheusreceiver |
 
 # 🥢 Tools used
