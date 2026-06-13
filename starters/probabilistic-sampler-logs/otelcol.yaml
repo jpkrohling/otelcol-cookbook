@@ -1,0 +1,36 @@
+receivers:
+  filelog:
+    start_at: beginning
+    include: [dnf.log.1]
+
+processors:
+  # Derive a per-record source of randomness by hashing the log body. With no
+  # traceID to key on, the FNV hash of the body gives the probabilistic sampler
+  # a stable, per-message value to make a consistent keep/drop decision.
+  transform:
+    log_statements:
+      - set(log.attributes["body.hash"], FNV(log.body))
+
+  probabilistic_sampler:
+    hash_seed: 22
+    sampling_percentage: 10
+    attribute_source: record
+    from_attribute: body.hash
+
+exporters:
+  debug:
+
+service:
+  pipelines:
+    logs:
+      receivers: [filelog]
+      processors: [transform, probabilistic_sampler]
+      exporters: [debug]
+  telemetry:
+    metrics:
+      readers:
+        - pull:
+            exporter:
+              prometheus:
+                host: 0.0.0.0
+                port: 8888

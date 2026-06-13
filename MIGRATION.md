@@ -22,7 +22,7 @@ culinary-course structure. See `docs/superpowers/specs/2026-06-12-cookbook-refac
 | `ottl/redact-pii/` | recovered | → `starters/redact-pii/` |
 | `ottl/tail-sampling-basics/` | pending | |
 | `own-telemetry/` | recovered | → `starters/own-telemetry/` |
-| `probabilistic-sampler-logs/` | pending | |
+| `probabilistic-sampler-logs/` | recovered | → `starters/probabilistic-sampler-logs/` |
 | `profiling-the-collector/` | pending | |
 | `remove-health-checks/` | recovered | → `starters/remove-health-checks/` |
 | `scalable-tail-sampling/` | pending | |
