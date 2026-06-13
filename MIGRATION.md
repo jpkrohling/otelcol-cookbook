@@ -28,7 +28,7 @@ culinary-course structure. See `docs/superpowers/specs/2026-06-12-cookbook-refac
 | `scalable-tail-sampling/` | pending | |
 | `span-metrics-connector/` | recovered | → `starters/span-metrics-connector/` |
 | `target-allocator/` | recovered | → `mains/target-allocator/` |
-| `tls/` | pending | |
+| `tls/` | recovered | → `starters/tls/` |
 
 ## Shared resources
 

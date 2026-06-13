@@ -1,12 +1,15 @@
 receivers:
+  # plain, unencrypted entry point
   otlp:
     protocols:
       grpc:
+        endpoint: 0.0.0.0:4317
 
+  # TLS-protected receiver (the "server" side of TLS)
   otlp/secure:
     protocols:
       grpc:
-        endpoint: localhost:5317
+        endpoint: 0.0.0.0:5317
         tls:
           ca_file: ca.pem
           cert_file: server.pem
@@ -14,7 +17,9 @@ receivers:
 
 exporters:
   debug:
+    verbosity: detailed
 
+  # TLS-enabled exporter (the "client" side of TLS)
   otlp/secure:
     endpoint: localhost:5317
     tls:
@@ -24,31 +29,12 @@ exporters:
 
 service:
   pipelines:
+    # data arrives in the clear and is forwarded over TLS
     traces/insecure-to-secure:
       receivers: [otlp]
       exporters: [otlp/secure]
 
+    # the TLS receiver accepts it and hands it to the backend
     traces/secure-to-backend:
       receivers: [otlp/secure]
       exporters: [debug]
-
-  telemetry:
-    traces:
-      processors:
-        - batch:
-            exporter:
-              otlp:
-                protocol: http/protobuf
-                endpoint: http://localhost:4318
-
-    metrics:
-      readers:
-        - periodic:
-            interval: 15_000
-            exporter:
-              otlp:
-                protocol: http/protobuf
-                endpoint: http://localhost:4318
-
-    resource:
-      "service.name": "otelcol-tls"
