@@ -1,0 +1,52 @@
+# Alternative sampling layer: apply this over otelcol-sampling.yaml to flip the
+# behaviour. The single AND policy keeps only 10% *of the VIP* traces and drops
+# every non-VIP trace — the opposite emphasis to the OR policy.
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: otelcol-sampling
+spec:
+  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.154.0
+  replicas: 2
+  config:
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+
+    processors:
+      tail_sampling:
+        decision_wait: 1s
+        num_traces: 50000
+        expected_new_traces_per_sec: 500
+        policies:
+          - name: only-10-percent-and-vip
+            type: and
+            and:
+              and_sub_policy:
+                - name: only-10-percent
+                  type: probabilistic
+                  probabilistic: { sampling_percentage: 10 }
+                - name: vip
+                  type: string_attribute
+                  string_attribute: { key: vip, values: ["true"] }
+
+    exporters:
+      nop: {}
+
+    service:
+      pipelines:
+        traces:
+          receivers: [otlp]
+          processors: [tail_sampling]
+          exporters: [nop]
+      telemetry:
+        metrics:
+          level: detailed
+          readers:
+            - pull:
+                exporter:
+                  prometheus:
+                    host: 0.0.0.0
+                    port: 8888

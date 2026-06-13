@@ -25,7 +25,7 @@ culinary-course structure. See `docs/superpowers/specs/2026-06-12-cookbook-refac
 | `probabilistic-sampler-logs/` | recovered | → `starters/probabilistic-sampler-logs/` |
 | `profiling-the-collector/` | pending | |
 | `remove-health-checks/` | recovered | → `starters/remove-health-checks/` |
-| `scalable-tail-sampling/` | pending | |
+| `scalable-tail-sampling/` | recovered | → `mains/scalable-tail-sampling/` (dropped otelcol-simple.yaml: stray private-image file) |
 | `span-metrics-connector/` | recovered | → `starters/span-metrics-connector/` |
 | `target-allocator/` | recovered | → `mains/target-allocator/` |
 | `tls/` | recovered | → `starters/tls/` |

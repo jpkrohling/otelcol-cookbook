@@ -1,0 +1,47 @@
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: otelcol-sampling
+spec:
+  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.154.0
+  replicas: 2
+  config:
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+
+    processors:
+      tail_sampling:
+        decision_wait: 1s
+        num_traces: 50000
+        expected_new_traces_per_sec: 500
+        # OR semantics: a trace is kept if ANY policy votes to sample it.
+        # VIP traces are always kept; everything else gets a 10% baseline.
+        policies:
+          - name: vip
+            type: string_attribute
+            string_attribute: { key: vip, values: ["true"] }
+          - name: only-10-percent
+            type: probabilistic
+            probabilistic: { sampling_percentage: 10 }
+
+    exporters:
+      nop: {}
+
+    service:
+      pipelines:
+        traces:
+          receivers: [otlp]
+          processors: [tail_sampling]
+          exporters: [nop]
+      telemetry:
+        metrics:
+          level: detailed
+          readers:
+            - pull:
+                exporter:
+                  prometheus:
+                    host: 0.0.0.0
+                    port: 8888
