@@ -2,3 +2,4 @@
 *.crt
 *.key
 *.csr
+local/
