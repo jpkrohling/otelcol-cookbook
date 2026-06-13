@@ -18,7 +18,7 @@ culinary-course structure. See `docs/superpowers/specs/2026-06-12-cookbook-refac
 | `kafka-on-kubernetes/` | pending | |
 | `log-cleanup/` (redaction) | recovered | → `starters/log-redaction/` |
 | `log-cleanup/dedup.yml` (orphan logdedup) | recovered | → `starters/log-deduplication/` |
-| `ottl/example-01/` | pending | |
+| `ottl/example-01/` | recovered | → `starters/ottl-transformations/` (metrics fixture dropped: malformed JSON) |
 | `ottl/redact-pii/` | recovered | → `starters/redact-pii/` |
 | `ottl/tail-sampling-basics/` | pending | |
 | `own-telemetry/` | recovered | → `starters/own-telemetry/` |

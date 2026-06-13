@@ -1,0 +1,31 @@
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  transform:
+    error_mode: ignore
+    # traces: normalize the HTTP method to upper case, drop the password attribute
+    trace_statements:
+      - set(span.attributes["http.request.method"], ToUpperCase(span.attributes["http.request.method"])) where span.attributes["http.request.method"] != nil
+      - delete_key(span.attributes, "password")
+    # logs: drop the password attribute
+    log_statements:
+      - delete_key(log.attributes, "password")
+
+exporters:
+  debug:
+    verbosity: detailed
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [transform]
+      exporters: [debug]
+    logs:
+      receivers: [otlp]
+      processors: [transform]
+      exporters: [debug]
