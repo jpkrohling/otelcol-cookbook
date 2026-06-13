@@ -20,7 +20,7 @@ culinary-course structure. See `docs/superpowers/specs/2026-06-12-cookbook-refac
 | `log-cleanup/dedup.yml` (orphan logdedup) | recovered | → `starters/log-deduplication/` |
 | `ottl/example-01/` | recovered | → `starters/ottl-transformations/` (metrics fixture dropped: malformed JSON) |
 | `ottl/redact-pii/` | recovered | → `starters/redact-pii/` |
-| `ottl/tail-sampling-basics/` | pending | |
+| `ottl/tail-sampling-basics/` | recovered | → `starters/tail-sampling-basics/` |
 | `own-telemetry/` | recovered | → `starters/own-telemetry/` |
 | `probabilistic-sampler-logs/` | recovered | → `starters/probabilistic-sampler-logs/` |
 | `profiling-the-collector/` | pending | |
