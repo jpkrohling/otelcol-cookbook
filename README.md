@@ -32,6 +32,7 @@ Recipes are organized as a menu, by depth of effort:
 | [target-allocator](mains/target-allocator/) | mains | metrics | Kubernetes | targetallocator, prometheusreceiver |
 | [client-side-load-balancing](mains/client-side-load-balancing/) | mains | traces, logs, metrics | Kubernetes | otlpexporter (round_robin) |
 | [auto-instrumentation](mains/auto-instrumentation/) | mains | traces | Kubernetes | Operator Instrumentation CR |
+| [kafka-on-kubernetes](mains/kafka-on-kubernetes/) | mains | traces | Kubernetes | kafkaexporter, kafkareceiver |
 
 # 🥢 Tools used
 
