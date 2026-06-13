@@ -1,0 +1,33 @@
+extensions:
+  # sends an HTTP Basic auth header on every export; the credentials come from
+  # environment variables so they never sit in the config file
+  basicauth:
+    client_auth:
+      username: "${env:GRAFANA_CLOUD_USER}"
+      password: "${env:GRAFANA_CLOUD_TOKEN}"
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+
+exporters:
+  otlphttp:
+    # your stack's OTLP endpoint — swap for any OTLP/HTTP backend
+    endpoint: https://otlp-gateway-prod-eu-west-2.grafana.net/otlp
+    auth:
+      authenticator: basicauth
+
+service:
+  extensions: [basicauth]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [otlphttp]
+    logs:
+      receivers: [otlp]
+      exporters: [otlphttp]
+    metrics:
+      receivers: [otlp]
+      exporters: [otlphttp]
