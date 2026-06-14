@@ -65,7 +65,6 @@ recovered, merged, or dropped; the `ratatouille/` directory has been removed.
 | `ratatouille/ottl/routing.yml` | merged | routing connector w/ `delete_key` statement → folded into tenant-routing Key details |
 | `ratatouille/resilient/{wal,queues}.yaml` | recovered | → `starters/persistent-queue/` (disk-backed sending queue; `queues.yaml` in-memory variant folded into Key details) |
 | `ratatouille/resilient/{agent,backend}.yaml` | merged | kafka-buffer pattern → covered by `mains/kafka-on-kubernetes/`; noted as alternative in persistent-queue |
-| `ratatouille/ottl/*` | pending | triage individually |
 | `ratatouille/kubernetes/target-allocator.yaml` | dropped | older/simpler dup of recovered `mains/target-allocator/` |
 | `ratatouille/kubernetes/{sidecar-cr,sidecar-workload}.yaml` | recovered | → `mains/sidecar-injection/` (Operator injects mode:sidecar collector; validated as native sidecar) |
 | `ratatouille/kubernetes/{manual-sidecar,workload}.yaml` | dropped | manual (pre-Operator) sidecar boilerplate superseded by injection; nginx sample unused |
