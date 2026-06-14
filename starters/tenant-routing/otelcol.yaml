@@ -1,0 +1,40 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+
+connectors:
+  routing:
+    error_mode: ignore # missing/odd attributes fall through to default_pipelines
+    default_pipelines: [traces/other]
+    table:
+      - context: resource
+        condition: attributes["tenant"] == "acme"
+        pipelines: [traces/acme]
+      - context: resource
+        condition: attributes["tenant"] == "ecorp"
+        pipelines: [traces/ecorp]
+
+exporters:
+  debug/acme:
+  debug/ecorp:
+  debug/other:
+
+service:
+  pipelines:
+    # input pipeline hands everything to the routing connector
+    traces/in:
+      receivers: [otlp]
+      exporters: [routing]
+
+    # one output pipeline per tenant, plus a default for everything else
+    traces/acme:
+      receivers: [routing]
+      exporters: [debug/acme]
+    traces/ecorp:
+      receivers: [routing]
+      exporters: [debug/ecorp]
+    traces/other:
+      receivers: [routing]
+      exporters: [debug/other]

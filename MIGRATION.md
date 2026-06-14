@@ -54,7 +54,9 @@ culinary-course structure. See `docs/superpowers/specs/2026-06-12-cookbook-refac
 | `ratatouille/simple/count-before-sampling.yaml` | recovered | → `starters/count-before-sampling/` (dropped unused probabilistic_sampler; `logging`→`debug`) |
 | `ratatouille/ottl/sensitive-log-body copy.yaml` | dropped | literal duplicate of `sensitive-log-body.yaml` |
 | `ratatouille/tail-sampling/*` | pending | triage individually |
-| `ratatouille/routing/*` | pending | triage individually |
+| `ratatouille/routing/conn-tenants.yaml` | recovered | → `starters/tenant-routing/` (routing connector; `logging`→`debug`, `condition`+`context`) |
+| `ratatouille/routing/{proc-tenants,two-matching-routes}.yaml` | dropped | deprecated routingprocessor; superseded by the routing connector in tenant-routing |
+| `ratatouille/ottl/routing.yml` | merged | routing connector w/ `delete_key` statement → folded into tenant-routing Key details |
 | `ratatouille/resilient/{wal,queues}.yaml` | recovered | → `starters/persistent-queue/` (disk-backed sending queue; `queues.yaml` in-memory variant folded into Key details) |
 | `ratatouille/resilient/{agent,backend}.yaml` | merged | kafka-buffer pattern → covered by `mains/kafka-on-kubernetes/`; noted as alternative in persistent-queue |
 | `ratatouille/ottl/*` | pending | triage individually |

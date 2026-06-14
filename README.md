@@ -33,6 +33,7 @@ Recipes are organized as a menu, by depth of effort:
 | [persistent-queue](starters/persistent-queue/) | starters | traces | local | filestorage, otlpexporter |
 | [count-before-sampling](starters/count-before-sampling/) | starters | traces → traces + metrics | local | countconnector, forwardconnector, tailsamplingprocessor |
 | [jaeger-remote-sampling](starters/jaeger-remote-sampling/) | starters | traces | local | jaegerremotesamplingextension |
+| [tenant-routing](starters/tenant-routing/) | starters | traces | local | routingconnector |
 | [target-allocator](mains/target-allocator/) | mains | metrics | Kubernetes | targetallocator, prometheusreceiver |
 | [client-side-load-balancing](mains/client-side-load-balancing/) | mains | traces, logs, metrics | Kubernetes | otlpexporter (round_robin) |
 | [auto-instrumentation](mains/auto-instrumentation/) | mains | traces | Kubernetes | Operator Instrumentation CR |
