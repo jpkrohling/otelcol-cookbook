@@ -46,7 +46,8 @@ culinary-course structure. See `docs/superpowers/specs/2026-06-12-cookbook-refac
 | `ratatouille/simple/*` (other) | pending | triage individually |
 | `ratatouille/tail-sampling/*` | pending | triage individually |
 | `ratatouille/routing/*` | pending | triage individually |
-| `ratatouille/resilient/*` | pending | triage individually |
+| `ratatouille/resilient/{wal,queues}.yaml` | recovered | → `starters/persistent-queue/` (disk-backed sending queue; `queues.yaml` in-memory variant folded into Key details) |
+| `ratatouille/resilient/{agent,backend}.yaml` | merged | kafka-buffer pattern → covered by `mains/kafka-on-kubernetes/`; noted as alternative in persistent-queue |
 | `ratatouille/ottl/*` | pending | triage individually |
 | `ratatouille/kubernetes/*` | pending | triage individually |
 | `ratatouille/grafana/*` | pending | triage individually |

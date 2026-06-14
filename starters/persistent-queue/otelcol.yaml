@@ -1,0 +1,28 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+
+extensions:
+  file_storage:
+    directory: /var/lib/otelcol/storage
+    create_directory: true
+
+exporters:
+  otlp:
+    endpoint: backend:4317
+    tls:
+      insecure: true
+    retry_on_failure:
+      max_elapsed_time: 0 # retry forever; never drop on a long outage
+    sending_queue:
+      storage: file_storage # back the queue with disk, not memory
+      queue_size: 10000
+
+service:
+  extensions: [file_storage]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [otlp]
