@@ -53,6 +53,7 @@ culinary-course structure. See `docs/superpowers/specs/2026-06-12-cookbook-refac
 | `ratatouille/simple/jaegerremotesampling.yaml` | recovered | → `starters/jaeger-remote-sampling/` (file source; remote-source variant documented as alternative) |
 | `ratatouille/simple/count-before-sampling.yaml` | recovered | → `starters/count-before-sampling/` (dropped unused probabilistic_sampler; `logging`→`debug`) |
 | `ratatouille/ottl/sensitive-log-body copy.yaml` | dropped | literal duplicate of `sensitive-log-body.yaml` |
+| `ratatouille/ottl/sensitive-log-body.yaml` | recovered | → `starters/redact-log-body/` (log-body regex redaction; distinct from attribute-level redact-pii) |
 | `ratatouille/tail-sampling/{always-on,probabilistic,latency→root-longer,vip,not-vip,and,multiple,multiple-ottl,only-2-percent...}.yaml` + README | recovered | → `desserts/tail-sampling-tasting-menu/` (consolidated showcase of all policy types + composition) |
 | `ratatouille/tail-sampling/tail-sampling-with-spanmetrics.yaml` | merged | spanmetrics-before-sampling → covered by `starters/span-metrics-connector/` + `starters/count-before-sampling/` fan-out |
 | `ratatouille/ottl/tail-sampling.yaml` | merged | ottl_condition policy → folded into tail-sampling-tasting-menu Key details |
