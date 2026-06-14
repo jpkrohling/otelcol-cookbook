@@ -1,0 +1,25 @@
+extensions:
+  jaegerremotesampling:
+    source:
+      file: /etc/strategies.json
+      reload_interval: 5s # re-read the file so strategy edits apply without a restart
+    http:
+      endpoint: 0.0.0.0:5778
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+
+exporters:
+  debug:
+
+service:
+  extensions: [jaegerremotesampling]
+  # a pipeline is required for the collector to start, even though the
+  # sampling strategies are served entirely by the extension above
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [debug]
