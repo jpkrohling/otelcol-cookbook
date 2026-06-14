@@ -42,7 +42,7 @@ The Collector's sending queue lives in memory by default, so anything still queu
 - `extensions.file_storage` must be listed under `service.extensions` to load; it writes one
   bbolt file per consumer into `directory`. `create_directory: true` creates that directory on
   startup instead of failing when it is missing.
-- `exporters.otlp.sending_queue.storage: file_storage` is the switch that makes the queue
+- `exporters.otlp_grpc.sending_queue.storage: file_storage` is the switch that makes the queue
   persistent. Without it the queue is in-memory and a restart discards whatever it held.
 - `retry_on_failure.max_elapsed_time: 0` retries forever, so a long outage never drops data.
   The default (`5m`) would drop batches once the budget is exhausted.

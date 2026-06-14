@@ -1,7 +1,7 @@
 # 🍜 Recipe: Span Metrics Connector
 
 Generate RED metrics (Rate, Errors, Duration) from trace data without instrumenting your app
-for metrics. The `spanmetrics` connector consumes spans from the traces pipeline and emits
+for metrics. The `span_metrics` connector consumes spans from the traces pipeline and emits
 `calls` and `duration` metrics, broken down by service and operation, into a metrics pipeline.
 
 | | |

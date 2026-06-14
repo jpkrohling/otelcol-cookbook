@@ -5,7 +5,7 @@ receivers:
         endpoint: 0.0.0.0:4317
 
 connectors:
-  spanmetrics:
+  span_metrics:
     # emit the generated metrics every 15s (default is 60s)
     metrics_flush_interval: 15s
 
@@ -15,11 +15,11 @@ exporters:
 
 service:
   pipelines:
-    # incoming traces feed the spanmetrics connector
+    # incoming traces feed the span_metrics connector
     traces:
       receivers: [otlp]
-      exporters: [spanmetrics]
+      exporters: [span_metrics]
     # the connector emits RED metrics, which this pipeline prints
     metrics:
-      receivers: [spanmetrics]
+      receivers: [span_metrics]
       exporters: [debug]

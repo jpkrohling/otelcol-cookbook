@@ -93,6 +93,15 @@ considered done.
 
 ## Configuration Patterns
 
+### Component Naming
+Always use the current, non-deprecated component type name; never a deprecated alias, even
+though the alias still works. The collector renamed many components to snake_case (v0.149–v0.153),
+so prefer e.g. `otlp_grpc` (not the `otlp` exporter alias — the `otlp` *receiver* keeps its name),
+`file_log` (not `filelog`), `span_metrics` (not `spanmetrics`), `log_dedup` (not `logdedup`),
+`load_balancing` (not `loadbalancing`), `k8s_attributes`, `resource_detection`. When in doubt,
+confirm the canonical name and rename status against the `otel-collector` skill or the component's
+upstream README before using it.
+
 ### File Expansion
 The collector supports `${file:filename.yaml}` for decomposing complex configs:
 ```yaml
@@ -108,7 +117,8 @@ processors:
 
 ### Common Exporters
 - **file**: Writes to local files (`.jsonl` format)
-- **otlp**: Forwards to another collector or backend
+- **otlp_grpc**: Forwards to another collector or backend over OTLP/gRPC (was the `otlp` exporter)
+- **otlphttp**: Forwards over OTLP/HTTP
 - **debug**: Prints to console (formerly logging exporter)
 
 ### Testing Patterns

@@ -5,7 +5,7 @@ receivers:
         endpoint: 0.0.0.0:4317
 
 exporters:
-  otlp:
+  otlp_grpc:
     endpoint: example.com:4317
     sending_queue:
       enabled: false
@@ -14,4 +14,4 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      exporters: [otlp]
+      exporters: [otlp_grpc]

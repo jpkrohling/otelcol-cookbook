@@ -14,7 +14,7 @@ receivers:
 
 exporters:
   debug:
-  otlp/secure:
+  otlp_grpc/secure:
     endpoint: localhost:5317
     tls:
       ca_file: ca.pem
@@ -26,4 +26,4 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      exporters: [otlp/secure, debug]
+      exporters: [otlp_grpc/secure, debug]

@@ -51,7 +51,7 @@ cd starters/tls
 ## 🎯 Key details
 
 - The `otlp/secure` **receiver** presents `server.pem` and only accepts TLS connections; the
-  `otlp/secure` **exporter** presents `client.pem` and trusts the CA via `ca_file`. Both sides
+  `otlp_grpc/secure` **exporter** presents `client.pem` and trusts the CA via `ca_file`. Both sides
   chain to the same `ca.pem`, which is what makes the handshake verify.
 - The certificates' SANs (`localhost`, `127.0.0.1`, from the `*-csr.json` files) must cover the
   hostname the exporter dials (`localhost:5317`); a mismatch is the usual cause of handshake

@@ -1,7 +1,7 @@
 # 🍜 Recipe: Log Deduplication
 
 Noisy systems often emit the same log line over and over — a connection error retried in a
-tight loop, for instance. The `logdedup` processor collapses identical records seen within a
+tight loop, for instance. The `log_dedup` processor collapses identical records seen within a
 time window into a single record that carries a `log_count` of how many were merged, cutting
 volume without losing the signal that something is repeating.
 

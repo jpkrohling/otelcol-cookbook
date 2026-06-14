@@ -18,7 +18,7 @@ feeds that to the probabilistic sampler so it keeps a stable ~10% of records.
 
 ## 🥣 Preparation
 
-1. Run the Collector **from inside this directory** — the `filelog` receiver's `include` path
+1. Run the Collector **from inside this directory** — the `file_log` receiver's `include` path
    is relative to the working directory:
    ```terminal
    cd starters/probabilistic-sampler-logs

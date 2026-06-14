@@ -1,6 +1,6 @@
 # 🍜 Recipe: Pod Logs Collection
 
-Everything a container writes to stdout/stderr lands in a file on its node under `/var/log/pods`. This recipe runs the Collector as a DaemonSet so one instance per node tails those files with the `filelog` receiver, parses the container log format, and enriches each record with Kubernetes metadata.
+Everything a container writes to stdout/stderr lands in a file on its node under `/var/log/pods`. This recipe runs the Collector as a DaemonSet so one instance per node tails those files with the `file_log` receiver, parses the container log format, and enriches each record with Kubernetes metadata.
 
 | | |
 |---|---|

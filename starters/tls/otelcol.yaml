@@ -20,7 +20,7 @@ exporters:
     verbosity: detailed
 
   # TLS-enabled exporter (the "client" side of TLS)
-  otlp/secure:
+  otlp_grpc/secure:
     endpoint: localhost:5317
     tls:
       ca_file: ca.pem
@@ -32,7 +32,7 @@ service:
     # data arrives in the clear and is forwarded over TLS
     traces/insecure-to-secure:
       receivers: [otlp]
-      exporters: [otlp/secure]
+      exporters: [otlp_grpc/secure]
 
     # the TLS receiver accepts it and hands it to the backend
     traces/secure-to-backend:

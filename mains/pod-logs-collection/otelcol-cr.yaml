@@ -21,7 +21,7 @@ spec:
       readOnly: true
   config:
     receivers:
-      filelog:
+      file_log:
         include: [/var/log/pods/*/*/*.log]
         # don't read our own logs — otherwise the debug output we write to
         # stdout lands back in /var/log/pods and we re-ingest it in a loop
@@ -38,5 +38,5 @@ spec:
     service:
       pipelines:
         logs:
-          receivers: [filelog]
+          receivers: [file_log]
           exporters: [debug]

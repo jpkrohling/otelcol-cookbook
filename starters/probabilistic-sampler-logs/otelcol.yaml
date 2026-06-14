@@ -1,5 +1,5 @@
 receivers:
-  filelog:
+  file_log:
     start_at: beginning
     include: [dnf.log.1]
 
@@ -23,7 +23,7 @@ exporters:
 service:
   pipelines:
     logs:
-      receivers: [filelog]
+      receivers: [file_log]
       processors: [transform, probabilistic_sampler]
       exporters: [debug]
   telemetry:

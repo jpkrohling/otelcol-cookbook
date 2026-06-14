@@ -11,7 +11,7 @@ spec:
             endpoint: 0.0.0.0:4317
 
     exporters:
-      otlp:
+      otlp_grpc:
         # dns:/// + round_robin makes the gRPC client spread requests across
         # all addresses behind the headless service
         endpoint: dns:///otelcol-server-collector-headless:4317
@@ -23,10 +23,10 @@ spec:
       pipelines:
         traces:
           receivers: [otlp]
-          exporters: [otlp]
+          exporters: [otlp_grpc]
         logs:
           receivers: [otlp]
-          exporters: [otlp]
+          exporters: [otlp_grpc]
         metrics:
           receivers: [otlp]
-          exporters: [otlp]
+          exporters: [otlp_grpc]
