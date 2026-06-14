@@ -53,7 +53,9 @@ culinary-course structure. See `docs/superpowers/specs/2026-06-12-cookbook-refac
 | `ratatouille/simple/jaegerremotesampling.yaml` | recovered | → `starters/jaeger-remote-sampling/` (file source; remote-source variant documented as alternative) |
 | `ratatouille/simple/count-before-sampling.yaml` | recovered | → `starters/count-before-sampling/` (dropped unused probabilistic_sampler; `logging`→`debug`) |
 | `ratatouille/ottl/sensitive-log-body copy.yaml` | dropped | literal duplicate of `sensitive-log-body.yaml` |
-| `ratatouille/tail-sampling/*` | pending | triage individually |
+| `ratatouille/tail-sampling/{always-on,probabilistic,latency→root-longer,vip,not-vip,and,multiple,multiple-ottl,only-2-percent...}.yaml` + README | recovered | → `desserts/tail-sampling-tasting-menu/` (consolidated showcase of all policy types + composition) |
+| `ratatouille/tail-sampling/tail-sampling-with-spanmetrics.yaml` | merged | spanmetrics-before-sampling → covered by `starters/span-metrics-connector/` + `starters/count-before-sampling/` fan-out |
+| `ratatouille/ottl/tail-sampling.yaml` | merged | ottl_condition policy → folded into tail-sampling-tasting-menu Key details |
 | `ratatouille/routing/conn-tenants.yaml` | recovered | → `starters/tenant-routing/` (routing connector; `logging`→`debug`, `condition`+`context`) |
 | `ratatouille/routing/{proc-tenants,two-matching-routes}.yaml` | dropped | deprecated routingprocessor; superseded by the routing connector in tenant-routing |
 | `ratatouille/ottl/routing.yml` | merged | routing connector w/ `delete_key` statement → folded into tenant-routing Key details |

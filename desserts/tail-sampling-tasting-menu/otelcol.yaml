@@ -1,0 +1,57 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+
+processors:
+  tail_sampling:
+    # how long to buffer a trace's spans before deciding (give late spans time to arrive)
+    decision_wait: 2s
+    num_traces: 50000
+    expected_new_traces_per_sec: 1000
+    # the menu: a trace is KEPT if ANY policy below votes to sample it (logical OR)
+    policies:
+      # 1. keep every errored trace
+      - name: errors
+        type: status_code
+        status_code:
+          status_codes: [ERROR]
+
+      # 2. keep every slow trace (longer than 1s end to end)
+      - name: slow
+        type: latency
+        latency:
+          threshold_ms: 1000
+
+      # 3. keep everything explicitly flagged important
+      - name: vip
+        type: string_attribute
+        string_attribute:
+          key: vip
+          values: ["true"]
+
+      # 4. keep a 10% baseline sample of everything else
+      - name: baseline
+        type: probabilistic
+        probabilistic:
+          sampling_percentage: 10
+
+exporters:
+  debug:
+
+service:
+  telemetry:
+    metrics:
+      level: detailed
+      readers:
+        - pull:
+            exporter:
+              prometheus:
+                host: 0.0.0.0
+                port: 8888
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [tail_sampling]
+      exporters: [debug]
