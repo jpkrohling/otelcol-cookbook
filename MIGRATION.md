@@ -43,7 +43,16 @@ culinary-course structure. See `docs/superpowers/specs/2026-06-12-cookbook-refac
 |---|---|---|
 | `ratatouille/simple/blocking.yaml` | recovered | → `starters/blocking-exporter/` |
 | `ratatouille/simple/logs-to-metrics.yaml` | recovered | → `starters/logs-to-metrics/` |
-| `ratatouille/simple/*` (other) | pending | triage individually |
+| `ratatouille/simple/{debug-26557,issue5610,contrib-9086-*}.yaml` | dropped | issue-repro scratch files (deprecated `logging`/`loki`/jaeger exporters) |
+| `ratatouille/simple/{auth,receiver-auth,oidc-auth-agent,oidc-auth-collector,complete-auth,complete-oauth}.{yml,yaml}` | dropped | basicauth/OIDC/oauth2client all covered by `starters/auth/` |
+| `ratatouille/simple/receiver-tls.yml` | dropped | covered by `starters/tls/` |
+| `ratatouille/simple/{include,include-debug-exporter}.yaml` | dropped | `${file:}` include covered by `starters/decompose-config/` |
+| `ratatouille/simple/resilient-log-pipeline.yaml` | dropped | logs twin of `starters/persistent-queue/`; same file_storage queue concept |
+| `ratatouille/simple/{rejekts,rejekts-local}.yaml` | dropped | conference demo; concepts split across grafana-cloud + persistent-queue + own-telemetry |
+| `ratatouille/simple/{simple,otelcol-simple}.yaml` | dropped | trivial nop configs (one used a private image); no recipe value |
+| `ratatouille/simple/jaegerremotesampling.yaml` | pending | jaegerremotesampling extension — genuinely new, recover later |
+| `ratatouille/simple/count-before-sampling.yaml` | pending | count+forward connector fan-out before tail_sampling — new, recover later |
+| `ratatouille/ottl/sensitive-log-body copy.yaml` | dropped | literal duplicate of `sensitive-log-body.yaml` |
 | `ratatouille/tail-sampling/*` | pending | triage individually |
 | `ratatouille/routing/*` | pending | triage individually |
 | `ratatouille/resilient/{wal,queues}.yaml` | recovered | → `starters/persistent-queue/` (disk-backed sending queue; `queues.yaml` in-memory variant folded into Key details) |
