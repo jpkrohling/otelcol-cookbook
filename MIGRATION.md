@@ -3,6 +3,9 @@
 Status of every legacy recipe and `ratatouille/` fragment as we refactor into the
 culinary-course structure. See `docs/superpowers/specs/2026-06-12-cookbook-refactoring-design.md`.
 
+**✅ Migration complete.** Every documented recipe and every `ratatouille/` fragment has been
+recovered, merged, or dropped; the `ratatouille/` directory has been removed.
+
 **Status values:** `pending` · `recovered` · `merged` (note target) · `dropped` (note why)
 
 ## Documented top-level recipes

@@ -15,7 +15,6 @@ status and `docs/superpowers/specs/2026-06-12-cookbook-refactoring-design.md` fo
 - **`mains/`**: substantial, often Kubernetes, real-world recipes
 - **`desserts/`**: advanced showcases & niceties
 - **`sides/`**: shared building blocks reused by other recipes (LGTM stack, sample apps)
-- **`ratatouille/`**: legacy experimental fragments being dissolved into the courses above
 - **Recipe structure**: each recipe folder is kebab-case and contains a `README.md`, its
   config (`otelcol.yaml` for local recipes, `otelcol-cr.yaml` for Kubernetes), and any
   supporting files. Config files are always `.yaml` (never `.yml`).
