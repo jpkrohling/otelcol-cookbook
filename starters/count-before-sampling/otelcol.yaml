@@ -1,0 +1,42 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+
+processors:
+  tail_sampling:
+    decision_wait: 5s
+    num_traces: 100000
+    policies:
+      - name: keep-10-percent
+        type: probabilistic
+        probabilistic:
+          sampling_percentage: 10
+
+exporters:
+  debug/traces:
+  debug/metrics:
+    verbosity: detailed
+
+connectors:
+  count:
+  forward:
+
+service:
+  pipelines:
+    # ingest: fan the full trace stream out to both counting and sampling
+    traces:
+      receivers: [otlp]
+      exporters: [count, forward]
+
+    # sampled branch: only ~10% of traces survive to export/storage
+    traces/sampled:
+      receivers: [forward]
+      processors: [tail_sampling]
+      exporters: [debug/traces]
+
+    # counted branch: the metric reflects 100% of ingested spans
+    metrics:
+      receivers: [count]
+      exporters: [debug/metrics]

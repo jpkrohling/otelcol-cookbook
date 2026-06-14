@@ -51,7 +51,7 @@ culinary-course structure. See `docs/superpowers/specs/2026-06-12-cookbook-refac
 | `ratatouille/simple/{rejekts,rejekts-local}.yaml` | dropped | conference demo; concepts split across grafana-cloud + persistent-queue + own-telemetry |
 | `ratatouille/simple/{simple,otelcol-simple}.yaml` | dropped | trivial nop configs (one used a private image); no recipe value |
 | `ratatouille/simple/jaegerremotesampling.yaml` | pending | jaegerremotesampling extension — genuinely new, recover later |
-| `ratatouille/simple/count-before-sampling.yaml` | pending | count+forward connector fan-out before tail_sampling — new, recover later |
+| `ratatouille/simple/count-before-sampling.yaml` | recovered | → `starters/count-before-sampling/` (dropped unused probabilistic_sampler; `logging`→`debug`) |
 | `ratatouille/ottl/sensitive-log-body copy.yaml` | dropped | literal duplicate of `sensitive-log-body.yaml` |
 | `ratatouille/tail-sampling/*` | pending | triage individually |
 | `ratatouille/routing/*` | pending | triage individually |

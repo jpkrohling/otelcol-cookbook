@@ -31,6 +31,7 @@ Recipes are organized as a menu, by depth of effort:
 | [auth](starters/auth/) | starters | traces | local | oidcauthextension, oauth2clientauthextension |
 | [grafana-cloud](starters/grafana-cloud/) | starters | traces, logs, metrics | local | basicauthextension, `${env:}` |
 | [persistent-queue](starters/persistent-queue/) | starters | traces | local | filestorage, otlpexporter |
+| [count-before-sampling](starters/count-before-sampling/) | starters | traces → traces + metrics | local | countconnector, forwardconnector, tailsamplingprocessor |
 | [target-allocator](mains/target-allocator/) | mains | metrics | Kubernetes | targetallocator, prometheusreceiver |
 | [client-side-load-balancing](mains/client-side-load-balancing/) | mains | traces, logs, metrics | Kubernetes | otlpexporter (round_robin) |
 | [auto-instrumentation](mains/auto-instrumentation/) | mains | traces | Kubernetes | Operator Instrumentation CR |
