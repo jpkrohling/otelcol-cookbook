@@ -45,6 +45,7 @@ Recipes are organized as a menu, by depth of effort:
 | [profiling-the-collector](mains/profiling-the-collector/) | mains | (collector profiles) | Kubernetes | pprofextension |
 | [sidecar-injection](mains/sidecar-injection/) | mains | traces | Kubernetes | Operator, OpenTelemetryCollector (mode: sidecar) |
 | [kubernetes-cluster-telemetry](mains/kubernetes-cluster-telemetry/) | mains | metrics, logs | Kubernetes | k8sclusterreceiver, k8seventsreceiver |
+| [pod-logs-collection](mains/pod-logs-collection/) | mains | logs | Kubernetes | filelogreceiver (container parser), DaemonSet |
 | [tail-sampling-tasting-menu](desserts/tail-sampling-tasting-menu/) | desserts | traces | local | tailsamplingprocessor |
 
 # 🥢 Tools used

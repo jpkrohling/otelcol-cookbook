@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pod-logs
+---
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: pod-logs
+  namespace: pod-logs
+spec:
+  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.154.0
+  mode: daemonset # one collector per node, reading that node's container logs
+  volumes:
+    - name: varlogpods
+      hostPath:
+        path: /var/log/pods
+  volumeMounts:
+    - name: varlogpods
+      mountPath: /var/log/pods
+      readOnly: true
+  config:
+    receivers:
+      filelog:
+        include: [/var/log/pods/*/*/*.log]
+        # don't read our own logs — otherwise the debug output we write to
+        # stdout lands back in /var/log/pods and we re-ingest it in a loop
+        exclude: [/var/log/pods/pod-logs_*/*/*.log]
+        include_file_path: true
+        start_at: end
+        operators:
+          # parse the CRI/containerd log format and attach k8s metadata
+          - id: container-parser
+            type: container
+    exporters:
+      debug:
+        verbosity: basic
+    service:
+      pipelines:
+        logs:
+          receivers: [filelog]
+          exporters: [debug]

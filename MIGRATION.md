@@ -67,6 +67,6 @@ culinary-course structure. See `docs/superpowers/specs/2026-06-12-cookbook-refac
 | `ratatouille/kubernetes/{sidecar-cr,sidecar-workload}.yaml` | recovered | → `mains/sidecar-injection/` (Operator injects mode:sidecar collector; validated as native sidecar) |
 | `ratatouille/kubernetes/{manual-sidecar,workload}.yaml` | dropped | manual (pre-Operator) sidecar boilerplate superseded by injection; nginx sample unused |
 | `ratatouille/kubernetes/otelcol.yaml` | recovered | → `mains/kubernetes-cluster-telemetry/` (k8s_cluster + k8s_events; Grafana Cloud dest swapped for debug) |
-| `ratatouille/kubernetes/podslogs/otelcol.yaml` | pending | daemonset filelog pod-log collection → `mains/` (needs k3d) |
+| `ratatouille/kubernetes/podslogs/otelcol.yaml` | recovered | → `mains/pod-logs-collection/` (daemonset filelog + container parser; added self-log exclude; debug dest) |
 | `ratatouille/grafana/loki-receiver-auth.yaml` | recovered | → `starters/loki-receiver/` (loki receiver + basicauth; `logging`→`debug`) |
 | `ratatouille/load-balancing-exporter/` | merged | loadbalancing exporter + k8s resolver already covered by `mains/scalable-tail-sampling/` |
