@@ -44,6 +44,7 @@ Recipes are organized as a menu, by depth of effort:
 | [grafana-cloud-from-kubernetes](mains/grafana-cloud-from-kubernetes/) | mains | traces, logs, metrics | Kubernetes | Secret + envFrom, basicauthextension |
 | [profiling-the-collector](mains/profiling-the-collector/) | mains | (collector profiles) | Kubernetes | pprofextension |
 | [sidecar-injection](mains/sidecar-injection/) | mains | traces | Kubernetes | Operator, OpenTelemetryCollector (mode: sidecar) |
+| [kubernetes-cluster-telemetry](mains/kubernetes-cluster-telemetry/) | mains | metrics, logs | Kubernetes | k8sclusterreceiver, k8seventsreceiver |
 | [tail-sampling-tasting-menu](desserts/tail-sampling-tasting-menu/) | desserts | traces | local | tailsamplingprocessor |
 
 # 🥢 Tools used
