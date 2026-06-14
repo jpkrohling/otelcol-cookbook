@@ -1,25 +1,23 @@
 extensions:
   basicauth:
-    htpasswd: 
-      inline: "admin: $apr1$so2zr16x$jWvnqhK3fg24qjBB4iN6x/"
+    htpasswd:
+      inline: admin:supersecret
 
 receivers:
   loki:
     protocols:
       http:
-        auth:
-          authenticator: basicauth
-      grpc:
+        endpoint: 0.0.0.0:3500
         auth:
           authenticator: basicauth
 
 exporters:
-  logging:
+  debug:
+    verbosity: detailed
 
 service:
   extensions: [basicauth]
   pipelines:
     logs:
       receivers: [loki]
-      processors:
-      exporters: [logging]
+      exporters: [debug]

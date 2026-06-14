@@ -63,6 +63,9 @@ culinary-course structure. See `docs/superpowers/specs/2026-06-12-cookbook-refac
 | `ratatouille/resilient/{wal,queues}.yaml` | recovered | → `starters/persistent-queue/` (disk-backed sending queue; `queues.yaml` in-memory variant folded into Key details) |
 | `ratatouille/resilient/{agent,backend}.yaml` | merged | kafka-buffer pattern → covered by `mains/kafka-on-kubernetes/`; noted as alternative in persistent-queue |
 | `ratatouille/ottl/*` | pending | triage individually |
-| `ratatouille/kubernetes/*` | pending | triage individually |
-| `ratatouille/grafana/*` | pending | triage individually |
-| `ratatouille/load-balancing-exporter/` | pending | triage individually |
+| `ratatouille/kubernetes/target-allocator.yaml` | dropped | older/simpler dup of recovered `mains/target-allocator/` |
+| `ratatouille/kubernetes/{sidecar-cr,sidecar-workload,manual-sidecar,workload}.yaml` | pending | Operator sidecar injection → `mains/sidecar-injection/` (needs k3d) |
+| `ratatouille/kubernetes/otelcol.yaml` | pending | k8s_cluster + k8s_events cluster telemetry → `mains/` (needs k3d) |
+| `ratatouille/kubernetes/podslogs/otelcol.yaml` | pending | daemonset filelog pod-log collection → `mains/` (needs k3d) |
+| `ratatouille/grafana/loki-receiver-auth.yaml` | recovered | → `starters/loki-receiver/` (loki receiver + basicauth; `logging`→`debug`) |
+| `ratatouille/load-balancing-exporter/` | merged | loadbalancing exporter + k8s resolver already covered by `mains/scalable-tail-sampling/` |
