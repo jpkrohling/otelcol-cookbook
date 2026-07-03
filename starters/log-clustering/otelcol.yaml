@@ -1,0 +1,22 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+
+processors:
+  # Clusters similar log lines and derives a template string (e.g.
+  # "user <*> logged in from <*>"), attaching it as the `log.record.template`
+  # attribute. Defaults are used here; see README for tuning notes.
+  drain: {}
+
+exporters:
+  debug:
+    verbosity: detailed
+
+service:
+  pipelines:
+    logs:
+      receivers: [otlp]
+      processors: [drain]
+      exporters: [debug]
