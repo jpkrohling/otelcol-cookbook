@@ -28,6 +28,7 @@ Recipes are organized as a menu, by depth of effort:
 | [decompose-config](starters/decompose-config/) | starters | traces | local | tailsamplingprocessor, `${file:}` |
 | [probabilistic-sampler-logs](starters/probabilistic-sampler-logs/) | starters | logs | local | probabilisticsamplerprocessor, filelogreceiver |
 | [log-deduplication](starters/log-deduplication/) | starters | logs | local | logdedupprocessor |
+| [log-clustering](starters/log-clustering/) | starters | logs | local | drainprocessor |
 | [logs-to-metrics](starters/logs-to-metrics/) | starters | logs → logs + metrics | local | countconnector, filterprocessor |
 | [tls](starters/tls/) | starters | traces | local | otlpreceiver (TLS), otlpexporter (TLS) |
 | [auth](starters/auth/) | starters | traces | local | oidcauthextension, oauth2clientauthextension |
