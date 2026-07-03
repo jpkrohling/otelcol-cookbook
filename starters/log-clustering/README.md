@@ -39,15 +39,25 @@ pattern instead of by literal message.
    telemetrygen logs --otlp-insecure --logs 1 --body "connected to 10.0.0.9"
    ```
 
-4. Watch the Collector's console. The three login lines each carry the same
-   derived template, despite the different names and addresses:
+4. Watch the Collector's console. The first login line forms a brand-new
+   cluster, so Drain has nothing yet to generalize against and annotates it
+   with its own literal body:
+   ```
+        -> log.record.template: Str(user alice logged in from 10.0.0.1)
+   ```
+   The second and third login lines match that cluster and get the merged,
+   wildcarded template:
    ```
         -> log.record.template: Str(user <*> logged in from <*>)
    ```
-   The fourth line, being a different shape, gets its own template:
+   The fourth line, being a different shape, forms its own new cluster and —
+   just like the first login line — is annotated with its own literal body,
+   since it is still the only member of that cluster:
    ```
-        -> log.record.template: Str(connected to <*>)
+        -> log.record.template: Str(connected to 10.0.0.9)
    ```
+   Send more `"connected to <ip>"` lines and that template will merge into
+   `connected to <*>` too, following the same pattern as the login lines.
 
 ## 🎯 Key details
 
