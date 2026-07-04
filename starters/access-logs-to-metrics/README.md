@@ -27,19 +27,19 @@ route, while keeping server-error (5xx) lines as logs for forensic debugging.
 2. Send a batch of successful requests hitting the same route family with different ids:
    ```terminal
    telemetrygen logs --logs 5 --otlp-insecure \
-     --otlp-attributes http.request.method=\"GET\" \
-     --otlp-attributes url.path=\"/api/users/123\" \
-     --otlp-attributes http.response.status_code=200 \
-     --otlp-attributes duration_ms=120
+     --telemetry-attributes http.request.method=\"GET\" \
+     --telemetry-attributes url.path=\"/api/users/123\" \
+     --telemetry-attributes http.response.status_code=200 \
+     --telemetry-attributes duration_ms=120
    ```
 
 3. Send a couple of failing requests on the same route family:
    ```terminal
    telemetrygen logs --logs 2 --otlp-insecure \
-     --otlp-attributes http.request.method=\"GET\" \
-     --otlp-attributes url.path=\"/api/users/456\" \
-     --otlp-attributes http.response.status_code=500 \
-     --otlp-attributes duration_ms=900
+     --telemetry-attributes http.request.method=\"GET\" \
+     --telemetry-attributes url.path=\"/api/users/456\" \
+     --telemetry-attributes http.response.status_code=500 \
+     --telemetry-attributes duration_ms=900
    ```
 
 4. Watch the Collector's console:
@@ -55,7 +55,7 @@ route, while keeping server-error (5xx) lines as logs for forensic debugging.
 - The `transform` processor derives `http.route` from `url.path`: it strips the query
   string and collapses numeric path segments to `{id}` — this is what bounds the metric's
   cardinality.
-- `telemetrygen`'s `--otlp-attributes` can't send floating-point values, so the recipe
+- `telemetrygen`'s `--telemetry-attributes` can't send floating-point values, so the recipe
   sends an integer `duration_ms` and casts it in OTTL (`Double(...) / 1000.0`) to the
   seconds value the histogram expects.
 - `signal_to_metrics` (the connector, not `count`) is what makes this a *dimensioned*
