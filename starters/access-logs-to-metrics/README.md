@@ -68,9 +68,10 @@ route, while keeping server-error (5xx) lines as logs for forensic debugging.
   the same records can be both converted to metrics and selectively kept as logs. Here,
   `filter` drops everything below `500`, so only server errors reach `debug/logs` — a
   forensic path alongside the metric.
-- `signal_to_metrics` aggregates per `Consume*` call, with no internal flush interval —
-  put a `batch` processor upstream of it in production so more records fold into each
-  emitted datapoint; this recipe skips it to keep the demo deterministic.
+- `signal_to_metrics` is Alpha stability and aggregates per `Consume*` call, with no
+  internal flush interval — put a `batch` processor upstream of it in production so more
+  records fold into each emitted datapoint; this recipe skips it to keep the demo
+  deterministic.
 - This recipe supersedes, for the HTTP-access-log use case, the `count`-connector approach
   in [`logs-to-metrics`](../logs-to-metrics/); that recipe now links back here.
 
