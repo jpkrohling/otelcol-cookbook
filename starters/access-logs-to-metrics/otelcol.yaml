@@ -1,0 +1,66 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+
+processors:
+  # derives a low-cardinality http.route from url.path, and converts the raw
+  # duration attribute into the double-seconds value the histogram expects
+  transform/access-log-route:
+    log_statements:
+      - context: log
+        statements:
+          - set(log.attributes["http.route"], log.attributes["url.path"])
+          - replace_pattern(log.attributes["http.route"], "\\?.*$", "")
+          - replace_pattern(log.attributes["http.route"], "/[0-9]+", "/{id}")
+          - set(log.attributes["_duration_s"], Double(log.attributes["duration_ms"]) / 1000.0)
+
+  # drops everything below 500, so only server-error access logs are kept as logs
+  filter/keep-errors:
+    logs:
+      log_record:
+        - 'log.attributes["http.response.status_code"] < 500'
+
+exporters:
+  debug/logs:
+  debug/metrics:
+    verbosity: detailed
+
+connectors:
+  forward:
+  signal_to_metrics:
+    logs:
+      - name: http.server.request.duration
+        description: HTTP server request duration (s) derived from access logs
+        unit: s
+        attributes:
+          - key: http.request.method
+          - key: http.response.status_code
+          - key: http.route
+        exponential_histogram:
+          count: "1"
+          value: log.attributes["_duration_s"]
+
+service:
+  pipelines:
+    # the main logs pipeline derives http.route once, then fans out
+    logs:
+      receivers: [otlp]
+      processors: [transform/access-log-route]
+      exporters: [forward]
+
+    # server errors are also kept as logs, for forensic debugging
+    logs/errors:
+      receivers: [forward]
+      processors: [filter/keep-errors]
+      exporters: [debug/logs]
+
+    # every access log record is converted into a metric
+    logs/metrics-source:
+      receivers: [forward]
+      exporters: [signal_to_metrics]
+
+    metrics/access-logs:
+      receivers: [signal_to_metrics]
+      exporters: [debug/metrics]
