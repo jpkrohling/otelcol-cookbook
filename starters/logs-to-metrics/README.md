@@ -1,5 +1,10 @@
 # 🍜 Recipe: Logs to Metrics
 
+> ⚠️ **Deprecated for HTTP access logs.** For converting HTTP access logs to metrics, see
+> [`access-logs-to-metrics`](../access-logs-to-metrics/) instead, which uses semantic
+> convention attribute names and the `signal_to_metrics` connector. This recipe remains a
+> minimal example of counting arbitrary discrete log events with the `count` connector.
+
 High-volume, low-information log lines — "http call made to route ..." emitted on every request
 — are often better kept as a *count* than stored individually. This recipe splits an incoming
 log stream in two: ordinary logs pass through untouched, while the noisy common events are
