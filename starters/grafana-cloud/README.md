@@ -9,7 +9,7 @@ file.
 |---|---|
 | **Signals** | traces, logs, metrics |
 | **Runs on** | local binary |
-| **Key components** | basicauthextension, otlphttpexporter, `${env:}` expansion |
+| **Key components** | basicauthextension, otlp_httpexporter, `${env:}` expansion |
 
 ## 🧄 Ingredients
 
@@ -20,7 +20,7 @@ file.
 
 ## 🥣 Preparation
 
-1. Point the `otlphttp` exporter's `endpoint` at your stack, then export the credentials so the
+1. Point the `otlp_http` exporter's `endpoint` at your stack, then export the credentials so the
    config can pick them up — they stay out of the file:
    ```terminal
    export GRAFANA_CLOUD_USER="<your instance id>"
@@ -46,7 +46,7 @@ file.
   the Kubernetes equivalent that sources these from a `Secret`, see
   [`mains/grafana-cloud-from-kubernetes`](../../mains/grafana-cloud-from-kubernetes/).
 - The `basicauth` extension's `client_auth` block turns the username/password into an
-  `Authorization: Basic ...` header on every request the `otlphttp` exporter makes.
+  `Authorization: Basic ...` header on every request the `otlp_http` exporter makes.
 - The endpoint is just an example. Any OTLP/HTTP backend behind Basic auth works — the same
   extension also has a `server_auth` mode to *require* Basic auth on a receiver.
 
@@ -56,5 +56,5 @@ Validated against a local Collector whose OTLP/HTTP receiver required Basic auth
 `basicauth` extension in `server_auth` mode): correct env credentials delivered the spans, a
 wrong token was rejected with `401 Unauthorized`.
 
-- OpenTelemetry Collector Contrib v0.154.0
-- `telemetrygen` v0.154.0
+- OpenTelemetry Collector Contrib v0.155.0
+- `telemetrygen` v0.155.0

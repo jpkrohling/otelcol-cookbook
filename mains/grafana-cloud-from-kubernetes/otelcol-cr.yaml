@@ -3,7 +3,7 @@ kind: OpenTelemetryCollector
 metadata:
   name: grafana-cloud-from-kubernetes
 spec:
-  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.154.0
+  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.155.0
   # mount the Secret's keys as environment variables in the collector container
   envFrom:
     - secretRef:
@@ -22,7 +22,7 @@ spec:
             endpoint: 0.0.0.0:4317
 
     exporters:
-      otlphttp:
+      otlp_http:
         endpoint: https://otlp-gateway-prod-eu-west-2.grafana.net/otlp
         auth:
           authenticator: basicauth
@@ -32,10 +32,10 @@ spec:
       pipelines:
         traces:
           receivers: [otlp]
-          exporters: [otlphttp]
+          exporters: [otlp_http]
         logs:
           receivers: [otlp]
-          exporters: [otlphttp]
+          exporters: [otlp_http]
         metrics:
           receivers: [otlp]
-          exporters: [otlphttp]
+          exporters: [otlp_http]

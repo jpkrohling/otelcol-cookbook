@@ -46,11 +46,11 @@ Beyond the telemetry your apps emit, the cluster itself is a source: the state o
   target allocator instead — see [`target-allocator`](../target-allocator/).
 - `k8s_events` emits one log record per Kubernetes Event (the same stream as `kubectl get events`),
   which is how you capture scheduling failures, image pull errors, and OOM kills as telemetry.
-- This recipe exports to `debug` so it is self-contained. Point the pipelines at an `otlphttp`
+- This recipe exports to `debug` so it is self-contained. Point the pipelines at an `otlp_http`
   exporter with `basicauth` to ship to a backend — the secret-handling pattern is in
   [`grafana-cloud-from-kubernetes`](../grafana-cloud-from-kubernetes/).
 
 ## 😋 Tested with
 
-- OpenTelemetry Collector Contrib v0.154.0
-- OpenTelemetry Operator v0.153.0
+- OpenTelemetry Collector Contrib v0.155.0
+- OpenTelemetry Operator v0.154.0

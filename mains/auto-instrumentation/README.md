@@ -62,6 +62,6 @@ runtime — ideal for apps you can't or don't want to modify, like Keycloak.
 
 ## 😋 Tested with
 
-- OpenTelemetry Operator v0.153.0
-- OpenTelemetry Collector v0.153.0 (operator-managed)
+- OpenTelemetry Operator v0.154.0
+- OpenTelemetry Collector v0.154.0 (operator-managed)
 - Keycloak 26.2

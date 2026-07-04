@@ -118,7 +118,7 @@ processors:
 ### Common Exporters
 - **file**: Writes to local files (`.jsonl` format)
 - **otlp_grpc**: Forwards to another collector or backend over OTLP/gRPC (was the `otlp` exporter)
-- **otlphttp**: Forwards over OTLP/HTTP
+- **otlp_http**: Forwards over OTLP/HTTP (was the `otlphttp` exporter alias, deprecated as of v0.155.0)
 - **debug**: Prints to console (formerly logging exporter)
 
 ### Testing Patterns
@@ -134,6 +134,6 @@ processors:
 ## Version Compatibility
 Recovered recipes are validated against the latest released versions at recovery time, pinned
 in each recipe's `😋 Tested with` section. Current pins:
-- OpenTelemetry Collector Contrib v0.154.0
-- telemetrygen v0.154.0
-- OpenTelemetry Operator v0.153.0
+- OpenTelemetry Collector Contrib v0.155.0
+- telemetrygen v0.155.0
+- OpenTelemetry Operator v0.154.0

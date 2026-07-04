@@ -53,5 +53,5 @@ The Collector's sending queue lives in memory by default, so anything still queu
 
 ## 😋 Tested with
 
-- OpenTelemetry Collector Contrib v0.154.0
-- `telemetrygen` v0.154.0
+- OpenTelemetry Collector Contrib v0.155.0
+- `telemetrygen` v0.155.0

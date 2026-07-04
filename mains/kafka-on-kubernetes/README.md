@@ -66,6 +66,6 @@ so you can measure how long data sat in the queue.
 ## 😋 Tested with
 
 - Strimzi (latest), Kafka in KRaft mode
-- OpenTelemetry Operator v0.153.0
-- OpenTelemetry Collector Contrib v0.154.0
-- `telemetrygen` v0.154.0
+- OpenTelemetry Operator v0.154.0
+- OpenTelemetry Collector Contrib v0.155.0
+- `telemetrygen` v0.155.0

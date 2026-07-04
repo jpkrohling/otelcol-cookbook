@@ -36,5 +36,5 @@ By default the OpenTelemetry Collector accepts data into an asynchronous sending
 
 ## 😋 Tested with
 
-- OpenTelemetry Collector Contrib v0.154.0
-- `telemetrygen` v0.154.0
+- OpenTelemetry Collector Contrib v0.155.0
+- `telemetrygen` v0.155.0

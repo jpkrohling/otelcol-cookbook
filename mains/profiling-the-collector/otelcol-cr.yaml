@@ -3,7 +3,7 @@ kind: OpenTelemetryCollector
 metadata:
   name: profiling-the-collector
 spec:
-  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.154.0
+  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.155.0
   config:
     extensions:
       # exposes Go's net/http/pprof profiles (CPU, heap, goroutines, ...)

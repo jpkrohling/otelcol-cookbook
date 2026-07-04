@@ -56,4 +56,4 @@ Jaeger-compatible SDKs can ask a central service which sampling strategy to use 
 
 ## 😋 Tested with
 
-- OpenTelemetry Collector Contrib v0.154.0
+- OpenTelemetry Collector Contrib v0.155.0

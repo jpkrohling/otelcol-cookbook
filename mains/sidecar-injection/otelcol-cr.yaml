@@ -31,7 +31,7 @@ metadata:
 spec:
   containers:
     - name: my-microservice
-      image: ghcr.io/open-telemetry/opentelemetry-collector-contrib/telemetrygen:v0.154.0
+      image: ghcr.io/open-telemetry/opentelemetry-collector-contrib/telemetrygen:v0.155.0
       args:
         - traces
         - --otlp-insecure

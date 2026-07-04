@@ -9,7 +9,7 @@ metadata:
   name: pod-logs
   namespace: pod-logs
 spec:
-  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.154.0
+  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.155.0
   mode: daemonset # one collector per node, reading that node's container logs
   volumes:
     - name: varlogpods

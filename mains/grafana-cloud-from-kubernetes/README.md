@@ -33,7 +33,7 @@ It's the Kubernetes counterpart of [`starters/grafana-cloud`](../../starters/gra
      --from-literal=GRAFANA_CLOUD_TOKEN="$GRAFANA_CLOUD_TOKEN"
    ```
 
-3. Point the `otlphttp` exporter's `endpoint` at your stack, then deploy the Collector:
+3. Point the `otlp_http` exporter's `endpoint` at your stack, then deploy the Collector:
    ```terminal
    kubectl apply -f otelcol-cr.yaml
    ```
@@ -53,7 +53,7 @@ It's the Kubernetes counterpart of [`starters/grafana-cloud`](../../starters/gra
 - Rotating the token is a `kubectl` edit of the `Secret` plus a pod restart; the recipe manifest
   never changes and is safe to commit to git.
 - The `basicauth` extension turns those env values into the `Authorization: Basic ...` header on
-  the `otlphttp` exporter's requests.
+  the `otlp_http` exporter's requests.
 
 ## 😋 Tested with
 
@@ -61,6 +61,6 @@ Validated on a live k3d cluster against an in-cluster Collector whose OTLP/HTTP 
 Basic auth: the `Secret` keys arrived as env vars, `${env:}` resolved them, and the authenticated
 export was accepted (6 spans delivered).
 
-- OpenTelemetry Operator v0.153.0
-- OpenTelemetry Collector Contrib v0.154.0
-- `telemetrygen` v0.154.0
+- OpenTelemetry Operator v0.154.0
+- OpenTelemetry Collector Contrib v0.155.0
+- `telemetrygen` v0.155.0

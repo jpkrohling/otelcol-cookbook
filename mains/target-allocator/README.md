@@ -63,5 +63,5 @@ This recipe demonstrates how to use the OpenTelemetry Operator's Target Allocato
 
 ## 😋 Tested with
 
-- OpenTelemetry Operator v0.153.0
-- OpenTelemetry Collector Contrib v0.154.0
+- OpenTelemetry Operator v0.154.0
+- OpenTelemetry Collector Contrib v0.155.0

@@ -52,5 +52,5 @@ A single Collector ingress can serve many tenants and send each one's telemetry 
 
 ## 😋 Tested with
 
-- OpenTelemetry Collector Contrib v0.154.0
-- `telemetrygen` v0.154.0
+- OpenTelemetry Collector Contrib v0.155.0
+- `telemetrygen` v0.155.0

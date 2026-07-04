@@ -50,4 +50,4 @@ feeds that to the probabilistic sampler so it keeps a stable ~10% of records.
 
 ## 😋 Tested with
 
-- OpenTelemetry Collector Contrib v0.154.0
+- OpenTelemetry Collector Contrib v0.155.0

@@ -90,7 +90,7 @@ cd starters/auth
 
 ## 😋 Tested with
 
-- OpenTelemetry Collector Contrib v0.154.0
-- `telemetrygen` v0.154.0
+- OpenTelemetry Collector Contrib v0.155.0
+- `telemetrygen` v0.155.0
 - Keycloak 26.3
 - cfssl v1.6.5

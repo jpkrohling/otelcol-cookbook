@@ -11,7 +11,7 @@ spec:
         protocols:
           grpc: {}
     exporters:
-      otlphttp:
+      otlp_http:
         endpoint: http://lgtm.lgtm.svc.cluster.local:4318
 
     service:
@@ -19,12 +19,12 @@ spec:
         traces:
           receivers:  [ otlp ]
           processors: [  ]
-          exporters:  [ otlphttp ]
+          exporters:  [ otlp_http ]
         logs:
           receivers:  [ otlp ]
           processors: [  ]
-          exporters:  [ otlphttp ]
+          exporters:  [ otlp_http ]
         metrics:
           receivers:  [ otlp ]
           processors: [  ]
-          exporters:  [ otlphttp ]
+          exporters:  [ otlp_http ]

@@ -8,7 +8,7 @@ for metrics. The `span_metrics` connector consumes spans from the traces pipelin
 |---|---|
 | **Signals** | traces → metrics |
 | **Runs on** | local binary |
-| **Key components** | spanmetricsconnector |
+| **Key components** | span_metrics |
 
 ## 🧄 Ingredients
 
@@ -43,11 +43,11 @@ for metrics. The `span_metrics` connector consumes spans from the traces pipelin
 - `metrics_flush_interval` controls how often the connector emits; the default is 60s, lowered
   to 15s here so the demo produces output quickly.
 - **Visualize in Grafana**: point the `metrics` pipeline at a Prometheus-compatible backend
-  instead of `debug` — e.g. an [LGTM stack](../../sides/lgtm/) via an `otlphttp` exporter — then
+  instead of `debug` — e.g. an [LGTM stack](../../sides/lgtm/) via an `otlp_http` exporter — then
   import `dashboard.json`. Over Prometheus the metrics appear as `traces_span_metrics_calls_total`
   and `traces_span_metrics_duration_milliseconds_bucket`.
 
 ## 😋 Tested with
 
-- OpenTelemetry Collector Contrib v0.154.0
-- `telemetrygen` v0.154.0
+- OpenTelemetry Collector Contrib v0.155.0
+- `telemetrygen` v0.155.0

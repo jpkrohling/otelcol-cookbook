@@ -49,10 +49,10 @@ Everything a container writes to stdout/stderr lands in a file on its node under
 - `start_at: end` skips pre-existing log content so a restart doesn't replay old logs; pair it with
   the `file_storage` extension to persist read offsets across restarts (see
   [`persistent-queue`](../../starters/persistent-queue/) for that extension).
-- To ship these logs to a backend, swap `debug` for an `otlphttp` exporter with auth — the
+- To ship these logs to a backend, swap `debug` for an `otlp_http` exporter with auth — the
   secret-handling pattern is in [`grafana-cloud-from-kubernetes`](../grafana-cloud-from-kubernetes/).
 
 ## 😋 Tested with
 
-- OpenTelemetry Collector Contrib v0.154.0
-- OpenTelemetry Operator v0.153.0
+- OpenTelemetry Collector Contrib v0.155.0
+- OpenTelemetry Operator v0.154.0
