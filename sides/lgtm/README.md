@@ -4,7 +4,7 @@ This recipe shows how to send telemetry data to a LGTM stack with the OpenTeleme
 
 ## 🧄 Ingredients
 
-- OpenTelemetry Operator, see the main [`README.md`](../README.md) for instructions
+- OpenTelemetry Operator, see the main [`README.md`](../../README.md) for instructions
 - The `telemetrygen` tool, or any other application that is able to send OTLP data to our Collector 
 - The `lgtm.yaml` file from this directory
 - The `otelcol-cr.yaml` file from this directory
@@ -20,7 +20,7 @@ This recipe shows how to send telemetry data to a LGTM stack with the OpenTeleme
 2. Install the OTel Collector custom resource
    ```terminal
    kubectl apply -f sides/lgtm/lgtm.yaml
-   kubectl apply -f lgtm/otelcol-cr.yaml
+   kubectl apply -f sides/lgtm/otelcol-cr.yaml
    ```
 
 3. Open a port-forward to the Collector: 
@@ -45,6 +45,6 @@ This recipe shows how to send telemetry data to a LGTM stack with the OpenTeleme
 
 The most recent execution of this recipe was done with these versions:
 
-- `telemetrygen` v0.124.1
-- OpenTelemetry Operator v0.123.0
-- OpenTelemetry Collector Contrib v0.124.1
+- `telemetrygen` v0.157.0
+- OpenTelemetry Operator v0.156.0
+- OpenTelemetry Collector Contrib v0.157.0

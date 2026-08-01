@@ -61,5 +61,5 @@ with Pyroscope is an optional layer on top.
 Validated on a live k3d cluster: the pprof service served all seven profile types; a heap
 profile returned ~16 KB of data and the goroutine profile reported the live goroutine count.
 
-- OpenTelemetry Operator v0.154.0
-- OpenTelemetry Collector Contrib v0.155.0
+- OpenTelemetry Operator v0.156.0
+- OpenTelemetry Collector Contrib v0.157.0

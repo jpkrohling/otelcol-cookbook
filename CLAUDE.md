@@ -134,6 +134,6 @@ processors:
 ## Version Compatibility
 Recovered recipes are validated against the latest released versions at recovery time, pinned
 in each recipe's `😋 Tested with` section. Current pins:
-- OpenTelemetry Collector Contrib v0.155.0
-- telemetrygen v0.155.0
-- OpenTelemetry Operator v0.154.0
+- OpenTelemetry Collector Contrib v0.157.0
+- telemetrygen v0.157.0
+- OpenTelemetry Operator v0.156.0

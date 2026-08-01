@@ -52,5 +52,5 @@ Beyond the telemetry your apps emit, the cluster itself is a source: the state o
 
 ## 😋 Tested with
 
-- OpenTelemetry Collector Contrib v0.155.0
-- OpenTelemetry Operator v0.154.0
+- OpenTelemetry Collector Contrib v0.157.0
+- OpenTelemetry Operator v0.156.0

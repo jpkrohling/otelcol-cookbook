@@ -3,12 +3,13 @@ kind: OpenTelemetryCollector
 metadata:
   name: otelcol-sub
 spec:
-  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.155.0
+  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.157.0
   config:
     receivers:
       kafka:
         protocol_version: 2.0.0
         brokers: kafka-for-otelcol-kafka-brokers.kafka.svc.cluster.local:9092
+        initial_offset: earliest
         traces:
           topics: [otlp-spans]
 

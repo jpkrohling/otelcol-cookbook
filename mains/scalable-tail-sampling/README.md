@@ -35,12 +35,12 @@ ID, and a sampling layer that can have as many replicas as you need.
 3. Send VIP traces — all of these should be kept:
    ```terminal
    kubectl port-forward svc/otelcol-loadbalancer-collector 4317
-   telemetrygen traces --traces 500 --otlp-insecure --telemetry-attributes='vip="true"'
+   telemetrygen traces --traces 500 --rate 200 --otlp-insecure --telemetry-attributes='vip="true"'
    ```
 
 4. Send non-VIP traces — only about 10% of these should be kept:
    ```terminal
-   telemetrygen traces --traces 500 --otlp-insecure --telemetry-attributes='vip="false"'
+   telemetrygen traces --traces 500 --rate 200 --otlp-insecure --telemetry-attributes='vip="false"'
    ```
 
 5. Compare the sampling decisions on the sampling pods' metrics endpoints:
@@ -70,6 +70,6 @@ ID, and a sampling layer that can have as many replicas as you need.
 
 ## 😋 Tested with
 
-- OpenTelemetry Operator v0.154.0
-- OpenTelemetry Collector Contrib v0.155.0
-- `telemetrygen` v0.155.0
+- OpenTelemetry Operator v0.156.0
+- OpenTelemetry Collector Contrib v0.157.0
+- `telemetrygen` v0.157.0

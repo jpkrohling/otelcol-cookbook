@@ -28,7 +28,8 @@ The Collector's sending queue lives in memory by default, so anything still queu
    ```
    The collector accepts them and returns success to the client immediately. Because the
    backend is unreachable, it logs `Exporting failed. Will retry...` and buffers the
-   batches to disk under `/var/lib/otelcol/storage` (one bbolt file, `exporter_otlp__traces`).
+   batches to disk under `/tmp/otelcol-cookbook/persistent-queue` (one bbolt file,
+   `exporter_otlp__traces`).
 
 3. Restart the collector (`Ctrl-C`, then start it again). On startup it logs
    `Loaded queue metadata` with a non-zero `itemsSize` — the queued batches were read back
@@ -53,5 +54,5 @@ The Collector's sending queue lives in memory by default, so anything still queu
 
 ## 😋 Tested with
 
-- OpenTelemetry Collector Contrib v0.155.0
-- `telemetrygen` v0.155.0
+- OpenTelemetry Collector Contrib v0.157.0
+- `telemetrygen` v0.157.0

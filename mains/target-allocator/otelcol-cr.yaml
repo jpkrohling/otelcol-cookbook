@@ -3,7 +3,7 @@ kind: OpenTelemetryCollector
 metadata:
   name: collector-with-ta
 spec:
-  image: otel/opentelemetry-collector-contrib:0.155.0
+  image: otel/opentelemetry-collector-contrib:0.157.0
   mode: statefulset
   replicas: 3
   targetAllocator:

@@ -61,6 +61,6 @@ Validated on a live k3d cluster against an in-cluster Collector whose OTLP/HTTP 
 Basic auth: the `Secret` keys arrived as env vars, `${env:}` resolved them, and the authenticated
 export was accepted (6 spans delivered).
 
-- OpenTelemetry Operator v0.154.0
-- OpenTelemetry Collector Contrib v0.155.0
-- `telemetrygen` v0.155.0
+- OpenTelemetry Operator v0.156.0
+- OpenTelemetry Collector Contrib v0.157.0
+- `telemetrygen` v0.157.0

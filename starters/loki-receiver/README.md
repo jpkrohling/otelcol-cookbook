@@ -52,4 +52,4 @@ The Collector can stand in for Loki's ingestion endpoint: the `loki` receiver ac
 
 ## 😋 Tested with
 
-- OpenTelemetry Collector Contrib v0.155.0
+- OpenTelemetry Collector Contrib v0.157.0

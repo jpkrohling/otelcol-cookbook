@@ -6,7 +6,7 @@ receivers:
 
 extensions:
   file_storage:
-    directory: /var/lib/otelcol/storage
+    directory: /tmp/otelcol-cookbook/persistent-queue
     create_directory: true
 
 exporters:

@@ -56,5 +56,5 @@ Validated against a local Collector whose OTLP/HTTP receiver required Basic auth
 `basicauth` extension in `server_auth` mode): correct env credentials delivered the spans, a
 wrong token was rejected with `401 Unauthorized`.
 
-- OpenTelemetry Collector Contrib v0.155.0
-- `telemetrygen` v0.155.0
+- OpenTelemetry Collector Contrib v0.157.0
+- `telemetrygen` v0.157.0

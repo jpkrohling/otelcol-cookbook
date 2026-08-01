@@ -77,5 +77,5 @@ route, while keeping server-error (5xx) lines as logs for forensic debugging.
 
 ## 😋 Tested with
 
-- OpenTelemetry Collector Contrib v0.155.0
-- `telemetrygen` v0.155.0
+- OpenTelemetry Collector Contrib v0.157.0
+- `telemetrygen` v0.157.0
