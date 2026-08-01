@@ -104,3 +104,8 @@ Did you find a bug? Is a recipe confusing, or not working at all? Please [open a
 - the version of the Collector you are using
 - what you expected to see
 - what you saw instead
+
+# 🍚 Contributions
+
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for recipe requirements, validation practices, guidance
+for AI-assisted contributions, and the Conventional Commits format used by this repository.
