@@ -55,7 +55,6 @@ The OpenTelemetry Operator can attach a Collector to a workload automatically: a
 
 ## 😋 Tested with
 
-- OpenTelemetry Collector Contrib v0.155.0 (workload); injected sidecar uses the Operator's
-  Collector image
-- OpenTelemetry Operator v0.154.0
-- `telemetrygen` v0.155.0
+- OpenTelemetry Collector v0.157.0
+- OpenTelemetry Operator v0.156.0
+- `telemetrygen` v0.157.0

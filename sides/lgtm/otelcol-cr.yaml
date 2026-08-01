@@ -3,8 +3,8 @@ kind: OpenTelemetryCollector
 metadata:
   name: otelcol-to-lgtm
 spec:
-  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.124.1
-  mode: sidecar
+  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.157.0
+  mode: deployment
   config:
     receivers:
       otlp:

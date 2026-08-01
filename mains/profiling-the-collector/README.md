@@ -55,11 +55,11 @@ with Pyroscope is an optional layer on top.
   Pyroscope, run a scraper such as [Grafana Alloy](https://grafana.com/docs/alloy/) with a
   `pyroscope.scrape` block targeting `…-collector-pprof:1777`, forwarding to your Pyroscope
   endpoint. That part needs your own Pyroscope credentials and is outside this recipe's scope.
+- Validation on a live k3d cluster confirmed that the pprof service served all seven profile
+  types. A heap profile returned about 16 KB of data, and the goroutine profile reported the live
+  goroutine count.
 
 ## 😋 Tested with
 
-Validated on a live k3d cluster: the pprof service served all seven profile types; a heap
-profile returned ~16 KB of data and the goroutine profile reported the live goroutine count.
-
-- OpenTelemetry Operator v0.154.0
-- OpenTelemetry Collector Contrib v0.155.0
+- OpenTelemetry Operator v0.156.0
+- OpenTelemetry Collector Contrib v0.157.0

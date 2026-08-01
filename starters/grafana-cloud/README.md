@@ -49,12 +49,10 @@ file.
   `Authorization: Basic ...` header on every request the `otlp_http` exporter makes.
 - The endpoint is just an example. Any OTLP/HTTP backend behind Basic auth works — the same
   extension also has a `server_auth` mode to *require* Basic auth on a receiver.
+- Validation used a local Collector whose OTLP/HTTP receiver required Basic auth. Correct
+  environment credentials delivered the spans, while a wrong token returned `401 Unauthorized`.
 
 ## 😋 Tested with
 
-Validated against a local Collector whose OTLP/HTTP receiver required Basic auth (the
-`basicauth` extension in `server_auth` mode): correct env credentials delivered the spans, a
-wrong token was rejected with `401 Unauthorized`.
-
-- OpenTelemetry Collector Contrib v0.155.0
-- `telemetrygen` v0.155.0
+- OpenTelemetry Collector Contrib v0.157.0
+- `telemetrygen` v0.157.0

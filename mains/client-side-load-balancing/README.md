@@ -35,7 +35,7 @@ reconnect and re-resolve DNS, so the pool stays balanced as it scales.
    or run it in-cluster against `otelcol-client-collector:4317`:
    ```terminal
    kubectl port-forward svc/otelcol-client-collector 4317
-   telemetrygen traces --traces 600 --otlp-insecure
+   telemetrygen traces --traces 600 --rate 200 --otlp-insecure
    ```
 
 4. Compare each server pod's accepted spans — they should be close to equal:
@@ -61,6 +61,6 @@ reconnect and re-resolve DNS, so the pool stays balanced as it scales.
 
 ## 😋 Tested with
 
-- OpenTelemetry Operator v0.154.0
-- OpenTelemetry Collector v0.154.0 (operator-managed)
-- `telemetrygen` v0.155.0
+- OpenTelemetry Operator v0.156.0
+- OpenTelemetry Collector v0.157.0
+- `telemetrygen` v0.157.0

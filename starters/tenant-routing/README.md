@@ -45,12 +45,14 @@ A single Collector ingress can serve many tenants and send each one's telemetry 
   is dropped.** Pair it with `error_mode: ignore` so an OTTL evaluation error routes to the
   default instead of dropping the data.
 - `context: resource` evaluates once per resource bundle (cheapest). Use `span`/`log`/`datapoint`
-  for per-item conditions, or `context: request` with `condition: request["x-tenant"] == "acme"`
-  to route on gRPC metadata / HTTP headers before the telemetry is even parsed (gRPC keys are
-  lowercased). Use `condition` for a plain match; use a `statement` (`route() where …`) only when
-  you also want to mutate the data in the same pass, e.g. `delete_key(attributes, "x-tenant")`.
+  for per-item conditions. For request metadata, use `otelcol.grpc.metadata["x-tenant"][0]`
+  with gRPC or `otelcol.client.metadata["x-tenant"][0]` with HTTP; the older `request` context
+  is deprecated. These paths route on gRPC metadata or HTTP headers before the telemetry is even
+  parsed (gRPC keys are lowercased). Use `condition` for a plain match; use a `statement`
+  (`route() where …`) only when you also want to mutate the data in the same pass, e.g.
+  `delete_key(attributes, "x-tenant")`.
 
 ## 😋 Tested with
 
-- OpenTelemetry Collector Contrib v0.155.0
-- `telemetrygen` v0.155.0
+- OpenTelemetry Collector Contrib v0.157.0
+- `telemetrygen` v0.157.0

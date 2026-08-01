@@ -20,8 +20,7 @@ Jaeger-compatible SDKs can ask a central service which sampling strategy to use 
    ```terminal
    otelcol-contrib --config starters/jaeger-remote-sampling/otelcol.yaml
    ```
-   (The config reads strategies from `/etc/strategies.json`; adjust `source.file` to point at
-   this directory's `strategies.json` if you are not running from a container that mounts it.)
+   Run the command from the repository root so the relative path to `strategies.json` resolves.
 
 2. Ask for a service that has its own strategy:
    ```terminal
@@ -56,4 +55,4 @@ Jaeger-compatible SDKs can ask a central service which sampling strategy to use 
 
 ## 😋 Tested with
 
-- OpenTelemetry Collector Contrib v0.155.0
+- OpenTelemetry Collector Contrib v0.157.0

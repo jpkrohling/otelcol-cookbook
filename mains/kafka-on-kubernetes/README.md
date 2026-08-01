@@ -56,6 +56,8 @@ so you can measure how long data sat in the queue.
 - The exporter writes to a single topic (`traces.topic: otlp-spans`); the receiver reads from a
   list (`traces.topics: [otlp-spans]`). These per-signal sections replaced the old top-level
   `topic` key — a top-level `topic` no longer validates.
+- `initial_offset: earliest` keeps traces sent while the subscriber's consumer group is still
+  joining Kafka. Without it, a new group can start after those records and skip the first test.
 - `kafka-for-otelcol.yaml` uses a single-replica KRaft cluster (`KafkaNodePool` + `Kafka`, API
   version `kafka.strimzi.io/v1`) with replication factors of 1 — fine for a demo, not production.
 - The two `transform` processors add `published_at` / `consumed_at` via `UnixMilli(Now())`; the
@@ -66,6 +68,6 @@ so you can measure how long data sat in the queue.
 ## 😋 Tested with
 
 - Strimzi (latest), Kafka in KRaft mode
-- OpenTelemetry Operator v0.154.0
-- OpenTelemetry Collector Contrib v0.155.0
-- `telemetrygen` v0.155.0
+- OpenTelemetry Operator v0.156.0
+- OpenTelemetry Collector Contrib v0.157.0
+- `telemetrygen` v0.157.0

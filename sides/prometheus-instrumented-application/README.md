@@ -41,8 +41,8 @@ This recipe provides a simple workload application that exposes Prometheus metri
 
 The application is written in Go and uses a multi-stage build process to create a minimal container image. The source code is built in a builder stage using `golang:1.23-alpine` and then copied to the final stage using `alpine:3.21`.
 
-## 😋 Last Tested Versions
+## 😋 Tested with
 
-- Go 1.23
+- Go 1.23.12
 - Alpine Linux 3.21
-- Docker 24.0.5
+- Docker 29.3.1

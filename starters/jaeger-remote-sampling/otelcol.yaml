@@ -1,7 +1,7 @@
 extensions:
   jaegerremotesampling:
     source:
-      file: /etc/strategies.json
+      file: starters/jaeger-remote-sampling/strategies.json
       reload_interval: 5s # re-read the file so strategy edits apply without a restart
     http:
       endpoint: 0.0.0.0:5778
