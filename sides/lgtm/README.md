@@ -41,9 +41,7 @@ This recipe shows how to send telemetry data to a LGTM stack with the OpenTeleme
 6. Open Grafana, go to Explore, and check the traces available there.
 
 
-## 😋 Executed last time with these versions
-
-The most recent execution of this recipe was done with these versions:
+## 😋 Tested with
 
 - `telemetrygen` v0.157.0
 - OpenTelemetry Operator v0.156.0

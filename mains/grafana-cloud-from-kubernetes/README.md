@@ -54,12 +54,11 @@ It's the Kubernetes counterpart of [`starters/grafana-cloud`](../../starters/gra
   never changes and is safe to commit to git.
 - The `basicauth` extension turns those env values into the `Authorization: Basic ...` header on
   the `otlp_http` exporter's requests.
+- Validation used a live k3d cluster and an in-cluster Collector whose OTLP/HTTP receiver required
+  Basic auth. The `Secret` keys arrived as environment variables, `${env:}` resolved them, and the
+  authenticated export delivered six spans.
 
 ## 😋 Tested with
-
-Validated on a live k3d cluster against an in-cluster Collector whose OTLP/HTTP receiver required
-Basic auth: the `Secret` keys arrived as env vars, `${env:}` resolved them, and the authenticated
-export was accepted (6 spans delivered).
 
 - OpenTelemetry Operator v0.156.0
 - OpenTelemetry Collector Contrib v0.157.0
