@@ -14,6 +14,7 @@ ID, and a sampling layer that can have as many replicas as you need.
 ## 🧄 Ingredients
 
 - OpenTelemetry Operator, see the main [`README.md`](../../README.md) for instructions
+- The shared [LGTM stack](../../sides/lgtm/) deployed in the `lgtm` namespace
 - The `otelcol-loadbalancer.yaml` and `otelcol-sampling.yaml` from this directory
 - (optional) `otelcol-sampling-alt.yaml` — an alternative policy to contrast behaviour
 - `telemetrygen`, or any tool that can send OTLP traces
@@ -43,13 +44,15 @@ ID, and a sampling layer that can have as many replicas as you need.
    telemetrygen traces --traces 500 --rate 200 --otlp-insecure --telemetry-attributes='vip="false"'
    ```
 
-5. Compare the sampling decisions on the sampling pods' metrics endpoints:
+5. Port-forward Grafana from the LGTM namespace:
    ```terminal
-   for pod in $(kubectl get pods -l app.kubernetes.io/instance=scalable-tail-sampling.otelcol-sampling -o name); do
-     kubectl port-forward $pod 18888:8888 >/dev/null & sleep 2
-     curl -s localhost:18888/metrics | grep tail_sampling_count_traces_sampled
-     kill %1
-   done
+   kubectl --context <context> -n lgtm port-forward svc/lgtm 3000:3000
+   ```
+
+6. Open Grafana at `http://localhost:3000`, go to **Explore**, select the Prometheus data source,
+   and compare sampling decisions by Collector instance after the periodic export completes:
+   ```promql
+   sum by (service_instance_id, policy, sampled) (otelcol_processor_tail_sampling_count_traces_sampled_total{service_name="otelcol-scalable-tail-sampling-sampler"})
    ```
    A representative run showed the `vip` policy sampling ~100% of VIP traces while the
    `only-10-percent` policy kept ~11% of the rest (23 of 205) — and both sampling pods received
@@ -65,8 +68,11 @@ ID, and a sampling layer that can have as many replicas as you need.
   baseline of everything else. Swap in `otelcol-sampling-alt.yaml` (a single AND policy) to keep
   only 10% *of the VIP* traces instead — same layers, different emphasis.
 - Both layers discard data (`nop`) and are observed purely through
-  `otelcol_processor_tail_sampling_*` metrics — this recipe is about the routing/sampling
-  behaviour, not the payload.
+  `otelcol_processor_tail_sampling_*` metrics. Each replica exports its own metrics to LGTM over
+  OTLP and carries a unique `service.instance.id` resource attribute. This recipe is about the
+  routing and sampling behaviour, not the payload.
+- The pinned Operator expects `service::telemetry::resource` in the inline map form used by these
+  manifests. Its admission webhook does not preserve the newer `resource::attributes` array.
 
 ## 😋 Tested with
 

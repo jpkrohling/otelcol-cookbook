@@ -42,14 +42,19 @@ exporters:
 
 service:
   telemetry:
+    resource:
+      attributes:
+        - name: service.name
+          value: otelcol-tail-sampling-tasting-menu
     metrics:
       level: detailed
       readers:
-        - pull:
+        - periodic:
             exporter:
-              prometheus:
-                host: 0.0.0.0
-                port: 8888
+              otlp:
+                protocol: http/protobuf
+                endpoint: http://localhost:4318/v1/metrics
+                compression: gzip
   pipelines:
     traces:
       receivers: [otlp]

@@ -14,11 +14,17 @@ feeds that to the probabilistic sampler so it keeps a stable ~10% of records.
 ## 🧄 Ingredients
 
 - OpenTelemetry Collector Contrib, see the main [`README.md`](../../README.md) for instructions
+- Docker, to run the LGTM backend
 - The `otelcol.yaml` file and the sample `dnf.log.1` log file from this directory
 
 ## 🥣 Preparation
 
-1. Run the Collector **from inside this directory** — the `file_log` receiver's `include` path
+1. Start LGTM so the Collector can export its own metrics over OTLP:
+   ```terminal
+   docker run -p 3000:3000 -p 4318:4318 --rm -d grafana/otel-lgtm
+   ```
+
+2. Run the Collector **from inside this directory** — the `file_log` receiver's `include` path
    is relative to the working directory:
    ```terminal
    cd starters/probabilistic-sampler-logs
@@ -27,15 +33,16 @@ feeds that to the probabilistic sampler so it keeps a stable ~10% of records.
 
    The receiver reads `dnf.log.1` from the beginning; no other input is needed.
 
-2. Check how many records were kept versus dropped on the Collector's own metrics endpoint:
-   ```terminal
-   curl -s localhost:8888/metrics | grep probabilistic_sampler_count_logs_sampled
+3. Open Grafana at `http://localhost:3000`, go to **Explore**, select the Prometheus data source,
+   and query how many records were kept versus dropped after the periodic export completes:
+   ```promql
+   otelcol_processor_probabilistic_sampler_count_logs_sampled_total{service_name="otelcol-probabilistic-sampler-logs"}
    ```
 
    You should see roughly a 1:9 split — about 10% kept:
    ```prometheus
-   otelcol_processor_probabilistic_sampler_count_logs_sampled{policy="body.hash",sampled="false"} 11038
-   otelcol_processor_probabilistic_sampler_count_logs_sampled{policy="body.hash",sampled="true"} 1247
+   otelcol_processor_probabilistic_sampler_count_logs_sampled_total{policy="body.hash",sampled="false",...} 11038
+   otelcol_processor_probabilistic_sampler_count_logs_sampled_total{policy="body.hash",sampled="true",...} 1247
    ```
 
 ## 🎯 Key details
