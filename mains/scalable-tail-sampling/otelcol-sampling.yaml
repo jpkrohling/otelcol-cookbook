@@ -37,11 +37,14 @@ spec:
           processors: [tail_sampling]
           exporters: [nop]
       telemetry:
+        resource:
+          service.name: otelcol-scalable-tail-sampling-sampler
         metrics:
           level: detailed
           readers:
-            - pull:
+            - periodic:
                 exporter:
-                  prometheus:
-                    host: 0.0.0.0
-                    port: 8888
+                  otlp:
+                    protocol: http/protobuf
+                    endpoint: http://lgtm.lgtm.svc.cluster.local:4318/v1/metrics
+                    compression: gzip

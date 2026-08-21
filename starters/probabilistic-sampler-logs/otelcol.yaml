@@ -27,10 +27,17 @@ service:
       processors: [transform, probabilistic_sampler]
       exporters: [debug]
   telemetry:
+    resource:
+      attributes:
+        - name: service.name
+          value: otelcol-probabilistic-sampler-logs
     metrics:
       readers:
-        - pull:
+        - periodic:
             exporter:
-              prometheus:
-                host: 0.0.0.0
-                port: 8888
+              otlp:
+                protocol: http/protobuf
+                # This endpoint belongs to LGTM's separate Collector. Sending a
+                # Collector's own telemetry back to itself is a feedback-loop anti-pattern.
+                endpoint: http://localhost:4318/v1/metrics
+                compression: gzip

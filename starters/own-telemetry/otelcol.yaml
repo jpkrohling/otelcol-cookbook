@@ -3,8 +3,6 @@ receivers:
     protocols:
       grpc:
         endpoint: 0.0.0.0:4317
-      http:
-        endpoint: 0.0.0.0:4318
 
 exporters:
   debug:
@@ -16,11 +14,18 @@ service:
       receivers: [otlp]
       exporters: [debug]
   telemetry:
+    resource:
+      attributes:
+        - name: service.name
+          value: otelcol-own-telemetry
     metrics:
       level: detailed
       readers:
-        - pull:
+        - periodic:
             exporter:
-              prometheus:
-                host: 0.0.0.0
-                port: 8888
+              otlp:
+                protocol: http/protobuf
+                # This endpoint belongs to LGTM's separate Collector. Sending a
+                # Collector's own telemetry back to itself is a feedback-loop anti-pattern.
+                endpoint: http://localhost:4318/v1/metrics
+                compression: gzip

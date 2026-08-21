@@ -11,18 +11,23 @@ A guided tour of the `tail_sampling` processor's policy types, plated as one rea
 ## 🧄 Ingredients
 
 - OpenTelemetry Collector Contrib, see the main [`README.md`](../../README.md) for instructions
+- Docker, to run the LGTM backend
 - The `otelcol.yaml` file from this directory
 - `telemetrygen`, or any tool that can send OTLP traces
-- Optionally `curl`, to read the per-policy decision metrics on `:8888`
 
 ## 🥣 Preparation
 
-1. Start the Collector with the provided configuration:
+1. Start LGTM so the Collector can export its own metrics over OTLP:
+   ```terminal
+   docker run -p 3000:3000 -p 4318:4318 --rm -d grafana/otel-lgtm
+   ```
+
+2. Start the Collector with the provided configuration:
    ```terminal
    otelcol-contrib --config desserts/tail-sampling-tasting-menu/otelcol.yaml
    ```
 
-2. Send one batch per course, each tagged so a single policy decides it:
+3. Send one batch per course, each tagged so a single policy decides it:
    ```terminal
    telemetrygen traces --otlp-insecure --traces 20 --status-code Error          # errors
    telemetrygen traces --otlp-insecure --traces 20 --span-duration 2s           # slow
@@ -30,10 +35,10 @@ A guided tour of the `tail_sampling` processor's policy types, plated as one rea
    telemetrygen traces --otlp-insecure --traces 100                             # normal traffic
    ```
 
-3. Read the processor's own decision metrics (it waits `decision_wait`, so give it a couple of
-   seconds):
-   ```terminal
-   curl -s localhost:8888/metrics | grep tail_sampling_count_traces_sampled
+4. Open Grafana at `http://localhost:3000`, go to **Explore**, select the Prometheus data source,
+   and query the processor's own decision metrics after the periodic export completes:
+   ```promql
+   otelcol_processor_tail_sampling_count_traces_sampled_total{service_name="otelcol-tail-sampling-tasting-menu"}
    ```
    The `errors`, `slow`, and `vip` policies each report `sampled="true"` for all 20 of their
    traces (100% kept), while `baseline` keeps roughly 10% of the normal traffic. A trace that

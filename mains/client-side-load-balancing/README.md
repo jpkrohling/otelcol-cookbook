@@ -14,6 +14,7 @@ reconnect and re-resolve DNS, so the pool stays balanced as it scales.
 ## 🧄 Ingredients
 
 - OpenTelemetry Operator, see the main [`README.md`](../../README.md) for instructions
+- The shared [LGTM stack](../../sides/lgtm/) deployed in the `lgtm` namespace
 - The `otelcol-client.yaml` and `otelcol-server.yaml` from this directory
 - `telemetrygen`, or any tool that can send OTLP traces
 
@@ -38,15 +39,17 @@ reconnect and re-resolve DNS, so the pool stays balanced as it scales.
    telemetrygen traces --traces 600 --rate 200 --otlp-insecure
    ```
 
-4. Compare each server pod's accepted spans — they should be close to equal:
+4. Port-forward Grafana from the LGTM namespace:
    ```terminal
-   for pod in $(kubectl get pods -l app.kubernetes.io/instance=client-side-load-balancing.otelcol-server -o name); do
-     kubectl port-forward $pod 18888:8888 >/dev/null & sleep 2
-     echo "$pod: $(curl -s localhost:18888/metrics | grep '^otelcol_receiver_accepted_spans')"
-     kill %1
-   done
+   kubectl --context <context> -n lgtm port-forward svc/lgtm 3000:3000
    ```
-   A representative run distributed 3 pods at **42 / 44 / 40** accepted spans — evenly balanced.
+
+5. Open Grafana at `http://localhost:3000`, go to **Explore**, select the Prometheus data source,
+   and compare accepted spans by Collector instance:
+   ```promql
+   sum by (service_instance_id) (otelcol_receiver_accepted_spans_total{service_name="otelcol-client-side-load-balancing-server"})
+   ```
+   A representative run distributed the 1,200 spans as **400 / 400 / 400**, evenly balanced.
 
 ## 🎯 Key details
 
@@ -57,7 +60,11 @@ reconnect and re-resolve DNS, so the pool stays balanced as it scales.
   without aging them out a client would keep talking to the same pods even after the pool grows.
   When a connection ages out the client re-resolves DNS and picks up new replicas.
 - The server pipelines export to `nop` — this recipe is about *where* data lands, observed
-  through each Collector's own `otelcol_receiver_accepted_spans` metric, not about the payload.
+  through each Collector's own `otelcol_receiver_accepted_spans_total` metric, not about the
+  payload. Each replica exports its own metrics to LGTM over OTLP and carries a unique
+  `service.instance.id` resource attribute.
+- The pinned Operator expects `service::telemetry::resource` in the inline map form used by this
+  manifest. Its admission webhook does not preserve the newer `resource::attributes` array.
 
 ## 😋 Tested with
 
