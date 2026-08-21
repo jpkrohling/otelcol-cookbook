@@ -25,5 +25,7 @@ service:
             exporter:
               otlp:
                 protocol: http/protobuf
+                # This endpoint belongs to LGTM's separate Collector. Sending a
+                # Collector's own telemetry back to itself is a feedback-loop anti-pattern.
                 endpoint: http://localhost:4318/v1/metrics
                 compression: gzip
