@@ -67,10 +67,10 @@ To get a working instance of the OpenTelemetry Operator, [follow the official in
 k3d registry create dosedetelemetria ## note down the port, and add `k3d-dosedetelemetria` to your /etc/hosts
 k3d cluster create --registry-use k3d-dosedetelemetria:40503 dosedetelemetria ## use the same port as the command above
 
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.21.1/cert-manager.yaml
 kubectl wait --for=condition=Available deployments/cert-manager -n cert-manager
 
-kubectl apply -f https://github.com/open-telemetry/opentelemetry-operator/releases/latest/download/opentelemetry-operator.yaml
+kubectl apply -f https://github.com/open-telemetry/opentelemetry-operator/releases/download/v0.158.0/opentelemetry-operator.yaml
 kubectl wait --for=condition=Available deployments/opentelemetry-operator-controller-manager -n opentelemetry-operator-system
 ```
 
@@ -83,7 +83,7 @@ For some recipes, we are using Grafana's LGTM stack to visualize data. You can j
 In this example, we are opening only the Grafana and OTel Collector's HTTP port, which is sufficient for our tests.
 
 ```terminal
-docker run -p 3000:3000 -p 4318:4318 --rm -d grafana/otel-lgtm
+docker run -p 3000:3000 -p 4318:4318 --rm -d grafana/otel-lgtm:0.30.2
 ```
 
 ### Kubernetes

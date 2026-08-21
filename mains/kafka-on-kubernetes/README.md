@@ -24,7 +24,9 @@ so you can measure how long data sat in the queue.
 1. Install Strimzi and wait for its operator:
    ```terminal
    kubectl create ns kafka
-   kubectl create -f 'https://strimzi.io/install/latest?namespace=kafka' -n kafka
+   curl -L 'https://github.com/strimzi/strimzi-kafka-operator/releases/download/1.2.0/strimzi-cluster-operator-1.2.0.yaml' \
+     | sed 's/namespace: myproject/namespace: kafka/' \
+     | kubectl create -n kafka -f -
    kubectl -n kafka wait --for=condition=Available deployments/strimzi-cluster-operator --timeout=300s
    ```
 
@@ -67,7 +69,7 @@ so you can measure how long data sat in the queue.
 
 ## 😋 Tested with
 
-- Strimzi (latest), Kafka in KRaft mode
-- OpenTelemetry Operator v0.156.0
-- OpenTelemetry Collector Contrib v0.157.0
-- `telemetrygen` v0.157.0
+- Strimzi 1.2.0, Kafka 4.3.1 in KRaft mode
+- OpenTelemetry Operator v0.158.0
+- OpenTelemetry Collector Contrib v0.159.0
+- `telemetrygen` v0.159.0

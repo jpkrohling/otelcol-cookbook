@@ -36,7 +36,7 @@ cd starters/auth
    ```terminal
    docker run -d --name keycloak -p 8080:8080 \
      -e KC_BOOTSTRAP_ADMIN_USERNAME=admin -e KC_BOOTSTRAP_ADMIN_PASSWORD=admin \
-     quay.io/keycloak/keycloak:26.3 start-dev
+     quay.io/keycloak/keycloak:26.7.2 start-dev
    ```
 
 3. Create the realm, the `agent` client, and an audience mapper that stamps `collector` into the
@@ -90,7 +90,7 @@ cd starters/auth
 
 ## 😋 Tested with
 
-- OpenTelemetry Collector Contrib v0.157.0
-- `telemetrygen` v0.157.0
-- Keycloak 26.3
+- OpenTelemetry Collector Contrib v0.159.0
+- `telemetrygen` v0.159.0
+- Keycloak 26.7.2
 - cfssl v1.6.5

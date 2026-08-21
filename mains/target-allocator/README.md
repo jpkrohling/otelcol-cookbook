@@ -26,8 +26,8 @@ This recipe demonstrates how to use the OpenTelemetry Operator's Target Allocato
 
 1. Install Prometheus CRDs for `PodMonitor` and `ServiceMonitor`
    ```terminal
-   kubectl apply -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
-   kubectl apply -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
+   kubectl apply -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.93.1/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
+   kubectl apply -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.93.1/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
    ```
 
 2. Create and switch to a namespace for our recipe
@@ -63,5 +63,6 @@ This recipe demonstrates how to use the OpenTelemetry Operator's Target Allocato
 
 ## 😋 Tested with
 
-- OpenTelemetry Operator v0.156.0
-- OpenTelemetry Collector Contrib v0.157.0
+- OpenTelemetry Operator v0.158.0
+- OpenTelemetry Collector Contrib v0.159.0
+- Prometheus Operator CRDs v0.93.1

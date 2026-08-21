@@ -56,5 +56,5 @@ counted into a metric and discarded.
 
 ## 😋 Tested with
 
-- OpenTelemetry Collector Contrib v0.157.0
-- `telemetrygen` v0.157.0
+- OpenTelemetry Collector Contrib v0.159.0
+- `telemetrygen` v0.159.0

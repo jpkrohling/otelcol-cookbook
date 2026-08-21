@@ -68,6 +68,6 @@ reconnect and re-resolve DNS, so the pool stays balanced as it scales.
 
 ## 😋 Tested with
 
-- OpenTelemetry Operator v0.156.0
-- OpenTelemetry Collector v0.157.0
-- `telemetrygen` v0.157.0
+- OpenTelemetry Operator v0.158.0
+- OpenTelemetry Collector v0.159.0
+- `telemetrygen` v0.159.0

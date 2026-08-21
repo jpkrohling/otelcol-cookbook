@@ -88,7 +88,7 @@ Use the recipe name as the optional scope when useful. Examples:
 feat(log-clustering): add Drain processor recipe
 fix(access-logs-to-metrics): use record-level test attributes
 docs: document contribution workflow
-chore: update recipes to Collector v0.157.0
+chore: update recipes to Collector v0.159.0
 ```
 
 Keep commits focused and explain non-obvious choices in the body. If you add a
