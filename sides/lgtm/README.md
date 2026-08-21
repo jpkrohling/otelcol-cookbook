@@ -43,6 +43,7 @@ This recipe shows how to send telemetry data to a LGTM stack with the OpenTeleme
 
 ## 😋 Tested with
 
-- `telemetrygen` v0.157.0
-- OpenTelemetry Operator v0.156.0
-- OpenTelemetry Collector Contrib v0.157.0
+- `telemetrygen` v0.159.0
+- OpenTelemetry Operator v0.158.0
+- OpenTelemetry Collector Contrib v0.159.0
+- Grafana LGTM v0.30.2

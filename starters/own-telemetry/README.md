@@ -23,7 +23,7 @@ the pipeline (which goes to the `debug` exporter).
 1. Start LGTM. Its OTLP/HTTP port receives the Collector's own metrics, while Grafana lets you
    query them:
    ```terminal
-   docker run -p 3000:3000 -p 4318:4318 --rm -d grafana/otel-lgtm
+   docker run -p 3000:3000 -p 4318:4318 --rm -d grafana/otel-lgtm:0.30.2
    ```
 
 2. Start the Collector with the provided configuration:
@@ -69,5 +69,6 @@ the pipeline (which goes to the `debug` exporter).
 
 ## 😋 Tested with
 
-- OpenTelemetry Collector Contrib v0.157.0
-- `telemetrygen` v0.157.0
+- OpenTelemetry Collector Contrib v0.159.0
+- `telemetrygen` v0.159.0
+- Grafana LGTM v0.30.2

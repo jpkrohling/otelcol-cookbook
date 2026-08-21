@@ -1,5 +1,5 @@
 # Build stage
-FROM golang:1.23-alpine AS builder
+FROM golang:1.27.0-alpine3.24 AS builder
 
 WORKDIR /app
 
@@ -16,7 +16,7 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -o workload .
 
 # Final stage
-FROM alpine:3.21
+FROM alpine:3.24.1
 
 # Create a non-root user
 RUN adduser -D -g '' appuser

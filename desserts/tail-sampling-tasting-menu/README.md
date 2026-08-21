@@ -19,7 +19,7 @@ A guided tour of the `tail_sampling` processor's policy types, plated as one rea
 
 1. Start LGTM so the Collector can export its own metrics over OTLP:
    ```terminal
-   docker run -p 3000:3000 -p 4318:4318 --rm -d grafana/otel-lgtm
+   docker run -p 3000:3000 -p 4318:4318 --rm -d grafana/otel-lgtm:0.30.2
    ```
 
 2. Start the Collector with the provided configuration:
@@ -99,5 +99,6 @@ Operational notes:
 
 ## 😋 Tested with
 
-- OpenTelemetry Collector Contrib v0.157.0
-- `telemetrygen` v0.157.0
+- OpenTelemetry Collector Contrib v0.159.0
+- `telemetrygen` v0.159.0
+- Grafana LGTM v0.30.2

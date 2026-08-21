@@ -25,7 +25,7 @@ Everything a container writes to stdout/stderr lands in a file on its node under
 2. Generate some log activity (`start_at: end` means only logs written *after* the collector
    started are read):
    ```terminal
-   kubectl run logmaker --image=busybox -n pod-logs --restart=Never -- \
+   kubectl run logmaker --image=busybox:1.38.0 -n pod-logs --restart=Never -- \
      sh -c 'for i in $(seq 1 30); do echo "hello log line $i"; sleep 1; done'
    ```
 
@@ -54,5 +54,6 @@ Everything a container writes to stdout/stderr lands in a file on its node under
 
 ## 😋 Tested with
 
-- OpenTelemetry Collector Contrib v0.157.0
-- OpenTelemetry Operator v0.156.0
+- OpenTelemetry Collector Contrib v0.159.0
+- OpenTelemetry Operator v0.158.0
+- BusyBox 1.38.0

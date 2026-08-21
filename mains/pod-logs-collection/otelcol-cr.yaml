@@ -9,7 +9,7 @@ metadata:
   name: pod-logs
   namespace: pod-logs
 spec:
-  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.157.0
+  image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.159.0
   mode: daemonset # one collector per node, reading that node's container logs
   volumes:
     - name: varlogpods
@@ -25,7 +25,7 @@ spec:
         include: [/var/log/pods/*/*/*.log]
         # don't read our own logs — otherwise the debug output we write to
         # stdout lands back in /var/log/pods and we re-ingest it in a loop
-        exclude: [/var/log/pods/pod-logs_*/*/*.log]
+        exclude: [/var/log/pods/pod-logs_pod-logs-collector-*/*/*.log]
         include_file_path: true
         start_at: end
         operators:
@@ -34,7 +34,7 @@ spec:
             type: container
     exporters:
       debug:
-        verbosity: basic
+        verbosity: detailed
     service:
       pipelines:
         logs:

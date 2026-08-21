@@ -76,6 +76,6 @@ ID, and a sampling layer that can have as many replicas as you need.
 
 ## 😋 Tested with
 
-- OpenTelemetry Operator v0.156.0
-- OpenTelemetry Collector Contrib v0.157.0
-- `telemetrygen` v0.157.0
+- OpenTelemetry Operator v0.158.0
+- OpenTelemetry Collector Contrib v0.159.0
+- `telemetrygen` v0.159.0

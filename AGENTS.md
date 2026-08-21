@@ -85,8 +85,8 @@ command.
 k3d registry create dosedetelemetria
 k3d cluster create --registry-use k3d-dosedetelemetria:<port> dosedetelemetria
 
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
-kubectl apply -f https://github.com/open-telemetry/opentelemetry-operator/releases/latest/download/opentelemetry-operator.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.21.1/cert-manager.yaml
+kubectl apply -f https://github.com/open-telemetry/opentelemetry-operator/releases/download/v0.158.0/opentelemetry-operator.yaml
 
 kubectl create ns <recipe-name>
 kubens <recipe-name>
@@ -95,7 +95,7 @@ kubens <recipe-name>
 ### LGTM stack
 
 ```bash
-docker run -p 3000:3000 -p 4318:4318 --rm -d grafana/otel-lgtm
+docker run -p 3000:3000 -p 4318:4318 --rm -d grafana/otel-lgtm:0.30.2
 
 kubectl create ns lgtm
 kubectl apply -f sides/lgtm/lgtm.yaml
@@ -214,7 +214,7 @@ when it makes the change clearer, for example:
 ```text
 feat(log-clustering): add Drain processor recipe
 docs(access-logs-to-metrics): clarify telemetrygen attributes
-chore: update recipes to Collector v0.157.0
+chore: update recipes to Collector v0.159.0
 ```
 
 Keep each commit and pull request focused. Include a summary, the exact validation performed, and
@@ -222,6 +222,6 @@ any limitations or follow-up work in the pull request description.
 
 ## Current validated versions
 
-- OpenTelemetry Collector Contrib v0.157.0
-- `telemetrygen` v0.157.0
-- OpenTelemetry Operator v0.156.0
+- OpenTelemetry Collector Contrib v0.159.0
+- `telemetrygen` v0.159.0
+- OpenTelemetry Operator v0.158.0

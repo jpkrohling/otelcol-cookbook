@@ -61,5 +61,5 @@ with Pyroscope is an optional layer on top.
 
 ## 😋 Tested with
 
-- OpenTelemetry Operator v0.156.0
-- OpenTelemetry Collector Contrib v0.157.0
+- OpenTelemetry Operator v0.158.0
+- OpenTelemetry Collector Contrib v0.159.0
